@@ -12,3 +12,7 @@ The combined effect of higher speeds and lower prices in the sequencing of DNA h
 * attempting to open a large file with a text editor, only to find that it doesn't load precisely because the text editor tries to read it all into memory, and it's simply too big.
 
 The upshot is that the everyday routine of file administration doesn't work with big bio data, and we need to change our approach.
+
+# Tools in this repository
+
+Please read the Makefile.
