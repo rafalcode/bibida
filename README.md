@@ -15,4 +15,5 @@ The upshot is that the everyday routine of file administration doesn't work with
 
 # Tools in this repository
 
-Please read the Makefile.
+## ltar
+Sometimes, in fact, your files are small, but you find yourself with a very high number of them. Surreptitiously they consume your hardisk not by eating up storage space on it, but rather by eating up the available address points, or inodes, of the file system. So, what you would really like to do, is bunch them all up into one big file. One venerably old tool for doing this is tar. But in big data cases it may take a long time. Now, there is a library that was later developed, so there's a suggestion that it could be faster, because you "tar up" at a "lower level". Could that be true? ltar is an attempt to check that. The earliest version just tars up files in the current directory, and does not enter any subdirectories.
