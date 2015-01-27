@@ -6,7 +6,7 @@ DBGCFLAGS=-g -Wall# -pg # note the gprof option
 CFLAGS=-O3
 LIBS=-ltar
 
-EXES=ltar ltar_dbg
+EXES=ltar ltar_dbg jafasumzr
 
 # ltar, code to use libtar .. in the very vain hope that it will be fast than tar itself!
 ltar: ltar.c
@@ -15,6 +15,11 @@ ltar: ltar.c
 # debug version.
 ltar_dbg: ltar.c
 	${CC} ${DBGCFLAGS} -o $@ $^ $(LIBS)
+
+# Just Another Fasta Summarizer
+jafasumzr: jafasumzr.c
+	${CC} ${CFLAGS} -o $@ $^
+
 
 .PHONY: clean
 
