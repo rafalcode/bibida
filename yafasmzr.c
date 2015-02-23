@@ -12,7 +12,7 @@
 
 #define GBUF 4
 #define SBUF 8
-#define SSZ 5 /* DNA symbol alphabet size is 4 ? Of course, but the fifth is for N's which sometimes appear, and the sixth is for anything elses */
+#define SSZ 5 /* DNA symbol alphabet size is 4 ? Of course, but the fifth is for N's. Ambiguous, anomalous, none */
 
 typedef struct /* the i_s struct */
 {
