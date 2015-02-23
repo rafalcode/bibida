@@ -1,4 +1,4 @@
-/* This is multifasta summarizer s aimed at being fast, and also giving out only very compressed summary stat
+/* This is multifasta summarizer aimed at being fast, and also giving out only very compressed summary stat
  *
  * - It tolerates empty lines and will not count them
  * - It only reports DNA, and tolerates big caps and small caps symbols.
