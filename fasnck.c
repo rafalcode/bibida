@@ -92,10 +92,10 @@ int *hist_ambs(i_s *sqisz, int sz, unsigned mxamb, unsigned mnamb, int numbucket
     return bucketarr;
 }
 
-void prthist(char *histname, int *bucketarr, int numbuckets, size_t mxsylen, size_t mnsylen)
+void prthist(char *histname, int *bucketarr, int numbuckets, unsigned numsq, size_t mxsylen, size_t mnsylen)
 {
     int i;
-    printf("Hist for %s: ", histname); 
+    printf("Hstgrm for: %-16.16s (totsqs=%04u): ", histname, numsq); 
     printf("%zu<-", mnsylen); 
     for(i=0;i<numbuckets;++i) 
         printf("| %i ", bucketarr[i]);
@@ -322,7 +322,7 @@ int main(int argc, char *argv[])
         if(sqisz[sqidx].ambano[0] < mnamb)
             mnamb = sqisz[sqidx].ambano[0];
 
-        unsigned numsq=sqidx+1, numano=0;
+        numsq=sqidx+1, numano=0;
         for(i=0;i<numsq;++i) {
             if(sqisz[i].ambano[1])
                 numano++;
@@ -338,7 +338,7 @@ int main(int argc, char *argv[])
         numbuckets=HISTBUCKETSZ;
         histosz=hist_sylen(sqisz, numsq, mxsylen, mnsylen, numbuckets);
         // tikz_prti_s(sqisz, numsq, histosz, numbuckets, "Table of Sequence Lengths");
-        prthist(argv[j], histosz, numbuckets, mxsylen, mnsylen);
+        prthist(argv[j], histosz, numbuckets, numsq, mxsylen, mnsylen);
         //    int *histocg=hist_cg(sqisz, numsq, mxcg, mncg, numbuckets);
         // prthist("cgpart", histocg, numbuckets);
 
