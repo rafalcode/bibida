@@ -95,11 +95,11 @@ int *hist_ambs(i_s *sqisz, int sz, unsigned mxamb, unsigned mnamb, int numbucket
 void prthist(char *histname, int *bucketarr, int numbuckets, unsigned numsq, size_t mxsylen, size_t mnsylen)
 {
     int i;
-    printf("Hstgrm for: %-16.16s (totsqs=%04u): ", histname, numsq); 
-    printf("%zu<-", mnsylen); 
+    printf("Sqlen %d-bin hstgrm for: %-24.24s (totsqs=%04u): ", numbuckets, histname, numsq); 
+    printf("minlen=%3zu<-", mnsylen); 
     for(i=0;i<numbuckets;++i) 
         printf("| %i ", bucketarr[i]);
-    printf("|->%zu\n", mxsylen); 
+    printf("|->maxlen=%zu\n", mxsylen); 
 }
 
 void prti_s(i_s *sqisz, int sz, float *mxcg, float *mncg)
