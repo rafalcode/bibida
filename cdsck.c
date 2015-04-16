@@ -15,6 +15,11 @@
         memset((a)+(b)-(c), '\0', (c)*sizeof(t)); \
     }
 
+const char *stcod="ATG";
+const char *ecod1="TAG";
+const char *ecod2="TAA";
+const char *ecod3="TGA";
+
 typedef struct /* onefa */
 {
     char *id;
@@ -35,10 +40,33 @@ void prtfa(onefa *fac)
 {
     int i;
     printf(">");
-    for(i=0;i<fac->idz;++i) 
-        printf("%s\n", fac->id);
-    for(i=0;i<fac->sqz;++i) 
-        printf("%s\n", fac->sq);
+    printf("%s\n", fac->id);
+    printf("%s\n", fac->sq);
+}
+
+void prtfa2(onefa *fac)
+{
+    int i;
+    printf("SQZ=%d:", fac->sqz);
+    for(i=0;i<3;++i) 
+        putchar(fac->sq[i]);
+    printf("\n"); 
+}
+
+void ck(onefa *fac)
+{
+    char repstr[128]={0};
+    int i;
+    if(((fac->sqz-1)%3) != 0)
+        strcat(repstr, "E_%3 ");
+    if( (strncmp(fac->sq, stcod, 3*sizeof(char))) )
+        strcat(repstr, "E_stcod ");
+    char *lcod=fac->sq+(fac->sqz-4);
+    if( (strncmp(lcod, ecod1, 3*sizeof(char))) & (strncmp(lcod, ecod2, 3*sizeof(char))) & (strncmp(lcod, ecod3, 3*sizeof(char))) )
+        strcat(repstr, "E_ecod ");
+
+    if(repstr[0])
+        printf("%s: %s\n", fac->id, repstr); 
 }
 
 int *hist_cg(i_s *sqisz, int sz, float mxcg, float mncg, int numbuckets)
@@ -255,6 +283,15 @@ int main(int argc, char *argv[])
                         mxamb = sqisz[sqidx].ambano[0];
                     if(sqisz[sqidx].ambano[0] < mnamb)
                         mnamb = sqisz[sqidx].ambano[0];
+
+                    CONDREALLOC(ididx, ibf, GBUF, fac.id, char);
+                    fac.id[ididx]='\0';
+                    CONDREALLOC(sqisz[sqidx].sylen, sbf, GBUF, fac.sq, char);
+                    fac.sq[sqisz[sqidx].sylen]='\0';
+                    fac.idz=1+ididx;
+                    fac.sqz=1+sqisz[sqidx].sylen;
+                    // prtfa2(&fac);
+                    ck(&fac);
                 }
 
                 sqidx++;
@@ -264,13 +301,6 @@ int main(int argc, char *argv[])
                 }
                 sqisz[sqidx].idx=sqidx;
 
-                CONDREALLOC(ididx, ibf, GBUF, fac.id, char);
-                fac.id[ididx]='\0';
-                CONDREALLOC(sqisz[sqidx].sylen, sbf, GBUF, fac.sq, char);
-                fac.sq[sqisz[sqidx].sylen]='\0';
-                fac.idz=1+ididx;
-                fac.sqz=1+sqisz[sqidx].sylen;
-                prtfa(&fac);
 
                 /* resetting stuff */
                 sqisz[sqidx].sylen=0;
@@ -356,7 +386,8 @@ int main(int argc, char *argv[])
         fac.sq[sqisz[sqidx].sylen]='\0';
         fac.idz=1+ididx;
         fac.sqz=1+sqisz[sqidx].sylen;
-        prtfa(&fac);
+       // prtfa2(&fac);
+        ck(&fac);
         /* free */
         free(fac.id);
         free(fac.sq);
@@ -376,7 +407,7 @@ int main(int argc, char *argv[])
         /* OK sylen histo first */
         numbuckets=HISTBUCKETSZ;
         histosz=hist_sylen(sqisz, numsq, mxsylen, mnsylen, numbuckets);
-        prthist(argv[j], histosz, numbuckets, numsq, mxsylen, mnsylen);
+        // prthist(argv[j], histosz, numbuckets, numsq, mxsylen, mnsylen);
         //    int *histocg=hist_cg(sqisz, numsq, mxcg, mncg, numbuckets);
         // prthist("cgpart", histocg, numbuckets);
 

@@ -29,6 +29,10 @@ mulfaint: mulfaint.c
 fasnck: fasnck.c
 	${CC} ${CFLAGS} -o $@ $^
 
+# Codon checker
+cdsck: cdsck.c
+	${CC} ${CFLAGS} -o $@ $^
+
 .PHONY: clean
 
 clean:
