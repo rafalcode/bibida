@@ -2,11 +2,11 @@
 # small utilities  dealing with big DNA/PROTEIN datasets.
 #
 CC=gcc
-DBGCFLAGS=-g -Wall# -pg # note the gprof option
+DBGCFLAGS=-g -Wall -DDBG # -pg # note the gprof option
 CFLAGS=-O3
 LIBS=-ltar
 
-EXES=ltar ltar_dbg yafasumzr mulfaint fasnck
+EXES=ltar ltar_dbg yafasumzr mulfaint fasnck cdsck_d cdsck
 
 # ltar, code to use libtar .. in the very vain hope that it will be fast than tar itself!
 ltar: ltar.c
@@ -29,9 +29,19 @@ mulfaint: mulfaint.c
 fasnck: fasnck.c
 	${CC} ${CFLAGS} -o $@ $^
 
+# Multple-fasta, multiple sequence fasta length size checker. THis is very similar to the histogram
+# but actually outputs the unique sequence lengthsof the fasta togther with how often that
+# length occurred.
+faszck: faszck.c
+	${CC} ${CFLAGS} -o $@ $^
+
 # Codon checker
 cdsck: cdsck.c
 	${CC} ${CFLAGS} -o $@ $^
+
+# Codon checker
+cdsck_d: cdsck.c
+	${CC} ${DBGCFLAGS} -o $@ $^
 
 .PHONY: clean
 

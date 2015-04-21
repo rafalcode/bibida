@@ -4,32 +4,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef DBG
 #define GBUF 4
-#else
-#define GBUF 128
-#endif
 #define SSZ 2 /* CG count, first, AT count second, third are the anomalous characters */
 #define HISTBUCKETSZ 10
-
-#define CONDREALLOC(x, b, c, a, t); \
-    if((x)==((b)-1)) { \
-        (b) += (c); \
-        (a)=realloc((a), (b)*sizeof(t)); \
-        memset((a)+(b)-(c), '\0', (c)*sizeof(t)); \
-    }
-
-const char *stcod="ATG";
-const char *ecod1="TAG";
-const char *ecod2="TAA";
-const char *ecod3="TGA";
-
-typedef struct /* onefa */
-{
-    char *id;
-    char *sq;
-    unsigned idz, sqz;
-} onefa;
 
 typedef struct /* i_s; sequence index and number of symbols */
 {
@@ -40,55 +17,89 @@ typedef struct /* i_s; sequence index and number of symbols */
     unsigned ambano[2]; /* number of ambiguous symbots (first), then number of anomalous symbols */
 } i_s; /* sequence index and number of symbols */
 
-void prtfa(onefa *fac)
+int *hist_cg(i_s *sqisz, int sz, float mxcg, float mncg, int numbuckets)
 {
-    printf(">");
-    printf("%s\n", fac->id);
-    printf("%s\n", fac->sq);
+    int i, j;
+    float step=(mxcg-mncg)/(float)numbuckets;
+    float *bucketlimarr=malloc((numbuckets-1)*sizeof(float));
+    int *bucketarr=calloc(numbuckets, sizeof(int));
+    bucketlimarr[0]=step+mncg;
+    for(i=1;i<numbuckets-1;++i) 
+        bucketlimarr[i]=bucketlimarr[i-1]+step;
+
+    for(i=0;i<sz;++i)
+        if(sqisz[i].cgp>=bucketlimarr[numbuckets-2]) {
+            bucketarr[numbuckets-1]++;
+            continue;
+        } else {
+            for(j=0;j<numbuckets-1;++j)
+                if(sqisz[i].cgp<bucketlimarr[j]) {
+                    bucketarr[j]++;
+                    break;
+                }
+        }
+    free(bucketlimarr);
+    return bucketarr;
 }
 
-void prtfaf(onefa *fac, FILE *fp)
+int *hist_sylen(i_s *sqisz, int sz, size_t mxsylen, size_t mnsylen, int numbuckets)
 {
-    fprintf(fp, ">");
-    fprintf(fp, "%s\n", fac->id);
-    fprintf(fp, "%s\n", fac->sq);
+    int i, j;
+    float step=(float)(mxsylen-mnsylen)/numbuckets;
+    float *bucketlimarr=malloc((numbuckets-1)*sizeof(float));
+    int *bucketarr=calloc(numbuckets, sizeof(int));
+    bucketlimarr[0]=step+(float)mnsylen;
+    for(i=1;i<numbuckets-1;++i) 
+        bucketlimarr[i]=bucketlimarr[i-1]+step;
+
+    for(i=0;i<sz;++i)
+        if(sqisz[i].sylen>=bucketlimarr[numbuckets-2]) {
+            bucketarr[numbuckets-1]++;
+            continue;
+        } else {
+            for(j=0;j<numbuckets-1;++j) /* yes, the last bucketlim is being reused! this time, to find values below it! */
+                if(sqisz[i].sylen<bucketlimarr[j]) {
+                    bucketarr[j]++;
+                    break;
+                }
+        }
+    free(bucketlimarr);
+    return bucketarr;
 }
 
-void prtfa2(onefa *fac)
+int *hist_ambs(i_s *sqisz, int sz, unsigned mxamb, unsigned mnamb, int numbuckets)
+{
+    int i, j;
+    float step=(float)(mxamb-mnamb)/numbuckets;
+    float *bucketlimarr=malloc((numbuckets-1)*sizeof(float));
+    int *bucketarr=calloc(numbuckets, sizeof(int));
+    bucketlimarr[0]=step+(float)mnamb;
+    for(i=1;i<numbuckets-1;++i) 
+        bucketlimarr[i]=bucketlimarr[i-1]+step;
+
+    for(i=0;i<sz;++i)
+        if(sqisz[i].ambano[0]>=bucketlimarr[numbuckets-2]) {
+            bucketarr[numbuckets-1]++;
+            continue;
+        } else {
+            for(j=0;j<numbuckets-2;++j)
+                if(sqisz[i].ambano[0]<bucketlimarr[j]) {
+                    bucketarr[j]++;
+                    break;
+                }
+        }
+    free(bucketlimarr);
+    return bucketarr;
+}
+
+void prthist(char *histname, int *bucketarr, int numbuckets, unsigned numsq, size_t mxsylen, size_t mnsylen)
 {
     int i;
-    printf("SQZ=%d:", fac->sqz);
-    for(i=0;i<3;++i) 
-        putchar(fac->sq[i]);
-    printf("\n"); 
-}
-
-void ck(onefa *fac)
-{
-    char repstr[128]={0};
-    if(((fac->sqz-1)%3) != 0)
-        strcat(repstr, "E_%3 ");
-    if( (strncmp(fac->sq, stcod, 3*sizeof(char))) )
-        strcat(repstr, "E_stcod ");
-    char *lcod=fac->sq+(fac->sqz-4);
-    if( (strncmp(lcod, ecod1, 3*sizeof(char))) & (strncmp(lcod, ecod2, 3*sizeof(char))) & (strncmp(lcod, ecod3, 3*sizeof(char))) )
-        strcat(repstr, "E_ecod ");
-
-    if(repstr[0])
-        printf("%s: %s\n", fac->id, repstr); 
-}
-
-int cki(onefa *fac)
-{
-    int i=0;
-    if(((fac->sqz-1)%3) != 0)
-        i++;
-    if( (strncmp(fac->sq, stcod, 3*sizeof(char))) )
-        i++;
-    char *lcod=fac->sq+(fac->sqz-4);
-    if( (strncmp(lcod, ecod1, 3*sizeof(char))) & (strncmp(lcod, ecod2, 3*sizeof(char))) & (strncmp(lcod, ecod3, 3*sizeof(char))) )
-        i++;
-    return i;
+    printf("Sqlen %d-bin hstgrm for: %-24.24s (totsqs=%04u): ", numbuckets, histname, numsq); 
+    printf("minlen=%3zu<-", mnsylen); 
+    for(i=0;i<numbuckets;++i) 
+        printf("| %i ", bucketarr[i]);
+    printf("|->maxlen=%zu\n", mxsylen); 
 }
 
 void prti_s(i_s *sqisz, int sz, float *mxcg, float *mncg)
@@ -158,6 +169,30 @@ void la_prti_s(i_s *sqisz, int sz, float *mxcg, float *mncg, char *titlestr) /* 
     return;
 }
 
+void tikz_prti_s(i_s *sqisz, int sz, int *histosz, int numbuckets, char *titlestr) /* prints onto a beamer table, also calculates mx amnd min cg in passsing */
+{
+    int j;
+    printf("\\begin{frame}\n\t\\frametitle{%s}\n", titlestr);
+    char *h[2]= {"Seq Len", "Seq Quan"};
+
+    printf("\\begin{tikzpicture}[scale=1.0]\n");
+    printf("    \\begin{axis}[\n");
+
+    printf("     xlabel=%s,\n", h[0]);
+    printf("     ylabel=%s]\n", h[1]);
+
+    printf("    \\addplot[color=%s] coordinates {\n", "blue");
+    for(j=0;j<numbuckets;++j)
+        printf("       (%i,%i)\n", j, histosz[j]);
+    printf("    };\n");
+
+    printf("    \\end{axis}\n");
+    printf("\\end{tikzpicture}\n");
+    printf("\\end{frame}\n\n");
+
+    return;
+}
+
 int main(int argc, char *argv[])
 {
     /* argument accounting: remember argc, the number of arguments, _includes_ the executable */
@@ -166,9 +201,7 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
     /* general declarations */
-    FILE *fin, *fout;
-    char *tp, *foutname=calloc(128, sizeof(char));
-    char insertstr[10]="_filtered";
+    FILE *fin;
     char IGLINE, begline;
     size_t lidx, mxsylen, mnsylen;
     unsigned mxamb, mnamb;
@@ -176,16 +209,9 @@ int main(int argc, char *argv[])
     int gbuf;
     i_s *sqisz;
     int whatint;
+    int numbuckets;
+    int *histosz;
     unsigned numsq, numano;
-    onefa fac;
-    unsigned ibf=GBUF, sbf=GBUF;
-    fac.id=calloc(ibf, sizeof(char));
-    fac.sq=calloc(sbf, sizeof(char));
-    size_t fnsz;
-    int ididx=0;
-    int retcki=0;
-    unsigned numfiltered=0;
-
 
     for(j=1;j<argc;++j) {
 
@@ -193,12 +219,7 @@ int main(int argc, char *argv[])
             printf("Error. Cannot open \"%s\" file.\n", argv[j]);
             exit(EXIT_FAILURE);
         }
-        
-        fnsz=1+strlen(argv[j]);
-        foutname=realloc(foutname, (fnsz+10)*sizeof(char));
-        tp=strrchr(argv[j], '.');
-        sprintf(foutname, "%.*s%s%s", (int)(tp-argv[j]), argv[j], insertstr, tp);
-        fout=fopen(foutname, "w");
+
         IGLINE=0, begline=1;
         lidx=0, mxsylen=0, mnsylen=0XFFFFFFFFFFFFFFFF;
         mxamb=0, mnamb=0xFFFFFFFF;
@@ -211,9 +232,6 @@ int main(int argc, char *argv[])
             sqisz[i].ambano[1]=0;
         }
         whatint=0; /* needs explanation */
-        ididx=0;
-        retcki=0;
-        numfiltered=0;
 
         while( ( (c = fgetc(fin)) != EOF) ) {
             if(c =='\n') {
@@ -232,19 +250,6 @@ int main(int argc, char *argv[])
                         mxamb = sqisz[sqidx].ambano[0];
                     if(sqisz[sqidx].ambano[0] < mnamb)
                         mnamb = sqisz[sqidx].ambano[0];
-
-                    CONDREALLOC(ididx, ibf, GBUF, fac.id, char);
-                    fac.id[ididx]='\0';
-                    CONDREALLOC(sqisz[sqidx].sylen, sbf, GBUF, fac.sq, char);
-                    fac.sq[sqisz[sqidx].sylen]='\0';
-                    fac.idz=1+ididx;
-                    fac.sqz=1+sqisz[sqidx].sylen;
-                    // prtfa2(&fac);
-                    retcki=cki(&fac);
-                    if(!retcki) {
-                        prtfaf(&fac, fout);
-                        numfiltered++;
-                    }
                 }
 
                 sqidx++;
@@ -253,26 +258,12 @@ int main(int argc, char *argv[])
                     sqisz=realloc(sqisz, gbuf*sizeof(i_s));
                 }
                 sqisz[sqidx].idx=sqidx;
-
-                /* resetting stuff */
                 sqisz[sqidx].sylen=0;
-                ididx=0;
-                ibf=GBUF;
-                sbf=GBUF;
-                fac.id=realloc(fac.id, ibf*sizeof(char));
-                memset(fac.id, '\0', ibf*sizeof(char));
-                fac.sq=realloc(fac.sq, sbf*sizeof(char));
-                memset(fac.sq, '\0', sbf*sizeof(char));
                 for(i=0;i<SSZ;++i)
                     sqisz[sqidx].sy[i]=0;
                 for(i=0;i<2;++i)
                     sqisz[sqidx].ambano[i]=0;
-            } else if (IGLINE==1) {
-                CONDREALLOC(ididx, ibf, GBUF, fac.id, char);
-                fac.id[ididx++]=c;
             } else if (IGLINE==0) {
-                CONDREALLOC(sqisz[sqidx].sylen, sbf, GBUF, fac.sq, char);
-                fac.sq[sqisz[sqidx].sylen]=c;
                 sqisz[sqidx].sylen++;
                 switch(c) {
                     case 'A': case 'a':
@@ -331,40 +322,29 @@ int main(int argc, char *argv[])
         if(sqisz[sqidx].ambano[0] < mnamb)
             mnamb = sqisz[sqidx].ambano[0];
 
-        /* the last sequence */
-        CONDREALLOC(ididx, ibf, GBUF, fac.id, char);
-        fac.id[ididx]='\0';
-        CONDREALLOC(sqisz[sqidx].sylen, sbf, GBUF, fac.sq, char);
-        fac.sq[sqisz[sqidx].sylen]='\0';
-        fac.idz=1+ididx;
-        fac.sqz=1+sqisz[sqidx].sylen;
-       // prtfa2(&fac);
-        retcki=cki(&fac);
-        if(!retcki) {
-            numfiltered++;
-            prtfaf(&fac, fout);
-        }
-        fclose(fout);
-        
-        /* free */
-        free(fac.id);
-        fac.id=NULL;
-        free(fac.sq);
-        fac.sq=NULL;
-
         numsq=sqidx+1, numano=0;
         for(i=0;i<numsq;++i) {
             if(sqisz[i].ambano[1])
                 numano++;
         }
         sqisz=realloc(sqisz, numsq*sizeof(i_s));
-        printf("%s/numseq=%u/umfiltered=%u/%%filt=%.1f\n", argv[j], numsq, numfiltered, 100*((float)numfiltered/numsq)); 
+        // float mxcg, mncg;
+        // la_prti_s(sqisz, numsq, &mxcg, &mncg, "Table of Sequence Lengths");
         // prti_s(sqisz, numsq, &mxcg, &mncg);
         /* the summary comes at the end because otherwise, with many sequences, it goes off-screen */
         // fprintf(stderr, "Number of sequences: %i, Mxsz= %zu, Minsz= %zu, MaxCG=%.4f MinCG=%.4f Mxamb=%u Mnamb=%u. #AnoSQ=%i\n", numsq, mxsylen, mnsylen, mxcg, mncg, mxamb, mnamb, numano);
 
+        /* OK sylen histo first */
+        numbuckets=HISTBUCKETSZ;
+        histosz=hist_sylen(sqisz, numsq, mxsylen, mnsylen, numbuckets);
+        // tikz_prti_s(sqisz, numsq, histosz, numbuckets, "Table of Sequence Lengths");
+        prthist(argv[j], histosz, numbuckets, numsq, mxsylen, mnsylen);
+        //    int *histocg=hist_cg(sqisz, numsq, mxcg, mncg, numbuckets);
+        // prthist("cgpart", histocg, numbuckets);
+
+        free(histosz);
+        //     free(histocg);
         free(sqisz);
     }
-    free(foutname);
     return 0;
 }
