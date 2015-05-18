@@ -8,6 +8,22 @@
 #define SSZ 2 /* CG count, first, AT count second, third are the anomalous characters */
 #define HISTBUCKETSZ 10
 
+#define CONDREALLOC2(x, b, c, a1, a2, t); \
+    if((x)==((b)-1)) { \
+        (b) += (c); \
+        (a1)=realloc((a1), (b)*sizeof(t)); \
+        memset((a1)+(b)-(c), '\0', (c)*sizeof(t)); \
+        (a2)=realloc((a2), (b)*sizeof(t)); \
+        memset((a2)+(b)-(c), '\0', (c)*sizeof(t)); \
+    }
+
+typedef struct /* ou uov */
+{
+    unsigned *ua;
+    unsigned ub;
+    unsigned *oa;
+} uo;
+
 typedef struct /* i_s; sequence index and number of symbols */
 {
     unsigned int idx;
@@ -193,6 +209,47 @@ void tikz_prti_s(i_s *sqisz, int sz, int *histosz, int numbuckets, char *titlest
     return;
 }
 
+void uniquelens(i_s *sqi, unsigned numsq)
+{
+    unsigned char new;
+    unsigned i, j;
+    unsigned ai=0;
+    uo uov;
+    uov.ub=GBUF;
+    uov.ua=calloc(uov.ub, sizeof(unsigned));
+    uov.oa=calloc(uov.ub, sizeof(unsigned));
+    for(i=0; i<numsq;++i) {
+        new=1;
+        for(j=0; j<=ai;++j) {
+            if(uov.ua[j] == sqi[i].sylen) {
+                uov.oa[j]++;
+                new=0;
+                break;
+            }
+        }
+        if(new) {
+            CONDREALLOC2(ai, uov.ub, GBUF, uov.ua, uov.oa, unsigned);
+            uov.ua[ai]=sqi[i].sylen;
+            uov.oa[ai]++;
+            ai++;
+        }
+    }
+#ifdef DBG
+    printf("number of different sequence lengths: %u\n", ai);
+    printf("vals: "); 
+    for(j=0; j<ai;++j)
+        printf("%5u ", uov.ua[j]);
+    printf("\n"); 
+    printf("ocs: "); 
+    for(j=0; j<ai;++j)
+        printf("%5u ", uov.oa[j]);
+    printf("\n"); 
+#endif
+
+    free(uov.ua);
+    free(uov.oa);
+}
+
 int main(int argc, char *argv[])
 {
     /* argument accounting: remember argc, the number of arguments, _includes_ the executable */
@@ -209,8 +266,6 @@ int main(int argc, char *argv[])
     int gbuf;
     i_s *sqisz;
     int whatint;
-    int numbuckets;
-    int *histosz;
     unsigned numsq, numano;
 
     for(j=1;j<argc;++j) {
@@ -328,22 +383,9 @@ int main(int argc, char *argv[])
                 numano++;
         }
         sqisz=realloc(sqisz, numsq*sizeof(i_s));
-        // float mxcg, mncg;
-        // la_prti_s(sqisz, numsq, &mxcg, &mncg, "Table of Sequence Lengths");
-        // prti_s(sqisz, numsq, &mxcg, &mncg);
-        /* the summary comes at the end because otherwise, with many sequences, it goes off-screen */
-        // fprintf(stderr, "Number of sequences: %i, Mxsz= %zu, Minsz= %zu, MaxCG=%.4f MinCG=%.4f Mxamb=%u Mnamb=%u. #AnoSQ=%i\n", numsq, mxsylen, mnsylen, mxcg, mncg, mxamb, mnamb, numano);
 
-        /* OK sylen histo first */
-        numbuckets=HISTBUCKETSZ;
-        histosz=hist_sylen(sqisz, numsq, mxsylen, mnsylen, numbuckets);
-        // tikz_prti_s(sqisz, numsq, histosz, numbuckets, "Table of Sequence Lengths");
-        prthist(argv[j], histosz, numbuckets, numsq, mxsylen, mnsylen);
-        //    int *histocg=hist_cg(sqisz, numsq, mxcg, mncg, numbuckets);
-        // prthist("cgpart", histocg, numbuckets);
+        uniquelens(sqisz, numsq);
 
-        free(histosz);
-        //     free(histocg);
         free(sqisz);
     }
     return 0;

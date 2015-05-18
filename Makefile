@@ -6,7 +6,7 @@ DBGCFLAGS=-g -Wall -DDBG # -pg # note the gprof option
 CFLAGS=-O3
 LIBS=-ltar
 
-EXES=ltar ltar_dbg yafasumzr mulfaint fasnck cdsck_d cdsck
+EXES=ltar ltar_dbg yafasumzr mulfaint fasnck cdsck_d cdsck faszck faszck_d
 
 # ltar, code to use libtar .. in the very vain hope that it will be fast than tar itself!
 ltar: ltar.c
@@ -34,6 +34,9 @@ fasnck: fasnck.c
 # length occurred.
 faszck: faszck.c
 	${CC} ${CFLAGS} -o $@ $^
+
+faszck_d: faszck.c
+	${CC} ${DBGCFLAGS} -o $@ $^
 
 # Codon checker
 cdsck: cdsck.c
