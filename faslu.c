@@ -124,6 +124,7 @@ void gmergefirstn(i_s **sqi_, unsigned *nsq, unsigned n, unsigned offset) /* gra
     sqi[numsq-noff].sq=realloc(sqi[numsq-noff].sq, (1+currsz)*sizeof(char));
     memcpy(sqi[numsq-noff].sq, sqinw, sqi[numsq-noff].sqz*sizeof(char));
 
+    /* push all the offsetted or skipped end sequences up, so we can delete the end */
     for(i=1; i<=offset; ++i) {
         sqi[numsq-noff+i].sylen = sqi[numsq-offset+i-1].sylen;
         sqi[numsq-noff+i].sqz = sqi[numsq-offset+i-1].sqz;
@@ -131,17 +132,16 @@ void gmergefirstn(i_s **sqi_, unsigned *nsq, unsigned n, unsigned offset) /* gra
         memcpy(sqi[numsq-noff+i].sq, sqi[numsq-offset+i-1].sq, sqi[numsq-offset+i-1].sqz*sizeof(char));
     }
 
-    /*numsq = numsq -n +1;
+    numsq = numsq -n +1;
 
       for(i=numsq;i<numsq+n-1;++i) {
       free(sqi[i].id);
       free(sqi[i].sq);
       }
 
-     * was trying this here, but better back in main()
+     /* was trying this here, but better back in main()
      sqi=realloc(sqi, numsq*sizeof(i_s));
      */
-
 
     *nsq=numsq;
     free(sqinw);
