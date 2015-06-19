@@ -6,7 +6,7 @@ DBGCFLAGS=-g -Wall -DDBG # -pg # note the gprof option
 CFLAGS=-O3
 LIBS=-ltar
 
-EXES=ltar ltar_dbg yafasumzr mulfaint fasnck cdsck_d cdsck faszck faszck_d
+EXES=ltar ltar_dbg yafasumzr mulfaint fasnck cdsck_d cdsck faszck faszck_d faslu faslu_d
 
 # ltar, code to use libtar .. in the very vain hope that it will be fast than tar itself!
 ltar: ltar.c
@@ -44,6 +44,15 @@ cdsck: cdsck.c
 
 # Codon checker
 cdsck_d: cdsck.c
+	${CC} ${DBGCFLAGS} -o $@ $^
+
+# faslu: takes cdsck bits that slurped the fasta file: likely to abandon this
+# afterwards can do sequence length analysis on it
+faslu: faslu.c
+	${CC} ${CFLAGS} -o $@ $^
+
+# Codon checker
+faslu_d: faslu.c
 	${CC} ${DBGCFLAGS} -o $@ $^
 
 .PHONY: clean
