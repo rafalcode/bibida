@@ -73,7 +73,8 @@ int cmpsqibyl(const void *a, const void *b) /* compare sqi by length */
     // return *ia  - *ib; /* integer comparison: returns negative if b > a and positive if a > b */
     i_s *ia = (i_s *)a;
     i_s *ib = (i_s *)b;
-    return ia->sylen  - ib->sylen; /* integer comparison: returns negative if b > a and positive if a > b: i.e. lowest values first */
+    // return ia->sylen  - ib->sylen; /* integer comparison: returns negative if b > a and positive if a > b: i.e. lowest values first */
+    return ib->sylen  - ia->sylen; /* integer comparison: returns positive if b > a and nagetive if a > b: i.e. highest values first */
     // return (int)(100.f*ia->price - 100.f*ib->price);
     //     /* float comparison: returns negative if b > a
     //     and positive if a > b. We multiplied result by 100.0
@@ -90,6 +91,39 @@ void prtfaf(char *sid, char *ssq, FILE *fp) /* prints out one sequence in fasta 
     fprintf(fp, ">");
     fprintf(fp, "%s\n", sid);
     fprintf(fp, "%s\n", ssq);
+}
+
+void mergefirstn(i_s **sqi_, unsigned numsq, unsigned n) /* merge the first n squences */
+{
+    /* want to start at the end so we can reduced number of sequences.*/
+    int i;
+    i_s *sqi=*sqi_;
+    unsigned mx=sqi[numsq-n].sylen;
+    unsigned currsz=mx*(n-1); /* we'll be padding each with this */
+    for(i=numsq-n;i<numsq;++i) {
+        currsz += sqi[i].sylen;
+    }
+    printf("currsz= %u\n", currsz); 
+    i_s *sqinw=malloc(sizeof(i_s));
+    sqinw->idz=sqi[numsq-n].idz;
+    // sqinw->id=malloc(sqinw->idz, sizeof(char)); /* which id to use? the id of the biggest, forget the others */
+    sqinw->sqz=currsz;
+    sqinw->sq=malloc((1+currsz)*sizeof(char));
+    memcpy(sqinw->sq, sqi[numsq-1].sq, sqi[numsq-1].sylen*sizeof(char));
+    char *tpos=sqinw->sq+sqi[numsq-1].sylen;
+    for(i=numsq-2; i>=numsq-n;--i) {
+        memset(tpos, 'n', mx*sizeof(char));
+        tpos += mx;
+        memcpy(tpos, sqi[i].sq, sqi[i].sylen*sizeof(char));
+        tpos += sqi[i].sylen;
+    }
+    sqinw->sq[currsz]='\0'; /* this string not null terminated yet */
+    printf("sqinwsq= %s\n", sqinw->sq); 
+
+    
+
+    free(sqinw->sq);
+    free(sqinw);
 }
 
 void prtasf(i_s *sqi, int sz, FILE *fp) /* print all sequences to file */
@@ -271,7 +305,8 @@ int main(int argc, char *argv[])
     }
     sqi=realloc(sqi, numsq*sizeof(i_s));
     qsort(sqi, numsq, sizeof(i_s), cmpsqibyl);
-    prtasf(sqi, numsq, fout);
+    mergefirstn(&sqi, numsq, 3);
+//    prtasf(sqi, numsq, fout);
 
     fclose(fout);
 
