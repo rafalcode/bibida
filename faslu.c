@@ -93,6 +93,60 @@ void prtfaf(char *sid, char *ssq, FILE *fp) /* prints out one sequence in fasta 
     fprintf(fp, "%s\n", ssq);
 }
 
+void gmergefirstn(i_s **sqi_, unsigned *nsq, unsigned n, unsigned offset) /* gradual merge the first n squences, preparation for the progressive merge */
+{
+    /* want to start at the end so we can reduced number of sequences.*/
+    int i;
+    unsigned numsq=*nsq;
+    i_s *sqi=*sqi_;
+    unsigned noff=n+offset;
+    unsigned mx=sqi[numsq-noff].sylen;
+    unsigned currsz=mx*(n-1); /* we'll be padding each with this */
+    for(i=numsq-noff;i<numsq-offset;++i) {
+        currsz += sqi[i].sylen;
+    }
+    printf("currsz= %u\n", currsz); 
+    char *sqinw=malloc((1+currsz)*sizeof(char));
+    memcpy(sqinw, sqi[numsq-1-offset].sq, sqi[numsq-1-offset].sylen*sizeof(char));
+    char *tpos=sqinw+sqi[numsq-1-offset].sylen;
+    for(i=numsq-2-offset; i>=numsq-noff;--i) {
+        memset(tpos, 'n', mx*sizeof(char));
+        tpos += mx;
+        memcpy(tpos, sqi[i].sq, sqi[i].sylen*sizeof(char));
+        tpos += sqi[i].sylen;
+    }
+    sqinw[currsz]='\0'; /* this string not null terminated yet */
+    printf("sqinwsq= %s\n", sqinw); 
+
+    /* prepare to overwrite */
+    sqi[numsq-noff].sylen=currsz;
+    sqi[numsq-noff].sqz=currsz+1;
+    sqi[numsq-noff].sq=realloc(sqi[numsq-noff].sq, (1+currsz)*sizeof(char));
+    memcpy(sqi[numsq-noff].sq, sqinw, sqi[numsq-noff].sqz*sizeof(char));
+
+    for(i=1; i<=offset; ++i) {
+        sqi[numsq-noff+i].sylen = sqi[numsq-offset+i-1].sylen;
+        sqi[numsq-noff+i].sqz = sqi[numsq-offset+i-1].sqz;
+        sqi[numsq-noff+i].sq=realloc(sqi[numsq-noff+i].sq, sqi[numsq-offset+i-1].sqz*sizeof(char));
+        memcpy(sqi[numsq-noff+i].sq, sqi[numsq-offset+i-1].sq, sqi[numsq-offset+i-1].sqz*sizeof(char));
+    }
+
+    /*numsq = numsq -n +1;
+
+      for(i=numsq;i<numsq+n-1;++i) {
+      free(sqi[i].id);
+      free(sqi[i].sq);
+      }
+
+     * was trying this here, but better back in main()
+     sqi=realloc(sqi, numsq*sizeof(i_s));
+     */
+
+
+    *nsq=numsq;
+    free(sqinw);
+}
+
 void mergefirstn(i_s **sqi_, unsigned *nsq, unsigned n) /* merge the first n squences, preparation for the progressive merge */
 {
     /* want to start at the end so we can reduced number of sequences.*/
@@ -127,15 +181,17 @@ void mergefirstn(i_s **sqi_, unsigned *nsq, unsigned n) /* merge the first n squ
     memcpy(sqi[numsq-n].sq, sqinw->sq, sqi[numsq-n].sqz*sizeof(char));
 
     numsq = numsq -n +1;
-    
+
     for(i=numsq;i<numsq+n-1;++i) {
         free(sqi[i].id);
         free(sqi[i].sq);
     }
-    /*
-    sqi=realloc(sqi, numsq*sizeof(i_s));
-    */
-   
+
+    /* was trying this here, but better back in main()
+       sqi=realloc(sqi, numsq*sizeof(i_s));
+       */
+
+
     *nsq=numsq;
     free(sqinw->sq);
     free(sqinw);
@@ -310,17 +366,25 @@ int main(int argc, char *argv[])
         xn.mxl = sqi[sqidx].sylen;
     if(sqi[sqidx].sylen < xn.mnl)
         xn.mnl = sqi[sqidx].sylen;
-        // prtfaf(sqi[sqidx].id, sqi[sqidx].sq, fout);
+    // prtfaf(sqi[sqidx].id, sqi[sqidx].sq, fout);
 
-        /* normalize */
-        numsq=sqidx+1;
+    /* normalize */
+    numsq=sqidx+1;
     for(i=numsq;i<gbuf;++i) {
         free(sqi[i].id);
         free(sqi[i].sq);
     }
     sqi=realloc(sqi, numsq*sizeof(i_s));
     qsort(sqi, numsq, sizeof(i_s), cmpsqibyl);
-    mergefirstn(&sqi, &numsq, 3);
+
+    /* OK, we going to gradually merge the sequences together */
+
+    // mergefirstn(&sqi, &numsq, 3);
+    gmergefirstn(&sqi, &numsq, 2, 2);
+    /* because numsq will have changed: */
+    //    sqi=realloc(sqi, numsq*sizeof(i_s));
+
+
     prtasf(sqi, numsq, fout);
 
     fclose(fout);
