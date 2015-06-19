@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
     FILE *fin;
     char IGLINE, begline;
     size_t lidx;
-    int i, j, c, sqidx;
+    int i, c, sqidx;
     int gbuf;
     unsigned numsq;
     i_s *sqi;
@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
         } else if( (begline==1) & (c == '>') ) { /* this condition catches the beginning of a new sequence, and uses it to prepare the nextsequence.*/
             IGLINE =1;
             begline=0; 
-            if(sqidx>=0) { /* chancing my arm here ... operating on the past sequence */
+            if(sqidx>=0) { /* we're not interested in the first run, when sqidx=-1. Our work on the sqi array is "retrospective" */
 
                 CONDREALLOC_(ididx, sqi[sqidx].ibf, GBUF, sqi[sqidx].id, char);
                 sqi[sqidx].id[ididx]='\0';
@@ -139,8 +139,8 @@ int main(int argc, char *argv[])
                 totbases += sqi[sqidx].sylen;
 
                 /* OK, now we have a whole sequence in the sqi[sqidx].sq variable */
+                prtfaf(sqi[sqidx].id, sqi[sqidx].sq, fout);
             }
-            prtfaf(sqi[sqidx].id, sqi[sqidx].sq, fout);
 
             sqidx++;
             if(sqidx==gbuf) {
@@ -186,10 +186,6 @@ int main(int argc, char *argv[])
         free(sqi[i].sq);
     }
     sqi=realloc(sqi, numsq*sizeof(i_s));
-
-#ifdef DBG
-    printf("%s: ", argv[j]); 
-#endif
 
     fclose(fout);
 
