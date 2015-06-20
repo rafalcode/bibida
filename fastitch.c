@@ -67,9 +67,14 @@ void usage(char *executable)
     printf("\tStitching procedure described in http://gatkforums.broadinstitute.org/discussion/4774/snp-calling-using-pooled-rna-seq-datathe alignment itself.\n");
     printf("\tHere, there's a basic attempt is made to minimize number of padding N's, so the merge is done in blocks, a certain number of times.\n");
     printf("Example:\n");
-    printf("\tYou have a 100k sequence file, and 90k sequences are 20 times smaller than the biggest sequence (these numbers will be more difficult in reality.\n");
-    printf("\tSo, you want to merge the 90k in blocks of 10, and that will need to happen 9k times.\n");
-    printf("Prequisite: you need to know the number of sequences in your file, and have a basic clue as to how their sizes are laid out.\n");
+    printf("\tYou have a 100k sequence file, and 90k sequences are pretty small (i.e. the fragmented ones - these numbers will be more difficult in reality).\n");
+    printf("\tSo, you decide on blocks of 9k sequence, and you want 10 of those merged so that the new size will be 90010 or 9.001k.\n");
+    printf("\ti.e. newsize = currentsize - (blocksize-1) * mergetimes. Command will be: \n");
+    printf("\tfastitch <nmyfragmentedreffile.fa> 90000 10.\n");
+    printf("\tBeware it's not easy to work out the best values of \"blocksize\" and \"mergetimes\".\n");
+    printf("\tThe sequence quantity may drop, but you could get some very long sequences due to the N-padding. Use the \"fasnck\" prog to help you.\n");
+    printf("Prequisite:\n");
+    printf("\tYou need to know the number of sequences in your file, and have a basic clue as to how their sizes are laid out.\n");
     printf("\tYou can use the program \"fasnck\" to do this. \"fasnck\" is part of the bibida repository. Compile it with \"make fasnck\".\n");
 }
 
@@ -352,7 +357,8 @@ int main(int argc, char *argv[])
     int nwsz=numsq-(mergetimes*(blsz-1));
     float nwzpc=100.*(float)nwsz/numsq;
     printf("INFO: The number of sequences in the new stitched file will be: %i, i.e. %3.2f%% of original.\n", nwsz, nwzpc); 
-    printf("INFO: The stitched filename has been written to your current directory, and is called \"%s\"\n", foutname);
+    printf("INFO: The stitched filename is now being written to your current directory, and is called \"%s\"\n", foutname);
+    printf("INFO: For pretty big files, it might have taken a minute to get here. The writing out may take 5 times as long.\n");
 
     /* our object now is to merge the smaller sequences, so a critical first step is to sort based
      * on sequence size. Remember the struct array will be shortened, so the largest sequences should come first
