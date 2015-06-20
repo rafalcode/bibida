@@ -358,7 +358,7 @@ int main(int argc, char *argv[])
     float nwzpc=100.*(float)nwsz/numsq;
     printf("INFO: The number of sequences in the new stitched file will be: %i, i.e. %3.2f%% of original.\n", nwsz, nwzpc); 
     printf("INFO: The stitched filename is now being written to your current directory, and is called \"%s\"\n", foutname);
-    printf("INFO: For pretty big files, it might have taken a minute to get here. The writing out may take 5 times as long.\n");
+    printf("INFO: For pretty big files, it might have taken a minute to get here. The writing out may take 10 times as long.\n");
 
     /* our object now is to merge the smaller sequences, so a critical first step is to sort based
      * on sequence size. Remember the struct array will be shortened, so the largest sequences should come first
