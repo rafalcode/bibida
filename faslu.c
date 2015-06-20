@@ -59,11 +59,16 @@ typedef struct /* i_s; sequence index and number of symbols */
 void usage(char *executable)
 {
     printf("%s, a program to stitch a fragmented fasta file (usually a reference file).\n", executable);
-    printf("Usage: %s <one argument: name of fasta file>\n", executable);
+    printf("Usage: %s <three arguments: 1) ref. fasta filename 2) integer, block size of each merge 3) number of merges>\n", executable);
     printf("Explanation:\n");
-    printf("\tWritten because of GATK's problems dealing with refrence files of very many contigs.\n");
+    printf("\tWritten because of GATK's problems dealing with reference files of very many contigs.AKA \"fragmented reference files\"\n");
     printf("\tStitching procedure described in http://gatkforums.broadinstitute.org/discussion/4774/snp-calling-using-pooled-rna-seq-datathe alignment itself.\n");
-    printf("\tHere, an attempt is made to minimize number of padding N's.\n");
+    printf("\tHere, there's a basic attempt is made to minimize number of padding N's, so the merge is done in blocks, a certain number of times.\n");
+    printf("Example:\n");
+    printf("\tYou have a 100k sequence file, and 90k sequences are 20 times smaller than the biggest sequence (these numbers will be more difficult in reality.\n");
+    printf("\tSo, you want to merge the 90k in blocks of 10, and that will need to happen 9k times.\n");
+    printf("Prequisite: you need to know the number of sequences in your file, and have a basic clue as to how their sizes are laid out.\n");
+    printf("\tYou can use the program \"fasnck\" to do this. \"fasnck\" is part of the bibida repository. Compile it with \"make fasnck\".\n");
 }
 
 int cmpsqibyl(const void *a, const void *b) /* compare sqi by length */
@@ -81,9 +86,9 @@ int cmpsqibyl(const void *a, const void *b) /* compare sqi by length */
     //     to preserve decimal fraction */
 }
 
-void prtrep(unsigned numsq, mxn xn)
+void prtrep(int numsq, mxn xn)
 {
-    printf("#SQ=%u, MXL=%u , MNL=%u\n", numsq, xn.mxl, xn.mnl);
+    printf("#SQ=%i, MXL=%u , MNL=%u\n", numsq, xn.mxl, xn.mnl);
 }
 
 void prtfaf(char *sid, char *ssq, FILE *fp) /* prints out one sequence in fasta style to a fileptr */
@@ -93,16 +98,16 @@ void prtfaf(char *sid, char *ssq, FILE *fp) /* prints out one sequence in fasta 
     fprintf(fp, "%s\n", ssq);
 }
 
-void gmergefirstn(i_s **sqi_, unsigned *nsq, unsigned n, unsigned offset) /* gradual merge the first n squences, preparation for the progressive merge */
+void gmergefirstn(i_s **sqi_, int *nsq, int n, int offset) /* gradual merge the first n squences, preparation for the progressive merge */
 {
     /* want to start at the end so we can reduced number of sequences.*/
     int i;
-    unsigned numsq=*nsq;
+    int numsq=*nsq;
     i_s *sqi=*sqi_;
-    unsigned noff=n+offset;
+    int noff=n+offset;
     unsigned mx=sqi[numsq-noff].sylen;
-    unsigned currsz=mx*(n-1); /* we'll be padding each with this */
-    for(i=numsq-noff;i<numsq-offset;++i) {
+    unsigned currsz=mx*(n-1); /* total number of N's to be padded for this group */
+    for(i=numsq-noff;i<numsq-offset;++i) { /* add each of the sylens to to the padded N's to work out new size of merge */
         currsz += sqi[i].sylen;
     }
     printf("currsz= %u\n", currsz); 
@@ -124,7 +129,10 @@ void gmergefirstn(i_s **sqi_, unsigned *nsq, unsigned n, unsigned offset) /* gra
     sqi[numsq-noff].sq=realloc(sqi[numsq-noff].sq, (1+currsz)*sizeof(char));
     memcpy(sqi[numsq-noff].sq, sqinw, sqi[numsq-noff].sqz*sizeof(char));
 
-    /* push all the offsetted or skipped end sequences up, so we can delete the end */
+    /* That's the first part over, now we need to move the offsetted ends of the array up accoding to the "n" entries merged
+     * i.e. push all the skipped end sequences up n, so we can delete the end */
+    /* TODO: this is an expensive operation, you don't have to do it each time you stitch, but, it's an optmization
+     * which I want to avoid, right now */
     for(i=1; i<=offset; ++i) {
         sqi[numsq-noff+i].sylen = sqi[numsq-offset+i-1].sylen;
         sqi[numsq-noff+i].sqz = sqi[numsq-offset+i-1].sqz;
@@ -132,22 +140,20 @@ void gmergefirstn(i_s **sqi_, unsigned *nsq, unsigned n, unsigned offset) /* gra
         memcpy(sqi[numsq-noff+i].sq, sqi[numsq-offset+i-1].sq, sqi[numsq-offset+i-1].sqz*sizeof(char));
     }
 
-    numsq = numsq -n +1;
+    /* the whole array is now going to change size: perform! */
+    numsq = numsq -n +1; /* reflect new numsq value */
+    for(i=numsq;i<numsq+n-1;++i) {
+        free(sqi[i].id);
+        free(sqi[i].sq);
+    }
+    sqi=realloc(sqi, numsq*sizeof(i_s));
+    *sqi_=sqi; /* and, because we've realloc'd. sqi could easily have move in memory, and therefore it must be reassigned to incoming argument */
+    *nsq=numsq; /* ditto numsq */
 
-      for(i=numsq;i<numsq+n-1;++i) {
-      free(sqi[i].id);
-      free(sqi[i].sq);
-      }
-
-     /* was trying this here, but better back in main()
-     sqi=realloc(sqi, numsq*sizeof(i_s));
-     */
-
-    *nsq=numsq;
     free(sqinw);
 }
 
-void mergefirstn(i_s **sqi_, unsigned *nsq, unsigned n) /* merge the first n squences, preparation for the progressive merge */
+void mergefirstn(i_s **sqi_, int *nsq, int n) /* This function deprecated, uses old ideas. merge the first n squences, preparation for the progressive merge */
 {
     /* want to start at the end so we can reduced number of sequences.*/
     int i;
@@ -155,9 +161,9 @@ void mergefirstn(i_s **sqi_, unsigned *nsq, unsigned n) /* merge the first n squ
     i_s *sqi=*sqi_;
     unsigned mx=sqi[numsq-n].sylen;
     unsigned currsz=mx*(n-1); /* we'll be padding each with this */
-    for(i=numsq-n;i<numsq;++i) {
+    for(i=numsq-n;i<numsq;++i)
         currsz += sqi[i].sylen;
-    }
+
     printf("currsz= %u\n", currsz); 
     i_s *sqinw=malloc(sizeof(i_s));
     sqinw->idz=sqi[numsq-n].idz;
@@ -190,7 +196,6 @@ void mergefirstn(i_s **sqi_, unsigned *nsq, unsigned n) /* merge the first n squ
     /* was trying this here, but better back in main()
        sqi=realloc(sqi, numsq*sizeof(i_s));
        */
-
 
     *nsq=numsq;
     free(sqinw->sq);
@@ -250,7 +255,7 @@ void uniquelens(i_s *sqi, unsigned numsq)
 int main(int argc, char *argv[])
 {
     /* argument accounting: remember argc, the number of arguments, _includes_ the executable */
-    if(argc!=2) {
+    if(argc!=4) {
         usage(argv[0]);
         exit(EXIT_FAILURE);
     }
@@ -261,7 +266,7 @@ int main(int argc, char *argv[])
     size_t lidx;
     int i, c, sqidx;
     int gbuf;
-    unsigned numsq;
+    int numsq;
     i_s *sqi;
     int ididx=0;
     size_t totbases=0;
@@ -375,15 +380,26 @@ int main(int argc, char *argv[])
         free(sqi[i].sq);
     }
     sqi=realloc(sqi, numsq*sizeof(i_s));
+
+    /* our object now is to merge the smaller sequences, so a critical first step is to sort based
+     * on sequence size. Remember the struct array will be shortened, so the largest sequences should come first
+     * so by simply using realloc, we can reduce the array size from its end. */
     qsort(sqi, numsq, sizeof(i_s), cmpsqibyl);
 
     /* OK, we going to gradually merge the sequences together */
 
-    // mergefirstn(&sqi, &numsq, 3);
-    gmergefirstn(&sqi, &numsq, 2, 2);
-    /* because numsq will have changed: */
-    //    sqi=realloc(sqi, numsq*sizeof(i_s));
-
+    int blsz=atoi(argv[2]); /* this is the number of a sequences we're going to merge in one go: so call it a block */
+    int mergetimes=atoi(argv[3]); /* this number of times a block merge iof size blsz will be done */
+    /* TODO: Before I go ahead to the loop, let me point out that we cannot merge everythinginto the first
+     * sequence, because of some reason which will take a while to understand. I'll do it later.
+     * Let it be said, that we will not do this with GATK references, so I'm goign ahead in full knowledge
+     * that this need to be cured at some later stage */
+    for(i=0;i<mergetimes;++i) {
+        gmergefirstn(&sqi, &numsq, blsz, i);
+#ifdef DBG
+        printf("inloop idx: %i numsq val: %i\n", i, numsq); 
+#endif
+    }
 
     prtasf(sqi, numsq, fout);
 
