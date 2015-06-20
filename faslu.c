@@ -110,7 +110,9 @@ void gmergefirstn(i_s **sqi_, int *nsq, int n, int offset) /* gradual merge the 
     for(i=numsq-noff;i<numsq-offset;++i) { /* add each of the sylens to to the padded N's to work out new size of merge */
         currsz += sqi[i].sylen;
     }
+#ifdef DBG
     printf("currsz= %u\n", currsz); 
+#endif
     char *sqinw=malloc((1+currsz)*sizeof(char));
     memcpy(sqinw, sqi[numsq-1-offset].sq, sqi[numsq-1-offset].sylen*sizeof(char));
     char *tpos=sqinw+sqi[numsq-1-offset].sylen;
@@ -121,7 +123,9 @@ void gmergefirstn(i_s **sqi_, int *nsq, int n, int offset) /* gradual merge the 
         tpos += sqi[i].sylen;
     }
     sqinw[currsz]='\0'; /* this string not null terminated yet */
+#ifdef DBG
     printf("sqinwsq= %s\n", sqinw); 
+#endif
 
     /* prepare to overwrite */
     sqi[numsq-noff].sylen=currsz;
@@ -259,6 +263,9 @@ int main(int argc, char *argv[])
         usage(argv[0]);
         exit(EXIT_FAILURE);
     }
+    /* now, these  are the core of the merge op, but actually they can only be certain values */
+    int blsz=atoi(argv[2]); /* this is the number of a sequences we're going to merge in one go: so call it a block */
+    int mergetimes=atoi(argv[3]); /* this number of times a block merge iof size blsz will be done */
 
     /* general declarations */
     FILE *fin;
@@ -381,6 +388,17 @@ int main(int argc, char *argv[])
     }
     sqi=realloc(sqi, numsq*sizeof(i_s));
 
+    /* some checks: we've got to make sure that the blsz and the mergetimes are compatible with this numsq */
+    if( (numsq-blsz*mergetimes) <0 ) {
+        printf("Sorry the product of the block size (2rd arg) and mergetimes (3rd arg)\n");
+        printf("is over the total number of sequences. Program can't be run. Please change these two values\n");
+        printf("so that their product is either equal to, or less than, the total number of sequences.\n"); 
+        exit(EXIT_FAILURE);
+    }
+    int nwsz=numsq-(mergetimes*(blsz-1));
+    float nwzpc=100.*(float)nwsz/numsq;
+    printf("INFO: The number of sequences in the new stitched file will be: %i, i.e. %3.2f%% of original.\n", nwsz, nwzpc); 
+
     /* our object now is to merge the smaller sequences, so a critical first step is to sort based
      * on sequence size. Remember the struct array will be shortened, so the largest sequences should come first
      * so by simply using realloc, we can reduce the array size from its end. */
@@ -388,12 +406,6 @@ int main(int argc, char *argv[])
 
     /* OK, we going to gradually merge the sequences together */
 
-    int blsz=atoi(argv[2]); /* this is the number of a sequences we're going to merge in one go: so call it a block */
-    int mergetimes=atoi(argv[3]); /* this number of times a block merge iof size blsz will be done */
-    /* TODO: Before I go ahead to the loop, let me point out that we cannot merge everythinginto the first
-     * sequence, because of some reason which will take a while to understand. I'll do it later.
-     * Let it be said, that we will not do this with GATK references, so I'm goign ahead in full knowledge
-     * that this need to be cured at some later stage */
     for(i=0;i<mergetimes;++i) {
         gmergefirstn(&sqi, &numsq, blsz, i);
 #ifdef DBG
@@ -401,13 +413,14 @@ int main(int argc, char *argv[])
 #endif
     }
 
-    prtasf(sqi, numsq, fout);
-
+    prtasf(sqi, numsq, fout); /* prinout to a file named stitched */
     fclose(fout);
 
+    /* the following was because I was goign to do some heuristics by calculating histograms
+     * and stuff, but that's too polished ... leave until later */
     /* print report to output */
     // prtrep(numsq, xn);
-    uniquelens(sqi, numsq);
+    // uniquelens(sqi, numsq);
 
     for(i=0; i<numsq;++i) {
         free(sqi[i].id);
