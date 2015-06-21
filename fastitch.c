@@ -357,6 +357,7 @@ int main(int argc, char *argv[])
     int nwsz=numsq-(mergetimes*(blsz-1));
     float nwzpc=100.*(float)nwsz/numsq;
     printf("INFO: The number of sequences in the new stitched file will be: %i, i.e. %3.2f%% of original.\n", nwsz, nwzpc); 
+    printf("INFO: If that doesn't look good to you, you can always bail out now with a surreptious \"crtl+C\".\n");
     printf("INFO: The stitched filename is now being written to your current directory, and is called \"%s\"\n", foutname);
     printf("INFO: For pretty big files, it might have taken a minute to get here. The writing out may take 10 times as long.\n");
 
