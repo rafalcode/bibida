@@ -24,12 +24,18 @@ A summarizer (yet another) for fasta files, another one of the many, though hope
 ## fasnck
 Fasta file sanity checker. Basically gives a summary of the sequence sizes and the quantity of sequences in your fasta file
 
-# faszck
+## faszck
 Fasta file SIZE sanity check, a variation on the above.
 
 ## fastitch
-If you've read ny post in the GATK forums, you're probably looking for this program. It needs to be compiled with GNU's c compiler.
+If you've read my post in the GATK forums (http://gatkforums.broadinstitute.org/discussion/5709/a-reference-causes-excessive-runtime-on-genotypegvcfs#latest),
+you're probably looking for this program. It needs to be compiled with GNU's c compiler on a linux system, but it has no dependencies, and might even work with Pelle's C.
 Run without arguments to see the help: it basically gets fragmented fasta files and merges the smallest so reduce sequence quantity
 which is what GATK is fussy, at least when it concerns the reference file.
 compile with "make fastitch"
 Also handy is to be able to characterize your fasta file with the fasnck, fast file sanity checker
+Caveats:
+* Reorders the reference file from largest to smallest sequences
+* the merged sequences are then appended to the end, the first merged being the last in the new "stitched" sequence.
+* simply performs the most basic of merging on the smallest contigs without caring whether they belong to each other.
+* The new name of the sequence is merely one of the names of the merged contigs (extra coding can change this).
