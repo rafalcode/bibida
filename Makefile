@@ -7,7 +7,7 @@ DBG2CFLAGS=-g -Wall -DDBG2
 CFLAGS=-O3
 LIBS=-ltar
 
-EXES=ltar ltar_dbg yafasumzr mulfaint fasnck cdsck_d cdsck faszck faszck_d fastitch fastitch_d
+EXES=ltar ltar_dbg yafasumzr mulfaint fasnck cdsck_d cdsck faszck faszck_d fastitch fastitch_d fastitch_dd fastitch2 fastitch2_d
 
 # ltar, code to use libtar .. in the very vain hope that it will be fast than tar itself!
 ltar: ltar.c
@@ -57,8 +57,13 @@ cdsck_d: cdsck.c
 fastitch: fastitch.c
 	${CC} ${CFLAGS} -o $@ $^
 
-# Codon checker
 fastitch_d: fastitch.c
+	${CC} ${DBGCFLAGS} -o $@ $^
+
+fastitch2: fastitch2.c
+	${CC} ${CFLAGS} -o $@ $^
+
+fastitch2_d: fastitch2.c
 	${CC} ${DBGCFLAGS} -o $@ $^
 
 .PHONY: clean
