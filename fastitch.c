@@ -5,6 +5,7 @@
 #include <string.h>
 
 #define PDCHAR 'N' /* put this up at top, what the padding character will be */
+#define MINPADNLEN 300 /* normally we also want to apply a minimum N-pad so that the short reads can map independently to the stitched contig components */
 
 #ifdef DBG
 #define GBUF 8
@@ -108,13 +109,18 @@ void prtfaf(char *sid, char *ssq, FILE *fp) /* prints out one sequence in fasta 
 void gmergefirstn(i_s **sqi_, int *nsq, int n, int offset) /* gradual merge the first n squences, preparation for the progressive merge */
 {
     char paddingchar=PDCHAR;
+    int minnlen=MINPADNLEN;
     /* want to start at the end so we can reduced number of sequences.*/
     int i;
     int numsq=*nsq;
     i_s *sqi=*sqi_;
     int noff=n+offset;
-    unsigned mx=sqi[numsq-noff].sylen;
-    unsigned currsz=mx*(n-1); /* total number of N's to be padded for this group */
+    unsigned mxclen=sqi[numsq-noff].sylen; /* maximum contig length in this group */
+    
+    /* here we decide the length of the sequence of padding N's we will apply */
+    int npadlen = (mxclen > minnlen)? mxclen : minnlen;
+
+    unsigned currsz=npadlen*(n-1); /* total number of N's to be padded for this group */
     for(i=numsq-noff;i<numsq-offset;++i) { /* add each of the sylens to to the padded N's to work out new size of merge */
         currsz += sqi[i].sylen;
     }
@@ -125,8 +131,8 @@ void gmergefirstn(i_s **sqi_, int *nsq, int n, int offset) /* gradual merge the 
     memcpy(sqinw, sqi[numsq-1-offset].sq, sqi[numsq-1-offset].sylen*sizeof(char));
     char *tpos=sqinw+sqi[numsq-1-offset].sylen;
     for(i=numsq-2-offset; i>=numsq-noff;--i) {
-        memset(tpos, paddingchar, mx*sizeof(char));
-        tpos += mx;
+        memset(tpos, paddingchar, npadlen*sizeof(char));
+        tpos += npadlen;
         memcpy(tpos, sqi[i].sq, sqi[i].sylen*sizeof(char));
         tpos += sqi[i].sylen;
     }
