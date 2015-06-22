@@ -35,6 +35,7 @@ which is what GATK is fussy, at least when it concerns the reference file.
 compile with "make fastitch"
 Also handy is to be able to characterize your fasta file with the fasnck, fast file sanity checker
 Caveats:
+* Beware: When writing out the stitched sequences, the hard disk will thrash. Please use a local scratch on a cluster. Go for a coffee/tea for half-an-hour.
 * Reorders the reference file from largest to smallest sequences
 * the merged sequences are then appended to the end, the first merged being the last in the new "stitched" sequence.
 * simply performs the most basic of merging on the smallest contigs without caring whether they belong to each other.
