@@ -93,6 +93,13 @@ int cmpsqibyl(const void *a, const void *b) /* compare sqi by length */
     //     to preserve decimal fraction */
 }
 
+int cmpuoabyo(const void *a, const void *b) /* compare uoa by occurence */
+{
+    uoa_t *ua = (uoa_t*)a; /* cast our void! */
+    uoa_t *ub = (uoa_t*)b; /* cast our void! */
+    return ua->uo  - ub->uo; /* integer comparison: returns positive if b > a and nagetive if a > b: i.e. highest values first */
+}
+
 void prtrep(int numsq, mxn xn)
 {
     printf("#SQ=%i, MXL=%u , MNL=%u\n", numsq, xn.mxl, xn.mnl);
@@ -103,6 +110,26 @@ void prtfaf(char *sid, char *ssq, FILE *fp) /* prints out one sequence in fasta 
     fprintf(fp, ">");
     fprintf(fp, "%s\n", sid);
     fprintf(fp, "%s\n", ssq);
+}
+
+i_s *delthese(i_s **sqi_, unsigned *nsq, unsigned *idstodel, unsigned idstodeln) /* returns a new i_s with the ids that are deleted from the main */
+{
+    int i;
+    int numsq=*nsq;
+    i_s *sqi=*sqi_;
+    i_s *sqi2=calloc(idstodeln, sizeof(i_s));
+
+    for(i=0; i<idstodeln; ++i) {
+        sqi2[i].sylen = sqi[idstodel[i]].sylen;
+        sqi2[i].sqz = sqi[idstodel[i]].sqz;
+        sqi2[i].sq=calloc(sqi2[i].sqz, sizeof(char));
+        memcpy(sqi2[i].sq, sqi[idstodel[i]].sq, sqi[2].sqz*sizeof(char));
+        sqi2[i].idz = sqi[idstodel[i]].idz;
+        sqi2[i].id=calloc(sqi2[i].idz, sizeof(char));
+        memcpy(sqi2[i].id, sqi[idstodel[i]].id, sqi[2].idz*sizeof(char));
+    }
+    return sqi2;
+    *nsq=numsq;
 }
 
 void gmergefirstn(i_s **sqi_, int *nsq, int n, int offset) /* gradual merge the first n squences, preparation for the progressive merge */
@@ -193,6 +220,7 @@ void uniquelens(i_s *sqi, unsigned numsq)
                 uoa[j].uoisz++;
                 uoa[j].uoids=realloc(uoa[j].uoids, uoa[j].uoisz*sizeof(unsigned));
                 uoa[j].uoids[uoa[j].uoisz-1] = i;
+                // uoa[uoasz-1].uoids[uoa[j].uoisz-1] = sqi[i].idx;
                 new=0;
                 break;
             }
@@ -204,8 +232,11 @@ void uniquelens(i_s *sqi, unsigned numsq)
             uoa[uoasz-1].uoisz = 1;
             uoa[uoasz-1].uoids=realloc(uoa[j].uoids, uoa[j].uoisz*sizeof(unsigned));
             uoa[uoasz-1].uoids[uoa[j].uoisz-1] = i;
+            // uoa[uoasz-1].uoids[uoa[j].uoisz-1] = sqi[i].idx;
         }
     }
+
+    qsort(uoa, uoasz, sizeof(uoa_t), cmpuoabyo);
 #ifdef DBG
     printf("number of different sequence lengths: %i\n", uoasz);
     for(j=0; j<uoasz;++j) {
@@ -360,12 +391,6 @@ int main(int argc, char *argv[])
         printf("so that their product is either equal to, or less than, the total number of sequences.\n"); 
         exit(EXIT_FAILURE);
     }
-    int nwsz=numsq-(mergetimes*(blsz-1));
-    float nwzpc=100.*(float)nwsz/numsq;
-    printf("INFO: The number of sequences in the new stitched file will be: %i, i.e. %3.2f%% of original.\n", nwsz, nwzpc); 
-    printf("INFO: If that doesn't look good to you, you can always bail out now with a surreptious \"crtl+C\".\n");
-    printf("INFO: The stitched filename is now being written to your current directory, and is called \"%s\"\n", foutname);
-    printf("INFO: For pretty big files, it might have taken a minute to get here. The writing out may take 10 times as long.\n");
 
     /* our object now is to merge the smaller sequences, so a critical first step is to sort based
      * on sequence size. Remember the struct array will be shortened, so the largest sequences should come first
@@ -373,8 +398,15 @@ int main(int argc, char *argv[])
     uniquelens(sqi, numsq);
     qsort(sqi, numsq, sizeof(i_s), cmpsqibyl);
 
-    /* OK, we going to gradually merge the sequences together */
+    /* let's report back to the user at this point, give him/her a chance to bailout */
+    int nwsz=numsq-(mergetimes*(blsz-1));
+    float nwzpc=100.*(float)nwsz/numsq;
+    printf("INFO: The number of sequences in the new stitched file will be: %i, i.e. %3.2f%% of original.\n", nwsz, nwzpc); 
+    printf("INFO: If that doesn't look good to you, you can always bail out now with a surreptious \"crtl+C\".\n");
+    printf("INFO: The stitched filename is now being written to your current directory, and is called \"%s\"\n", foutname);
+    printf("INFO: For pretty big files, it might have taken a minute to get here. The writing out may take 10 times as long.\n");
 
+    /* OK, we going to gradually merge the sequences together */
     for(i=0;i<mergetimes;++i) {
         gmergefirstn(&sqi, &numsq, blsz, i);
 #ifdef DBG2

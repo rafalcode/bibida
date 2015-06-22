@@ -2,7 +2,8 @@
 # small utilities  dealing with big DNA/PROTEIN datasets.
 #
 CC=gcc
-DBGCFLAGS=-g -Wall -DDBG # -pg # note the gprof option
+DBGCFLAGS=-g -Wall -DDBG 
+DBG2CFLAGS=-g -Wall -DDBG2
 CFLAGS=-O3
 LIBS=-ltar
 
@@ -37,6 +38,10 @@ faszck: faszck.c
 
 faszck_d: faszck.c
 	${CC} ${DBGCFLAGS} -o $@ $^
+
+# more verbose debug
+faszck_dd: faszck.c
+	${CC} ${DBG2CFLAGS} -o $@ $^
 
 # Codon checker
 cdsck: cdsck.c
