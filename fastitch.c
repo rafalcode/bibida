@@ -1,4 +1,4 @@
-/* cdsck: a strict check for cds, which also outputs a filtered file */
+/* fastitch.c stitches up fasta files */
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,21 +29,19 @@
         memset((a)+(b)-(c), '\0', (c)*sizeof(t)); \
     }
 
-#define CONDREALLOC2(x, b, c, a1, a2, t); \
-    if((x)==((b)-1)) { \
+#define CONDREALLOC2(x, b, c, a, t); \
+    if((x)==(b)) { \
         (b) += (c); \
-        (a1)=realloc((a1), (b)*sizeof(t)); \
-        memset((a1)+(b)-(c), '\0', (c)*sizeof(t)); \
-        (a2)=realloc((a2), (b)*sizeof(t)); \
-        memset((a2)+(b)-(c), '\0', (c)*sizeof(t)); \
+        (a)=realloc((a), (b)*sizeof(t)); \
     }
 
-typedef struct /* ou uov */
+typedef struct /* uoa Unique Occurence Array type: */
 {
-    unsigned *ua;
-    unsigned ub;
-    unsigned *oa;
-} uo;
+    unsigned uo; /* the unique occurence this array entry refers to */
+    unsigned *uoids; /* the ids of the sequences for this unqiue occurence */
+    unsigned uoisz; /* the actual size of the array */
+} uoa_t;
+
 typedef struct /* for holding the maximums and minimums */
 { 
     unsigned mnl, mxl;
@@ -64,9 +62,10 @@ void usage(char *executable)
     printf("%s, a program to stitch a fragmented fasta file (usually a reference file).\n", executable);
     printf("Usage: %s <three arguments: 1) ref. fasta filename 2) integer, block size of each merge 3) number of merges>\n", executable);
     printf("Explanation:\n");
-    printf("\tWritten because of GATK's problems dealing with reference files of very many contigs.AKA \"fragmented reference files\"\n");
+    printf("\tWritten because of GATK's problems dealing with reference files of very many contigs. AKA \"fragmented reference files\"\n");
     printf("\tStitching procedure described in http://gatkforums.broadinstitute.org/discussion/4774/snp-calling-using-pooled-rna-seq-datathe alignment itself.\n");
     printf("\tHere, there's a basic attempt is made to minimize number of padding N's, so the merge is done in blocks, a certain number of times.\n");
+    printf("\tBeware! if your file is big this program will thrash HD for up to 1 hour. On a cluster, only do this on local scratch!\n");
     printf("Example:\n");
     printf("\tYou have a 100k sequence file, and 90k sequences are pretty small (i.e. the fragmented ones - these numbers will be more difficult in reality).\n");
     printf("\tSo, you decide on blocks of 9k sequence, and you want 10 of those merged so that the new size will be 90010 or 9.001k.\n");
@@ -124,7 +123,7 @@ void gmergefirstn(i_s **sqi_, int *nsq, int n, int offset) /* gradual merge the 
     for(i=numsq-noff;i<numsq-offset;++i) { /* add each of the sylens to to the padded N's to work out new size of merge */
         currsz += sqi[i].sylen;
     }
-#ifdef DBG
+#ifdef DBG2
     printf("currsz= %u\n", currsz); 
 #endif
     char *sqinw=malloc((1+currsz)*sizeof(char));
@@ -137,7 +136,7 @@ void gmergefirstn(i_s **sqi_, int *nsq, int n, int offset) /* gradual merge the 
         tpos += sqi[i].sylen;
     }
     sqinw[currsz]='\0'; /* this string not null terminated yet */
-#ifdef DBG
+#ifdef DBG2
     printf("sqinwsq= %s\n", sqinw); 
 #endif
 
@@ -184,41 +183,42 @@ void uniquelens(i_s *sqi, unsigned numsq)
 {
     unsigned char new;
     unsigned i, j;
-    unsigned ai=0;
-    uo uov;
-    uov.ub=GBUF;
-    uov.ua=calloc(uov.ub, sizeof(unsigned));
-    uov.oa=calloc(uov.ub, sizeof(unsigned));
+    unsigned uoabuf=GBUF;
+    int uoasz=0;
+    uoa_t *uoa=calloc(uoabuf, sizeof(uoa_t));
     for(i=0; i<numsq;++i) {
         new=1;
-        for(j=0; j<=ai;++j) {
-            if(uov.ua[j] == sqi[i].sylen) {
-                uov.oa[j]++;
+        for(j=0; j<uoasz;++j) {
+            if(uoa[j].uo == sqi[i].sylen) {
+                uoa[j].uoisz++;
+                uoa[j].uoids=realloc(uoa[j].uoids, uoa[j].uoisz*sizeof(unsigned));
+                uoa[j].uoids[uoa[j].uoisz-1] = i;
                 new=0;
                 break;
             }
         }
         if(new) {
-            CONDREALLOC2(ai, uov.ub, GBUF, uov.ua, uov.oa, unsigned);
-            uov.ua[ai]=sqi[i].sylen;
-            uov.oa[ai]++;
-            ai++;
+            uoasz++;
+            CONDREALLOC2(uoasz, uoabuf, GBUF, uoa, uoa_t);
+            uoa[uoasz-1].uo = sqi[i].sylen;
+            uoa[uoasz-1].uoisz = 1;
+            uoa[uoasz-1].uoids=realloc(uoa[j].uoids, uoa[j].uoisz*sizeof(unsigned));
+            uoa[uoasz-1].uoids[uoa[j].uoisz-1] = i;
         }
     }
 #ifdef DBG
-    printf("number of different sequence lengths: %u\n", ai);
-    printf("vals: "); 
-    for(j=0; j<ai;++j)
-        printf("%5u ", uov.ua[j]);
+    printf("number of different sequence lengths: %i\n", uoasz);
+    for(j=0; j<uoasz;++j) {
+        printf("%i (%u): ", uoa[j].uo, uoa[j].uoisz);
+        for(i=0;i<uoa[j].uoisz;++i) 
+            printf("%u ", uoa[j].uoids[i]);
     printf("\n"); 
-    printf("ocs: "); 
-    for(j=0; j<ai;++j)
-        printf("%5u ", uov.oa[j]);
-    printf("\n"); 
+    }
 #endif
 
-    free(uov.ua);
-    free(uov.oa);
+    for(j=0; j<uoasz;++j)
+        free(uoa[j].uoids);
+    free(uoa);
 }
 
 int main(int argc, char *argv[])
@@ -370,13 +370,14 @@ int main(int argc, char *argv[])
     /* our object now is to merge the smaller sequences, so a critical first step is to sort based
      * on sequence size. Remember the struct array will be shortened, so the largest sequences should come first
      * so by simply using realloc, we can reduce the array size from its end. */
+    uniquelens(sqi, numsq);
     qsort(sqi, numsq, sizeof(i_s), cmpsqibyl);
 
     /* OK, we going to gradually merge the sequences together */
 
     for(i=0;i<mergetimes;++i) {
         gmergefirstn(&sqi, &numsq, blsz, i);
-#ifdef DBG
+#ifdef DBG2
         printf("inloop idx: %i numsq val: %i\n", i, numsq); 
 #endif
     }
@@ -388,7 +389,7 @@ int main(int argc, char *argv[])
      * and stuff, but that's too polished ... leave until later */
     /* print report to output */
     // prtrep(numsq, xn);
-    // uniquelens(sqi, numsq);
+    uniquelens(sqi, numsq);
 
     for(i=0; i<numsq;++i) {
         free(sqi[i].id);
