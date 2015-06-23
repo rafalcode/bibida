@@ -57,6 +57,12 @@ typedef struct /* i_s; sequence index and number of symbols */
     unsigned ibf, sbf;
 } i_s; /* sequence index and number of symbols */
 
+typedef struct
+{
+    i_s *is;
+    int numsq;
+} i_sa;
+
 void usage(char *executable)
 {
     printf("%s, a program to stitch a fragmented fasta file (usually a reference file).\n", executable);
