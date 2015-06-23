@@ -2,7 +2,7 @@
 # small utilities  dealing with big DNA/PROTEIN datasets.
 #
 CC=gcc
-DBGCFLAGS=-g -Wall -DDBG 
+DBGCFLAGS=-g -Wall -DDBG
 DBG2CFLAGS=-g -Wall -DDBG2
 CFLAGS=-O3
 LIBS=-ltar
