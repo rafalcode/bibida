@@ -8,7 +8,7 @@
 #define MINPADNLEN 2 /* normally we also want to apply a minimum N-pad so that the short reads can map independently to the stitched contig components */
 
 #ifdef DBG
-#define GBUF 8
+#define GBUF 6
 #else
 #define GBUF 128
 #endif
@@ -34,6 +34,19 @@
         (b) += (c); \
         (a)=realloc((a), (b)*sizeof(t)); \
     }
+
+#define SIACONDREALLOC(x, b, c, a, i); \
+    if((x)>=((b)-2)) { \
+        (b) += (c); \
+        (a)=realloc((a), (b)*sizeof(sia_t)); \
+        for((i)=((b)-(c));(i)<(b);(++(i))) { \
+            (a[i].sisz)=0; \
+            (a[i].ssz)=0; \
+            (a[i].sibf)=(b); \
+            (a[i].si)=malloc((a[i].sibf)*sizeof(int)); \
+        } \
+    }
+
 
 typedef struct /* uoa Unique Occurence Array type: the UO here refers to the length of the sequence: i.e. the occurence of a certain sequnce length. You'll need to remember that :-) . */
 {
@@ -62,6 +75,14 @@ typedef struct
     i_s *is;
     int numsq;
 } i_sa;
+
+typedef struct
+{
+    int *si; /* sequence idx */
+    unsigned sibf;
+    unsigned sisz;
+    unsigned ssz; /* actual accum size of the sequences */
+} sia_t;
 
 void usage(char *executable)
 {
@@ -286,7 +307,7 @@ int main(int argc, char *argv[])
     FILE *fin;
     char IGLINE, begline;
     size_t lidx;
-    int i, j, c, sqidx;
+    int i, j, k, c, sqidx;
     int gbuf;
     int numsq;
     i_s *sqi;
@@ -407,37 +428,76 @@ int main(int argc, char *argv[])
     uoa_t *uoa = uniquelens(sqi, numsq, &uoasz);
 
     unsigned mxsqlen=uoa[uoasz-1].uo; /* the maximum sequence size length */
-    int cumul=0;
-    int pa_s_e[2]={0};
-    int pb_s_e[2]={0};
-    int pc_s_e[2]={0};
-    pc_s_e[1]=uoasz-1;
+//    int cumul=0;
+//    int pa_s_e[2]={0};
+//    int pb_s_e[2]={0};
+//    int pc_s_e[2]={0};
+//    pc_s_e[1]=uoasz-1;
+//
+//   int p1=0, p0=0; 
 
-    
 
+//    for(i=0;i<uoasz;++i) {
+//        if(uoa[i].uo <400) /* the smallest ones: lump together */
+//            prtseq1(sqi, numsq, fout, uoa[i].uo, uoa[i].uoids, uoa[i].uoisz); /* all sequences of this length will be merged into one sequence */
+//            /* it would actually be nice to spread them over 2 or three actually */
+//        // else if( (!pa_s_e[1]) & (uoa[i].uo > 0.02*mxsqlen) ) {
+//        else if( (uoa[i].uo > 0.02*mxsqlen) ) /* the bigest ones, print normally, individually */
+//            prtseq0(sqi, numsq, fout, uoa[i].uo, uoa[i].uoids, uoa[i].uoisz); /* all sequences of this length will be merged into one sequence */
+//    }
+// #ifdef DBG
+//     printf("PA: %u -> %u ", pa_s_e[0], pa_s_e[1]); 
+//     printf("PB: %u -> %u ", pb_s_e[0], pb_s_e[1]); 
+//     printf("PC: %u -> %u\n", pc_s_e[0], pc_s_e[1]); 
+// #endif
 
+    /* Accumulator strat: run through the uoa, creating a array of arrays of positions */
+    unsigned abuf=GBUF;
+    int ai=0, acc=0, accsz=0;;
+    sia_t *sia=malloc(abuf*sizeof(sia_t));
+    for(i=0;i<abuf;++i) {
+        sia[i].sisz=0;
+        sia[i].ssz=0;
+        sia[i].sibf=abuf;
+        sia[i].si=malloc(sia[i].sibf*sizeof(int));
+    }
     for(i=0;i<uoasz;++i) {
-        if(uoa[i].uo <400)
-            prtseq1(sqi, numsq, fout, uoa[i].uo, uoa[i].uoids, uoa[i].uoisz); /* all sequences of this length will be merged into one sequence */
-            /* it would actually be nice to spread them over 2 or three actually */
-        } else if( (!pa_s_e[1]) & (uoa[i].uo > 0.02*mxsqlen) ) {
-            pa_s_e[1]=i;
-            if(pa_s_e[1] < uoasz-1)
-                pb_s_e[0]=i+1;
-            else 
-                break;
-        }
-        if( (pa_s_e[1]) & (cumul >0.2*numsq) ) {
-            pb_s_e[1]=i;
-            pc_s_e[0]= (pb_s_e[1] < uoasz-1)? i+1 : uoasz -1;
-            break;
+        for(j=0;j<uoa[i].uoisz;++j) {
+            if(j != uoa[i].uoisz-1)
+            accsz += uoa[i].uo +MINPADNLEN;
+            else
+            accsz += uoa[i].uo;
+            if(accsz >= mxsqlen) {
+                SIACONDREALLOC(ai, abuf, GBUF, sia, k);
+                sia[ai].ssz=accsz;
+                accsz=0;
+                sia[ai].sisz=acc;
+                acc=0;
+                ai++;
+            }
+            CONDREALLOC2(acc, sia[ai].sibf, GBUF, sia[ai].si, int);
+            sia[ai].si[acc++] = uoa[i].uoids[j];
         }
     }
-#ifdef DBG
-    printf("PA: %u -> %u ", pa_s_e[0], pa_s_e[1]); 
-    printf("PB: %u -> %u ", pb_s_e[0], pb_s_e[1]); 
-    printf("PC: %u -> %u\n", pc_s_e[0], pc_s_e[1]); 
-#endif
+    /* last one */
+    sia[ai].ssz=mxsqlen;
+    sia[ai].sisz=1;
+    sia[ai].si[0]=uoa[uoasz-1].uoids[uoa[uoasz-1].uoisz-1];
+
+    int siasz=ai+1;
+    for(i=0;i<siasz;++i) {
+        for(j=0;j<sia[i].sisz;++j) 
+            printf("%i ", sia[i].si[j]); 
+        printf("\n"); 
+    }
+
+    /* free it up free */
+    for(i=0;i<abuf;++i)
+        free(sia[i].si);
+    free(sia);
+
+
+
 
     // prtseq0(sqi, numsq, fout, uoa[1].uoids, uoa[1].uoisz); /* printout to a file named stitched */
     // prtseq1(sqi, numsq, fout, uoa[3].uo, uoa[3].uoids, uoa[3].uoisz);
