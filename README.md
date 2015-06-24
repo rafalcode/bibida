@@ -27,15 +27,18 @@ Fasta file sanity checker. Basically gives a summary of the sequence sizes and t
 ## faszck
 Fasta file SIZE sanity check, a variation on the above.
 
-## fastitch
+## fastitch and fastitch0
 If you've read my post in the GATK forums (http://gatkforums.broadinstitute.org/discussion/5709/a-reference-causes-excessive-runtime-on-genotypegvcfs#latest),
 you're probably looking for this program. It needs to be compiled with GNU's c compiler on a linux system, but it has no dependencies, and might even work with Pelle's C.
-Run without arguments to see the help: it basically gets fragmented fasta files and merges the smallest so reduce sequence quantity
-which is what GATK is fussy, at least when it concerns the reference file.
-compile with "make fastitch"
+Run without arguments to see the help: it basically gets fragmented fasta files and merges the smallest ones and so reduce sequence overall quantity
+which is what GATK is fussy about, at least when it concerns the reference file.
+
+fastitch0 was the first version which was nice because you could give it parameters, but was it's also very naive and compute intensive. The normal fastitch is much leaner, but right now I'm hard coding the parameters.
+
+Compile with "make fastitch" or "make fastich0"
 Also handy is to be able to characterize your fasta file with the fasnck, fast file sanity checker
 Caveats:
-* Beware: When writing out the stitched sequences, the hard disk will thrash. Please use a local scratch on a cluster. Go for a coffee/tea for half-an-hour.
+* Beware: (only fastitch0, not the normal fastitch) When writing out the stitched sequences, the hard disk will thrash. Please use a local scratch on a cluster. Go for a coffee/tea for half-an-hour.
 * Reorders the reference file from largest to smallest sequences
 * the merged sequences are then appended to the end, the first merged being the last in the new "stitched" sequence.
 * simply performs the most basic of merging on the smallest contigs without caring whether they belong to each other.

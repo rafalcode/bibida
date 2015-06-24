@@ -91,9 +91,13 @@ typedef struct /* sia_t */
 void usage(char *executable)
 {
     printf("%s, a program to stitch a fragmented fasta file (usually a reference file).\n", executable);
-    printf("Usage: %s <one arguments: the (usually) reference fasta filename.\n", executable);
+    printf("Usage: %s <one argument: the (usually) reference fasta filename.\n", executable);
     printf("Explanation:\n");
-    printf("\tThis is a second version that groups the sequences which all have the same size.\n");
+    printf("\tThis is an improved second version (i.e. beyond the hack that the first one was)\n");
+    printf("\tthat groups the sequences which all have the same size, and merges them together in a certain manner.\n");
+    printf("\tUsing N's of course. There's quite a little science involved in uniformizing lengths in this way, and\n");
+    printf("\tthere's quite a little way to go. But, if you are using it, best to run \"fasnck\" on the stitched result\n");
+    printf("\tto see if you are getting anywhere fast.\n");
 }
 
 int cmpuoabyo(const void *a, const void *b) /* compare uoa by occurence */
