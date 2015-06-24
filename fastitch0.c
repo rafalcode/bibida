@@ -5,10 +5,10 @@
 #include <string.h>
 
 #define PDCHAR 'N' /* put this up at top, what the padding character will be */
-#define MINPADNLEN 2 /* normally we also want to apply a minimum N-pad so that the short reads can map independently to the stitched contig components */
+#define MINPADNLEN 300 /* normally we also want to apply a minimum N-pad so that the short reads can map independently to the stitched contig components */
 
 #ifdef DBG
-#define GBUF 6
+#define GBUF 8
 #else
 #define GBUF 128
 #endif
@@ -35,24 +35,11 @@
         (a)=realloc((a), (b)*sizeof(t)); \
     }
 
-#define SIACONDREALLOC(x, b, c, a, i); \
-    if((x)>=((b)-2)) { \
-        (b) += (c); \
-        (a)=realloc((a), (b)*sizeof(sia_t)); \
-        for((i)=((b)-(c));(i)<(b);(++(i))) { \
-            (a[i].sisz)=0; \
-            (a[i].ssz)=0; \
-            (a[i].sibf)=(b); \
-            (a[i].si)=malloc((a[i].sibf)*sizeof(int)); \
-        } \
-    }
-
-
-typedef struct /* uoa Unique Occurence Array type: the UO here refers to the length of the sequence: i.e. the occurence of a certain sequnce length. You'll need to remember that :-) . */
+typedef struct /* uoa Unique Occurence Array type: */
 {
     unsigned uo; /* the unique occurence this array entry refers to */
-    int *uoids; /* the ids of the sequences for this unqiue occurence */
-    int uoisz; /* the actual size of the array */
+    unsigned *uoids; /* the ids of the sequences for this unqiue occurence */
+    unsigned uoisz; /* the actual size of the array */
 } uoa_t;
 
 typedef struct /* for holding the maximums and minimums */
@@ -70,26 +57,40 @@ typedef struct /* i_s; sequence index and number of symbols */
     unsigned ibf, sbf;
 } i_s; /* sequence index and number of symbols */
 
-typedef struct
-{
-    i_s *is;
-    int numsq;
-} i_sa;
-
-typedef struct
-{
-    int *si; /* sequence idx */
-    unsigned sibf;
-    unsigned sisz;
-    unsigned ssz; /* actual accum size of the sequences */
-} sia_t;
-
 void usage(char *executable)
 {
     printf("%s, a program to stitch a fragmented fasta file (usually a reference file).\n", executable);
-    printf("Usage: %s <one arguments: the (usually) reference fasta filename.\n", executable);
+    printf("Usage: %s <three arguments: 1) ref. fasta filename 2) integer, block size of each merge 3) number of merges>\n", executable);
     printf("Explanation:\n");
-    printf("\tThis is a second version that groups the sequences which all have the same size.\n");
+    printf("\tWritten because of GATK's problems dealing with reference files of very many contigs. AKA \"fragmented reference files\"\n");
+    printf("\tStitching procedure described in http://gatkforums.broadinstitute.org/discussion/4774/snp-calling-using-pooled-rna-seq-datathe alignment itself.\n");
+    printf("\tHere, there's a basic attempt is made to minimize number of padding N's, so the merge is done in blocks, a certain number of times.\n");
+    printf("\tBeware! if your file is big this program will thrash HD for up to 1 hour. On a cluster, only do this on local scratch!\n");
+    printf("Example:\n");
+    printf("\tYou have a 100k sequence file, and 90k sequences are pretty small (i.e. the fragmented ones - these numbers will be more difficult in reality).\n");
+    printf("\tSo, you decide on blocks of 9k sequence, and you want 10 of those merged so that the new size will be 90010 or 9.001k.\n");
+    printf("\ti.e. newsize = currentsize - (blocksize-1) * mergetimes. Command will be: \n");
+    printf("\tfastitch <nmyfragmentedreffile.fa> 90000 10.\n");
+    printf("\tBeware it's not easy to work out the best values of \"blocksize\" and \"mergetimes\".\n");
+    printf("\tThe sequence quantity may drop, but you could get some very long sequences due to the N-padding. Use the \"fasnck\" prog to help you.\n");
+    printf("Prequisite:\n");
+    printf("\tYou need to know the number of sequences in your file, and have a basic clue as to how their sizes are laid out.\n");
+    printf("\tYou can use the program \"fasnck\" to do this. \"fasnck\" is part of the bibida repository. Compile it with \"make fasnck\".\n");
+}
+
+int cmpsqibyl(const void *a, const void *b) /* compare sqi by length */
+{
+    // const int *ia = (const int *)a; // casting pointer types
+    // const int *ib = (const int *)b;
+    // return *ia  - *ib; /* integer comparison: returns negative if b > a and positive if a > b */
+    i_s *ia = (i_s *)a;
+    i_s *ib = (i_s *)b;
+    // return ia->sylen  - ib->sylen; /* integer comparison: returns negative if b > a and positive if a > b: i.e. lowest values first */
+    return ib->sylen  - ia->sylen; /* integer comparison: returns positive if b > a and nagetive if a > b: i.e. highest values first */
+    // return (int)(100.f*ia->price - 100.f*ib->price);
+    //     /* float comparison: returns negative if b > a
+    //     and positive if a > b. We multiplied result by 100.0
+    //     to preserve decimal fraction */
 }
 
 int cmpuoabyo(const void *a, const void *b) /* compare uoa by occurence */
@@ -131,6 +132,71 @@ i_s *delthese(i_s **sqi_, unsigned *nsq, unsigned *idstodel, unsigned idstodeln)
     *nsq=numsq;
 }
 
+void gmergefirstn(i_s **sqi_, int *nsq, int n, int offset) /* gradual merge the first n squences, preparation for the progressive merge */
+{
+    char paddingchar=PDCHAR;
+    int minnlen=MINPADNLEN;
+    /* want to start at the end so we can reduced number of sequences.*/
+    int i;
+    int numsq=*nsq;
+    i_s *sqi=*sqi_;
+    int noff=n+offset;
+    unsigned mxclen=sqi[numsq-noff].sylen; /* maximum contig length in this group */
+    
+    /* here we decide the length of the sequence of padding N's we will apply */
+    int npadlen = (mxclen > minnlen)? mxclen : minnlen;
+
+    unsigned currsz=npadlen*(n-1); /* total number of N's to be padded for this group */
+    for(i=numsq-noff;i<numsq-offset;++i) { /* add each of the sylens to to the padded N's to work out new size of merge */
+        currsz += sqi[i].sylen;
+    }
+#ifdef DBG2
+    printf("currsz= %u\n", currsz); 
+#endif
+    char *sqinw=malloc((1+currsz)*sizeof(char));
+    memcpy(sqinw, sqi[numsq-1-offset].sq, sqi[numsq-1-offset].sylen*sizeof(char));
+    char *tpos=sqinw+sqi[numsq-1-offset].sylen;
+    for(i=numsq-2-offset; i>=numsq-noff;--i) {
+        memset(tpos, paddingchar, npadlen*sizeof(char));
+        tpos += npadlen;
+        memcpy(tpos, sqi[i].sq, sqi[i].sylen*sizeof(char));
+        tpos += sqi[i].sylen;
+    }
+    sqinw[currsz]='\0'; /* this string not null terminated yet */
+#ifdef DBG2
+    printf("sqinwsq= %s\n", sqinw); 
+#endif
+
+    /* prepare to overwrite */
+    sqi[numsq-noff].sylen=currsz;
+    sqi[numsq-noff].sqz=currsz+1;
+    sqi[numsq-noff].sq=realloc(sqi[numsq-noff].sq, (1+currsz)*sizeof(char));
+    memcpy(sqi[numsq-noff].sq, sqinw, sqi[numsq-noff].sqz*sizeof(char));
+
+    /* That's the first part over, now we need to move the offsetted ends of the array up accoding to the "n" entries merged
+     * i.e. push all the skipped end sequences up n, so we can delete the end */
+    /* TODO: this is an expensive operation, you don't have to do it each time you stitch, but, it's an optmization
+     * which I want to avoid, right now */
+    for(i=1; i<=offset; ++i) {
+        sqi[numsq-noff+i].sylen = sqi[numsq-offset+i-1].sylen;
+        sqi[numsq-noff+i].sqz = sqi[numsq-offset+i-1].sqz;
+        sqi[numsq-noff+i].sq=realloc(sqi[numsq-noff+i].sq, sqi[numsq-offset+i-1].sqz*sizeof(char));
+        memcpy(sqi[numsq-noff+i].sq, sqi[numsq-offset+i-1].sq, sqi[numsq-offset+i-1].sqz*sizeof(char));
+    }
+
+    /* the whole array is now going to change size: perform! */
+    numsq = numsq -n +1; /* reflect new numsq value */
+    for(i=numsq;i<numsq+n-1;++i) {
+        free(sqi[i].id);
+        free(sqi[i].sq);
+    }
+    sqi=realloc(sqi, numsq*sizeof(i_s));
+    *sqi_=sqi; /* and, because we've realloc'd. sqi could easily have move in memory, and therefore it must be reassigned to incoming argument */
+    *nsq=numsq; /* ditto numsq */
+
+    free(sqinw);
+}
+
 void prtasf(i_s *sqi, int sz, FILE *fp) /* print all sequences to file */
 {
     int i;
@@ -140,118 +206,7 @@ void prtasf(i_s *sqi, int sz, FILE *fp) /* print all sequences to file */
     }
 }
 
-void prtseq0(i_s *sqi, int sz, FILE *fp, int *whichids, int whichidsz) /* straight print of a selected array of sequences */
-{
-    int i, j;
-    for(i=0;i<whichidsz;++i) {
-        fprintf(fp, ">");
-        for(j=0;j<sqi[whichids[i]].idz-1;j++)
-            fprintf(fp, "%c", sqi[whichids[i]].id[j]);
-        fprintf(fp, "\n"); 
-        for(j=0;j<sqi[whichids[i]].sqz-1;j++)
-            fprintf(fp, "%c", sqi[whichids[i]].sq[j]);
-        fprintf(fp, "\n"); 
-    }
-}
-
-void prtseq1(i_s *sqi, int sz, FILE *fp, unsigned uo, int *whichids, int whichidsz) /* print several sequences into one, padded by Ns */
-{
-    int i, j;
-    char paddingchar=PDCHAR;
-    int minnlen=MINPADNLEN;
-    unsigned mxclen=uo;
-    int npadlen = (mxclen > minnlen)? mxclen : minnlen;
-
-    for(i=0;i<whichidsz;++i) {
-        if(i==0) { /* the idline used will be that of the first sequence */
-            fprintf(fp, ">");
-            for(j=0;j<sqi[whichids[i]].idz-1;j++)
-                fprintf(fp, "%c", sqi[whichids[i]].id[j]);
-            fprintf(fp, "\n"); 
-        }
-        for(j=0;j<sqi[whichids[i]].sqz-1;j++)
-            fprintf(fp, "%c", sqi[whichids[i]].sq[j]);
-        if( i != whichidsz-1) 
-            for(j=0;j<npadlen;++j) 
-                fputc(paddingchar, fp);
-    }
-    fprintf(fp, "\n"); 
-}
-
-void uprtseq1(i_s *sqi, int sz, FILE *fp, uoa_t *uoa, int *whichuois, int whichuoisz) /* takes the uoa, and prints - one sequence - only those entries corresponding indices in array whichuois */
-{
-    int i, ii, j, k;
-    char paddingchar=PDCHAR;
-    int minnlen=MINPADNLEN;
-    unsigned mxclen=0;
-    for(i=0;i<whichuoisz;++i) /* let's not assume order-by-uo */
-        if(uoa[i].uo >mxclen)
-            mxclen=uoa[i].uo;
-    int npadlen = (mxclen > minnlen)? mxclen : minnlen;
-
-    for(i=0;i<whichuoisz;++i) { /* all these have to go in one sequence */
-        for(ii=0;ii<uoa[whichuois[i]].uoisz;++ii) {
-            if( (i==0) & (ii==0) ) {
-                fprintf(fp, ">");
-                for(k=0;k<sqi[uoa[whichuois[i]].uoids[ii]].idz-1;k++)
-                    fprintf(fp, "%c", sqi[uoa[whichuois[i]].uoids[ii]].id[k]);
-                fprintf(fp, "\n"); 
-            }
-            for(k=0;k<sqi[uoa[whichuois[i]].uoids[ii]].sqz-1;k++)
-                fprintf(fp, "%c", sqi[uoa[whichuois[i]].uoids[ii]].sq[k]);
-            if( (i != whichuoisz-1) | (ii != uoa[whichuois[i]].uoisz-1) )
-                for(j=0;j<npadlen;++j) 
-                    fputc(paddingchar, fp);
-        }
-    }
-    fprintf(fp, "\n"); 
-}
-
-void uprtseq2(i_s *sqi, int sz, FILE *fp, uoa_t *uoa, int *whichuois, int whichuoisz) /* takes the uoa, and prints out the individ sequences seperately: in so-called normal manner */
-{
-    int i, ii, k;
-
-    for(i=0;i<whichuoisz;++i) { /* all these have to go in one sequence */
-        for(ii=0;ii<uoa[whichuois[i]].uoisz;++ii) {
-            fprintf(fp, ">");
-            for(k=0;k<sqi[uoa[whichuois[i]].uoids[ii]].idz-1;k++)
-                fprintf(fp, "%c", sqi[uoa[whichuois[i]].uoids[ii]].id[k]);
-            fprintf(fp, "\n"); 
-            for(k=0;k<sqi[uoa[whichuois[i]].uoids[ii]].sqz-1;k++)
-                fprintf(fp, "%c", sqi[uoa[whichuois[i]].uoids[ii]].sq[k]);
-            fprintf(fp, "\n"); 
-        }
-    }
-    fprintf(fp, "\n"); 
-}
-
-void uprtseq1f(i_s *sqi, int sz, FILE *fp, uoa_t *uoa, int start, int end) /* uses uprtseq1 to print uoa from start sequence continuously to end (inclusively) */
-{
-    int i;
-    int len=end+1-start;
-    int *uois=malloc(len*sizeof(int));
-    for(i=0;i<len;++i) 
-        uois[i]=start+i;
-
-    uprtseq1(sqi, sz, fp, uoa, uois, len);
-
-    free(uois);
-}
-
-void uprtseq2f(i_s *sqi, int sz, FILE *fp, uoa_t *uoa, int start, int end) /* uses uprtseq2 to print uoa from a "start" idx to an "end" idx (inclusively) */
-{
-    int i;
-    int len=end+1-start;
-    int *uois=malloc(len*sizeof(int));
-    for(i=0;i<len;++i) 
-        uois[i]=start+i;
-
-    uprtseq2(sqi, sz, fp, uoa, uois, len);
-
-    free(uois);
-}
-
-uoa_t *uniquelens(i_s *sqi, unsigned numsq, int *uoasz_)
+void uniquelens(i_s *sqi, unsigned numsq)
 {
     unsigned char new;
     unsigned i, j;
@@ -275,7 +230,6 @@ uoa_t *uniquelens(i_s *sqi, unsigned numsq, int *uoasz_)
             CONDREALLOC2(uoasz, uoabuf, GBUF, uoa, uoa_t);
             uoa[uoasz-1].uo = sqi[i].sylen;
             uoa[uoasz-1].uoisz = 1;
-            uoa[uoasz-1].uoids=NULL;
             uoa[uoasz-1].uoids=realloc(uoa[j].uoids, uoa[j].uoisz*sizeof(unsigned));
             uoa[uoasz-1].uoids[uoa[j].uoisz-1] = i;
             // uoa[uoasz-1].uoids[uoa[j].uoisz-1] = sqi[i].idx;
@@ -288,26 +242,32 @@ uoa_t *uniquelens(i_s *sqi, unsigned numsq, int *uoasz_)
     for(j=0; j<uoasz;++j) {
         printf("%i (%u): ", uoa[j].uo, uoa[j].uoisz);
         for(i=0;i<uoa[j].uoisz;++i) 
-            printf("%i ", uoa[j].uoids[i]);
-        printf("\n"); 
+            printf("%u ", uoa[j].uoids[i]);
+    printf("\n"); 
     }
 #endif
-    *uoasz_=uoasz;
-    return uoa;
+
+    for(j=0; j<uoasz;++j)
+        free(uoa[j].uoids);
+    free(uoa);
 }
 
 int main(int argc, char *argv[])
 {
     /* argument accounting: remember argc, the number of arguments, _includes_ the executable */
-    if(argc!=2) {
+    if(argc!=4) {
         usage(argv[0]);
         exit(EXIT_FAILURE);
     }
+    /* now, these  are the core of the merge op, but actually they can only be certain values */
+    int blsz=atoi(argv[2]); /* this is the number of a sequences we're going to merge in one go: so call it a block */
+    int mergetimes=atoi(argv[3]); /* this number of times a block merge iof size blsz will be done */
+
     /* general declarations */
     FILE *fin;
     char IGLINE, begline;
     size_t lidx;
-    int i, j, k, c, sqidx;
+    int i, c, sqidx;
     int gbuf;
     int numsq;
     i_s *sqi;
@@ -424,91 +384,44 @@ int main(int argc, char *argv[])
     }
     sqi=realloc(sqi, numsq*sizeof(i_s));
 
-    int uoasz;
-    uoa_t *uoa = uniquelens(sqi, numsq, &uoasz);
-
-    unsigned mxsqlen=uoa[uoasz-1].uo; /* the maximum sequence size length */
-//    int cumul=0;
-//    int pa_s_e[2]={0};
-//    int pb_s_e[2]={0};
-//    int pc_s_e[2]={0};
-//    pc_s_e[1]=uoasz-1;
-//
-//   int p1=0, p0=0; 
-
-
-//    for(i=0;i<uoasz;++i) {
-//        if(uoa[i].uo <400) /* the smallest ones: lump together */
-//            prtseq1(sqi, numsq, fout, uoa[i].uo, uoa[i].uoids, uoa[i].uoisz); /* all sequences of this length will be merged into one sequence */
-//            /* it would actually be nice to spread them over 2 or three actually */
-//        // else if( (!pa_s_e[1]) & (uoa[i].uo > 0.02*mxsqlen) ) {
-//        else if( (uoa[i].uo > 0.02*mxsqlen) ) /* the bigest ones, print normally, individually */
-//            prtseq0(sqi, numsq, fout, uoa[i].uo, uoa[i].uoids, uoa[i].uoisz); /* all sequences of this length will be merged into one sequence */
-//    }
-// #ifdef DBG
-//     printf("PA: %u -> %u ", pa_s_e[0], pa_s_e[1]); 
-//     printf("PB: %u -> %u ", pb_s_e[0], pb_s_e[1]); 
-//     printf("PC: %u -> %u\n", pc_s_e[0], pc_s_e[1]); 
-// #endif
-
-    /* Accumulator strat: run through the uoa, creating a array of arrays of positions */
-    unsigned abuf=GBUF;
-    int ai=0, acc=0, accsz=0;;
-    sia_t *sia=malloc(abuf*sizeof(sia_t));
-    for(i=0;i<abuf;++i) {
-        sia[i].sisz=0;
-        sia[i].ssz=0;
-        sia[i].sibf=abuf;
-        sia[i].si=malloc(sia[i].sibf*sizeof(int));
-    }
-    for(i=0;i<uoasz;++i) {
-        for(j=0;j<uoa[i].uoisz;++j) {
-            if(j != uoa[i].uoisz-1)
-            accsz += uoa[i].uo +MINPADNLEN;
-            else
-            accsz += uoa[i].uo;
-            if(accsz >= mxsqlen) {
-                SIACONDREALLOC(ai, abuf, GBUF, sia, k);
-                sia[ai].ssz=accsz;
-                accsz=0;
-                sia[ai].sisz=acc;
-                acc=0;
-                ai++;
-            }
-            CONDREALLOC2(acc, sia[ai].sibf, GBUF, sia[ai].si, int);
-            sia[ai].si[acc++] = uoa[i].uoids[j];
-        }
-    }
-    /* last one */
-    sia[ai].ssz=mxsqlen;
-    sia[ai].sisz=1;
-    sia[ai].si[0]=uoa[uoasz-1].uoids[uoa[uoasz-1].uoisz-1];
-
-    int siasz=ai+1;
-    for(i=0;i<siasz;++i) {
-        for(j=0;j<sia[i].sisz;++j) 
-            printf("%i ", sia[i].si[j]); 
-        printf("\n"); 
+    /* some checks: we've got to make sure that the blsz and the mergetimes are compatible with this numsq */
+    if( (numsq-blsz*mergetimes) <0 ) {
+        printf("Sorry the product of the block size (2rd arg) and mergetimes (3rd arg)\n");
+        printf("is over the total number of sequences. Program can't be run. Please change these two values\n");
+        printf("so that their product is either equal to, or less than, the total number of sequences.\n"); 
+        exit(EXIT_FAILURE);
     }
 
-    /* free it up free */
-    for(i=0;i<abuf;++i)
-        free(sia[i].si);
-    free(sia);
+    /* our object now is to merge the smaller sequences, so a critical first step is to sort based
+     * on sequence size. Remember the struct array will be shortened, so the largest sequences should come first
+     * so by simply using realloc, we can reduce the array size from its end. */
+    uniquelens(sqi, numsq);
+    qsort(sqi, numsq, sizeof(i_s), cmpsqibyl);
 
+    /* let's report back to the user at this point, give him/her a chance to bailout */
+    int nwsz=numsq-(mergetimes*(blsz-1));
+    float nwzpc=100.*(float)nwsz/numsq;
+    printf("INFO: The number of sequences in the new stitched file will be: %i, i.e. %3.2f%% of original.\n", nwsz, nwzpc); 
+    printf("INFO: If that doesn't look good to you, you can always bail out now with a surreptious \"crtl+C\".\n");
+    printf("INFO: The stitched filename is now being written to your current directory, and is called \"%s\"\n", foutname);
+    printf("INFO: For pretty big files, it might have taken a minute to get here. The writing out may take 10 times as long.\n");
 
+    /* OK, we going to gradually merge the sequences together */
+    for(i=0;i<mergetimes;++i) {
+        gmergefirstn(&sqi, &numsq, blsz, i);
+#ifdef DBG2
+        printf("inloop idx: %i numsq val: %i\n", i, numsq); 
+#endif
+    }
 
-
-    // prtseq0(sqi, numsq, fout, uoa[1].uoids, uoa[1].uoisz); /* printout to a file named stitched */
-    // prtseq1(sqi, numsq, fout, uoa[3].uo, uoa[3].uoids, uoa[3].uoisz);
-    // uprtseq1f(sqi, numsq, fout, uoa, 0, 1);
-    // uprtseq2f(sqi, numsq, fout, uoa, uoasz-2, uoasz-1);
+    prtasf(sqi, numsq, fout); /* prinout to a file named stitched */
     fclose(fout);
 
-    /* releasing memory */
-    for(j=0; j<uoasz;++j)
-        free(uoa[j].uoids);
-    free(uoa);
+    /* the following was because I was going to do some heuristics by calculating histograms
+     * and stuff, but that's too polished ... leave until later */
+    /* print report to output */
+    // prtrep(numsq, xn);
+    uniquelens(sqi, numsq);
 
     for(i=0; i<numsq;++i) {
         free(sqi[i].id);

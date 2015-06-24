@@ -7,7 +7,7 @@ DBG2CFLAGS=-g -Wall -DDBG2
 CFLAGS=-O3
 LIBS=-ltar
 
-EXES=ltar ltar_dbg yafasumzr mulfaint fasnck cdsck_d cdsck faszck faszck_d fastitch fastitch_d fastitch_dd fastitch2 fastitch2_d
+EXES=ltar ltar_dbg yafasumzr mulfaint fasnck cdsck_d cdsck faszck faszck_d fastitch fastitch_d fastitch_dd fastitch0 fastitch0_d
 
 # ltar, code to use libtar .. in the very vain hope that it will be fast than tar itself!
 ltar: ltar.c
@@ -51,8 +51,7 @@ cdsck: cdsck.c
 cdsck_d: cdsck.c
 	${CC} ${DBGCFLAGS} -o $@ $^
 
-# fastitch: takes cdsck bits that slurped the fasta file: likely to abandon this
-# afterwards can do sequence length analysis on it
+# fastitch: takes bits from cdsck ot create a prog
 # Note for the git logs, this used to be calle faslu i.e. slurp fasta, during devel
 fastitch: fastitch.c
 	${CC} ${CFLAGS} -o $@ $^
@@ -60,10 +59,11 @@ fastitch: fastitch.c
 fastitch_d: fastitch.c
 	${CC} ${DBGCFLAGS} -o $@ $^
 
-fastitch2: fastitch2.c
+
+fastitch0: fastitch2.c
 	${CC} ${CFLAGS} -o $@ $^
 
-fastitch2_d: fastitch2.c
+fastitch0_d: fastitch2.c
 	${CC} ${DBGCFLAGS} -o $@ $^
 
 .PHONY: clean
