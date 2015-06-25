@@ -214,31 +214,8 @@ void prtseq1(i_s *sqi, int sz, FILE *fp, unsigned uo, int *whichids, int whichid
     fprintf(fp, "\n"); 
 }
 
-void prtsiaele0(i_s *sqi, int sz, FILE *fp, int *whichuois, int whichuoisz, unsigned mxclen) /* print a sia element ... actually sia members used and they refer directly to sqi */
-{
-    int i, k;
-    char paddingchar=PDCHAR;
-    int minnlen=MINPADNLEN;
-    int npadlen = (mxclen > minnlen)? mxclen : minnlen;
 
-    /* really should be modifying the ID string of the first sequence */
-    for(i=0;i<whichuoisz;++i) { /* all these have to go in one sequence */
-        if(i==0) {
-            fprintf(fp, ">");
-            for(k=0;k<sqi[whichuois[i]].idz-1;k++)
-                fprintf(fp, "%c", sqi[whichuois[i]].id[k]);
-            fprintf(fp, "%s", (whichuoisz != 1)? "[NB:MGDSEQ]\n" : "\n"); 
-        }
-        for(k=0;k<sqi[whichuois[i]].sqz-1;k++)
-            fprintf(fp, "%c", sqi[whichuois[i]].sq[k]);
-        if(i != whichuoisz-1)
-            for(k=0;k<npadlen;++k) 
-                fputc(paddingchar, fp);
-    }
-    fprintf(fp, "\n"); 
-}
-
-void prtsiaele00(i_sa *sqia, FILE *fp, int *whichuois, int whichuoisz, unsigned mxclen) /* print a sia element ... actually sia members used and they refer directly to sqia->si */
+void prtsiaele(i_sa *sqia, FILE *fp, int *whichuois, int whichuoisz, unsigned mxclen) /* print a sia element ... actually sia members used and they refer directly to sqia->si */
 {
     int i, k;
     char paddingchar=PDCHAR;
@@ -260,79 +237,6 @@ void prtsiaele00(i_sa *sqia, FILE *fp, int *whichuois, int whichuoisz, unsigned 
                 fputc(paddingchar, fp);
     }
     fprintf(fp, "\n"); 
-}
-
-void uprtseq1(i_s *sqi, int sz, FILE *fp, uoa_t *uoa, int *whichuois, int whichuoisz) /* takes the uoa, and prints - one sequence - only those entries corresponding indices in array whichuois */
-{
-    int i, ii, j, k;
-    char paddingchar=PDCHAR;
-    int minnlen=MINPADNLEN;
-    unsigned mxclen=0;
-    for(i=0;i<whichuoisz;++i) /* let's not assume order-by-uo */
-        if(uoa[i].uo >mxclen)
-            mxclen=uoa[i].uo;
-    int npadlen = (mxclen > minnlen)? mxclen : minnlen;
-
-    for(i=0;i<whichuoisz;++i) { /* all these have to go in one sequence */
-        for(ii=0;ii<uoa[whichuois[i]].uoisz;++ii) {
-            if( (i==0) & (ii==0) ) {
-                fprintf(fp, ">");
-                for(k=0;k<sqi[uoa[whichuois[i]].uoids[ii]].idz-1;k++)
-                    fprintf(fp, "%c", sqi[uoa[whichuois[i]].uoids[ii]].id[k]);
-                fprintf(fp, "\n"); 
-            }
-            for(k=0;k<sqi[uoa[whichuois[i]].uoids[ii]].sqz-1;k++)
-                fprintf(fp, "%c", sqi[uoa[whichuois[i]].uoids[ii]].sq[k]);
-            if( (i != whichuoisz-1) | (ii != uoa[whichuois[i]].uoisz-1) )
-                for(j=0;j<npadlen;++j) 
-                    fputc(paddingchar, fp);
-        }
-    }
-    fprintf(fp, "\n"); 
-}
-
-void uprtseq2(i_s *sqi, int sz, FILE *fp, uoa_t *uoa, int *whichuois, int whichuoisz) /* takes the uoa, and prints out the individ sequences seperately: in so-called normal manner */
-{
-    int i, ii, k;
-
-    for(i=0;i<whichuoisz;++i) { /* all these have to go in one sequence */
-        for(ii=0;ii<uoa[whichuois[i]].uoisz;++ii) {
-            fprintf(fp, ">");
-            for(k=0;k<sqi[uoa[whichuois[i]].uoids[ii]].idz-1;k++)
-                fprintf(fp, "%c", sqi[uoa[whichuois[i]].uoids[ii]].id[k]);
-            fprintf(fp, "\n"); 
-            for(k=0;k<sqi[uoa[whichuois[i]].uoids[ii]].sqz-1;k++)
-                fprintf(fp, "%c", sqi[uoa[whichuois[i]].uoids[ii]].sq[k]);
-            fprintf(fp, "\n"); 
-        }
-    }
-    fprintf(fp, "\n"); 
-}
-
-void uprtseq1f(i_s *sqi, int sz, FILE *fp, uoa_t *uoa, int start, int end) /* uses uprtseq1 to print uoa from start sequence continuously to end (inclusively) */
-{
-    int i;
-    int len=end+1-start;
-    int *uois=malloc(len*sizeof(int));
-    for(i=0;i<len;++i) 
-        uois[i]=start+i;
-
-    uprtseq1(sqi, sz, fp, uoa, uois, len);
-
-    free(uois);
-}
-
-void uprtseq2f(i_s *sqi, int sz, FILE *fp, uoa_t *uoa, int start, int end) /* uses uprtseq2 to print uoa from a "start" idx to an "end" idx (inclusively) */
-{
-    int i;
-    int len=end+1-start;
-    int *uois=malloc(len*sizeof(int));
-    for(i=0;i<len;++i) 
-        uois[i]=start+i;
-
-    uprtseq2(sqi, sz, fp, uoa, uois, len);
-
-    free(uois);
 }
 
 uoa_t *uniquelens(i_sa *sqia, int *uoasz_)
@@ -379,7 +283,16 @@ uoa_t *uniquelens(i_sa *sqia, int *uoasz_)
     return uoa;
 }
 
-i_sa * faf_to_i_s(char *fafname) /* fasta file to i_s data structure */
+void fprtuoahist(char *fname, uoa_t *uoa, int uoasz)
+{
+    int j;
+    FILE *fhist=fopen(fname, "w");
+    for(j=0; j<uoasz;++j)
+        fprintf(fhist, "%i %u\n", uoa[j].uo, uoa[j].uoisz);
+    fclose(fhist);
+}
+
+i_sa *faf_to_i_s(char *fafname) /* fasta file to i_s data structure */
 {
     /* general declarations */
     FILE *fin;
@@ -508,7 +421,7 @@ int main(int argc, char *argv[])
     unsigned uoalim=15*uoasz/16;
     printf("%u\n", uoalim);
     for(i=0;i<uoasz;++i) {
-        mxasqlen= (i>uoalim)? mxsqlen/10 : 2*mxsqlen ; /* the maximum ALLOWED  sequence size length */
+        mxasqlen= (i>uoalim)? mxsqlen/10 : 2*mxsqlen ; /* the maximum ALLOWED sequence size length */
         for(j=0;j<uoa[i].uoisz;++j) {
             accsz += uoa[i].uo +MINPADNLEN;
             if(accsz > mxasqlen) {
@@ -538,15 +451,23 @@ int main(int argc, char *argv[])
     foutname=realloc(foutname, (fnsz+10)*sizeof(char));
     tp=strrchr(argv[1], '.'); /* the final . position */
     tp2=strrchr(argv[1], '/'); /* the final / position, useful if files are in another directory */
-    if(tp2)
+    char fhistname[256]={0}; /* also want to output the histogram */
+    if(tp2) {
         sprintf(foutname, "%.*s%s%s", (int)(tp-tp2-1), tp2+1, insertstr, tp);
-    else 
+        sprintf(fhistname, "%.*s%s", (int)(tp-tp2-1), tp2+1, ".uoahist");
+    } else { 
         sprintf(foutname, "%.*s%s%s", (int)(tp-argv[1]), argv[1], insertstr, tp);
+        sprintf(fhistname, "%.*s%s", (int)(tp-argv[1]), argv[1], ".uoahist");
+    }
+
+    printf("%s\n", fhistname); 
+    fprtuoahist(fhistname, uoa, uoasz);
+
     FILE *fout=fopen(foutname, "w");
 
     int siasz=ai+1;
     for(i=0;i<siasz;++i)
-        prtsiaele00(sqia, fout, sia[i].si, sia[i].sisz, sia[i].mxssz);
+        prtsiaele(sqia, fout, sia[i].si, sia[i].sisz, sia[i].mxssz);
 
 #ifdef DBG
     for(i=0;i<siasz;++i) {
@@ -560,10 +481,6 @@ int main(int argc, char *argv[])
         free(sia[i].si);
     free(sia);
 
-    // prtseq0(sqi, numsq, fout, uoa[1].uoids, uoa[1].uoisz); /* printout to a file named stitched */
-    // prtseq1(sqi, numsq, fout, uoa[3].uo, uoa[3].uoids, uoa[3].uoisz);
-    // uprtseq1f(sqi, numsq, fout, uoa, 0, 1);
-    // uprtseq2f(sqi, numsq, fout, uoa, uoasz-2, uoasz-1);
     fclose(fout);
 
     /* releasing memory */
