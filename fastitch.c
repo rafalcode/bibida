@@ -73,10 +73,12 @@ typedef struct /* i_s; sequence index and number of symbols */
     unsigned ibf, sbf;
 } i_s; /* sequence index and number of symbols */
 
-typedef struct
+typedef struct /* i_sa type */
 {
     i_s *is;
     int numsq;
+    unsigned totbases;
+    unsigned mx, mn;
 } i_sa;
 
 typedef struct /* sia_t */
@@ -87,6 +89,32 @@ typedef struct /* sia_t */
     unsigned tssz; /* actual accum size of the sequences */
     unsigned mxssz; /* the max uo, i.e. max size of seq compoenents */
 } sia_t;
+
+i_sa *crea_i_sa(void)
+{
+    i_sa *sqia=malloc(1*sizeof(i_sa));
+    sqia->is=NULL;
+    sqia->numsq=0;
+    sqia->totbases=0;
+    // for(i=0;i<sqia->numsq;i++) // thinking of it
+    sqia->mn=0xFFFFFFFF;
+    sqia->mx=0;
+    return sqia;
+}
+
+void free_i_sa(i_sa **sqia_)
+{
+    int i;
+    i_sa *sqia=*sqia_;
+    for(i=0; i<sqia->numsq;++i) {
+        free(sqia->is[i].id);
+        free(sqia->is[i].sq);
+    }
+    free(sqia->is);
+    free(sqia);
+    sqia=NULL;
+    sqia_=NULL;
+}
 
 void usage(char *executable)
 {
@@ -210,6 +238,30 @@ void prtsiaele0(i_s *sqi, int sz, FILE *fp, int *whichuois, int whichuoisz, unsi
     fprintf(fp, "\n"); 
 }
 
+void prtsiaele00(i_sa *sqia, FILE *fp, int *whichuois, int whichuoisz, unsigned mxclen) /* print a sia element ... actually sia members used and they refer directly to sqia->si */
+{
+    int i, k;
+    char paddingchar=PDCHAR;
+    int minnlen=MINPADNLEN;
+    int npadlen = (mxclen > minnlen)? mxclen : minnlen;
+
+    /* really should be modifying the ID string of the first sequence */
+    for(i=0;i<whichuoisz;++i) { /* all these have to go in one sequence */
+        if(i==0) {
+            fprintf(fp, ">");
+            for(k=0;k<sqia->is[whichuois[i]].idz-1;k++)
+                fprintf(fp, "%c", sqia->is[whichuois[i]].id[k]);
+            fprintf(fp, "%s", (whichuoisz != 1)? "[NB:MGDSEQ]\n" : "\n"); 
+        }
+        for(k=0;k<sqia->is[whichuois[i]].sqz-1;k++)
+            fprintf(fp, "%c", sqia->is[whichuois[i]].sq[k]);
+        if(i != whichuoisz-1)
+            for(k=0;k<npadlen;++k) 
+                fputc(paddingchar, fp);
+    }
+    fprintf(fp, "\n"); 
+}
+
 void uprtseq1(i_s *sqi, int sz, FILE *fp, uoa_t *uoa, int *whichuois, int whichuoisz) /* takes the uoa, and prints - one sequence - only those entries corresponding indices in array whichuois */
 {
     int i, ii, j, k;
@@ -283,21 +335,21 @@ void uprtseq2f(i_s *sqi, int sz, FILE *fp, uoa_t *uoa, int start, int end) /* us
     free(uois);
 }
 
-uoa_t *uniquelens(i_s *sqi, unsigned numsq, int *uoasz_)
+uoa_t *uniquelens(i_sa *sqia, int *uoasz_)
 {
     unsigned char new;
     unsigned i, j;
     unsigned uoabuf=GBUF;
     int uoasz=0;
     uoa_t *uoa=calloc(uoabuf, sizeof(uoa_t));
-    for(i=0; i<numsq;++i) {
+    for(i=0; i<sqia->numsq;++i) {
         new=1;
         for(j=0; j<uoasz;++j) {
-            if(uoa[j].uo == sqi[i].sylen) {
+            if(uoa[j].uo == sqia->is[i].sylen) {
                 uoa[j].uoisz++;
                 uoa[j].uoids=realloc(uoa[j].uoids, uoa[j].uoisz*sizeof(unsigned));
                 uoa[j].uoids[uoa[j].uoisz-1] = i;
-                // uoa[uoasz-1].uoids[uoa[j].uoisz-1] = sqi[i].idx;
+                // uoa[uoasz-1].uoids[uoa[j].uoisz-1] = sqia->is[i].idx;
                 new=0;
                 break;
             }
@@ -305,12 +357,11 @@ uoa_t *uniquelens(i_s *sqi, unsigned numsq, int *uoasz_)
         if(new) {
             uoasz++;
             CONDREALLOC2(uoasz, uoabuf, GBUF, uoa, uoa_t);
-            uoa[uoasz-1].uo = sqi[i].sylen;
+            uoa[uoasz-1].uo = sqia->is[i].sylen;
             uoa[uoasz-1].uoisz = 1;
             uoa[uoasz-1].uoids=NULL;
             uoa[uoasz-1].uoids=realloc(uoa[j].uoids, uoa[j].uoisz*sizeof(unsigned));
             uoa[uoasz-1].uoids[uoa[j].uoisz-1] = i;
-            // uoa[uoasz-1].uoids[uoa[j].uoisz-1] = sqi[i].idx;
         }
     }
 
@@ -328,58 +379,32 @@ uoa_t *uniquelens(i_s *sqi, unsigned numsq, int *uoasz_)
     return uoa;
 }
 
-int main(int argc, char *argv[])
+i_sa * faf_to_i_s(char *fafname) /* fasta file to i_s data structure */
 {
-    /* argument accounting: remember argc, the number of arguments, _includes_ the executable */
-    if(argc!=2) {
-        usage(argv[0]);
-        exit(EXIT_FAILURE);
-    }
     /* general declarations */
     FILE *fin;
     char IGLINE, begline;
     size_t lidx;
-    int i, j, k, c, sqidx;
+    int i, c, sqidx;
     int gbuf;
-    int numsq;
-    i_s *sqi;
-    int ididx=0;
-    size_t totbases=0;
-    mxn xn;
-    xn.mxl=0;
-    xn.mnl=0xFFFFFFFF;
+    int cx=0; /* character index */
+    i_sa *sqia=crea_i_sa();
 
-    if(!(fin=fopen(argv[1], "r")) ) { /* should one check the extension of the fasta file? */
-        printf("Error. Cannot open \"%s\" file.\n", argv[1]);
+    if(!(fin=fopen(fafname, "r")) ) { /* should one check the extension of the fasta file? */
+        printf("Error. Cannot open \"%s\" file.\n", fafname);
         exit(EXIT_FAILURE);
     }
 
-    IGLINE=0, begline=1;
-    lidx=0;
-
-    sqidx=-1; /* this is slightly dangerous, you need very much to know what you're doing */
+    IGLINE=0, begline=1, lidx=0, sqidx=-1; /* that last one is slightly dangerous, you need to know what you're doing */
     gbuf=GBUF;
-    sqi=malloc(gbuf*sizeof(i_s));
+    sqia->is=malloc(gbuf*sizeof(i_s));
     for(i=gbuf-GBUF;i<gbuf;++i) {
-        sqi[i].ibf=GBUF;
-        sqi[i].sbf=GBUF;
-        sqi[i].id=calloc(sqi[i].ibf, sizeof(char));
-        sqi[i].sq=calloc(sqi[i].sbf, sizeof(char));
+        sqia->is[i].ibf=GBUF;
+        sqia->is[i].sbf=GBUF;
+        sqia->is[i].id=calloc(sqia->is[i].ibf, sizeof(char));
+        sqia->is[i].sq=calloc(sqia->is[i].sbf, sizeof(char));
     }
-    ididx=0;
-
-    /* get output file ready: this will hold the stitched output file */
-    size_t fnsz=1+strlen(argv[1]);
-    char *tp, *tp2, *foutname=calloc(256, sizeof(char));
-    char insertstr[10]="_stitched";
-    foutname=realloc(foutname, (fnsz+10)*sizeof(char));
-    tp=strrchr(argv[1], '.'); /* the final . position */
-    tp2=strrchr(argv[1], '/'); /* the final / position, useful if files are in another directory */
-    if(tp2)
-        sprintf(foutname, "%.*s%s%s", (int)(tp-tp2-1), tp2+1, insertstr, tp);
-    else 
-        sprintf(foutname, "%.*s%s%s", (int)(tp-argv[1]), argv[1], insertstr, tp);
-    FILE *fout=fopen(foutname, "w");
+    cx=0;
 
     while( ( (c = fgetc(fin)) != EOF) ) {
         if(c =='\n') {
@@ -391,96 +416,81 @@ int main(int argc, char *argv[])
             begline=0; 
             if(sqidx>=0) { /* we're not interested in the first run, when sqidx=-1. Our work on the sqi array is "retrospective" */
 
-                CONDREALLOC_(ididx, sqi[sqidx].ibf, GBUF, sqi[sqidx].id, char);
-                sqi[sqidx].id[ididx]='\0';
-                CONDREALLOC(sqi[sqidx].sylen, sqi[sqidx].sbf, GBUF, sqi[sqidx].sq, char);
-                sqi[sqidx].sq[sqi[sqidx].sylen]='\0';
-                sqi[sqidx].idz=1+ididx;
-                sqi[sqidx].sqz=1+sqi[sqidx].sylen;
-                totbases += sqi[sqidx].sylen;
-                if(sqi[sqidx].sylen > xn.mxl)
-                    xn.mxl = sqi[sqidx].sylen;
-                if(sqi[sqidx].sylen < xn.mnl)
-                    xn.mnl = sqi[sqidx].sylen;
-
-                /* OK, now we have a whole sequence in the sqi[sqidx].sq variable */
-                // prtfaf(sqi[sqidx].id, sqi[sqidx].sq, fout);
+                CONDREALLOC_(cx, sqia->is[sqidx].ibf, GBUF, sqia->is[sqidx].id, char);
+                sqia->is[sqidx].id[cx]='\0';
+                CONDREALLOC(sqia->is[sqidx].sylen, sqia->is[sqidx].sbf, GBUF, sqia->is[sqidx].sq, char);
+                sqia->is[sqidx].sq[sqia->is[sqidx].sylen]='\0';
+                sqia->is[sqidx].idz=1+cx;
+                sqia->is[sqidx].sqz=1+sqia->is[sqidx].sylen;
+                sqia->totbases += sqia->is[sqidx].sylen;
+                if(sqia->is[sqidx].sylen > sqia->mx)
+                    sqia->mx = sqia->is[sqidx].sylen;
+                if(sqia->is[sqidx].sylen < sqia->mn)
+                    sqia->mn = sqia->is[sqidx].sylen;
             }
 
             sqidx++;
             if(sqidx==gbuf) {
                 gbuf+=GBUF;
-                sqi=realloc(sqi, gbuf*sizeof(i_s));
+                sqia->is=realloc(sqia->is, gbuf*sizeof(i_s));
                 for(i=gbuf-GBUF;i<gbuf;++i) {
-                    sqi[i].ibf=GBUF;
-                    sqi[i].sbf=GBUF;
-                    sqi[i].id=calloc(sqi[i].ibf, sizeof(char));
-                    sqi[i].sq=calloc(sqi[i].sbf, sizeof(char));
+                    sqia->is[i].ibf=GBUF;
+                    sqia->is[i].sbf=GBUF;
+                    sqia->is[i].id=calloc(sqia->is[i].ibf, sizeof(char));
+                    sqia->is[i].sq=calloc(sqia->is[i].sbf, sizeof(char));
                 }
             }
-            sqi[sqidx].idx=sqidx;
+            sqia->is[sqidx].idx=sqidx;
 
             /* resetting stuff */
-            sqi[sqidx].sylen=0;
-            ididx=0;
+            sqia->is[sqidx].sylen=0;
+            cx=0;
         } else if (IGLINE==1) {
-            CONDREALLOC_(ididx, sqi[sqidx].ibf, GBUF, sqi[sqidx].id, char);
-            sqi[sqidx].id[ididx++]=c;
+            CONDREALLOC_(cx, sqia->is[sqidx].ibf, GBUF, sqia->is[sqidx].id, char);
+            sqia->is[sqidx].id[cx++]=c;
         } else if (IGLINE==0) {
-            CONDREALLOC(sqi[sqidx].sylen, sqi[sqidx].sbf, GBUF, sqi[sqidx].sq, char);
-            sqi[sqidx].sq[sqi[sqidx].sylen++]=c;
-
+            CONDREALLOC(sqia->is[sqidx].sylen, sqia->is[sqidx].sbf, GBUF, sqia->is[sqidx].sq, char);
+            sqia->is[sqidx].sq[sqia->is[sqidx].sylen++]=c;
         }
     }
     fclose(fin);
 
     /* the last sequence requires special treatment */
-    CONDREALLOC_(ididx, sqi[sqidx].ibf, GBUF, sqi[sqidx].id, char);
-    sqi[sqidx].id[ididx]='\0';
-    CONDREALLOC_(sqi[sqidx].sylen, sqi[sqidx].sbf, GBUF, sqi[sqidx].sq, char);
-    sqi[sqidx].sq[sqi[sqidx].sylen]='\0';
-    sqi[sqidx].idz=1+ididx;
-    sqi[sqidx].sqz=1+sqi[sqidx].sylen;
-    totbases += sqi[sqidx].sylen;
-    if(sqi[sqidx].sylen > xn.mxl)
-        xn.mxl = sqi[sqidx].sylen;
-    if(sqi[sqidx].sylen < xn.mnl)
-        xn.mnl = sqi[sqidx].sylen;
-    // prtfaf(sqi[sqidx].id, sqi[sqidx].sq, fout);
+    CONDREALLOC_(cx, sqia->is[sqidx].ibf, GBUF, sqia->is[sqidx].id, char);
+    sqia->is[sqidx].id[cx]='\0';
+    CONDREALLOC_(sqia->is[sqidx].sylen, sqia->is[sqidx].sbf, GBUF, sqia->is[sqidx].sq, char);
+    sqia->is[sqidx].sq[sqia->is[sqidx].sylen]='\0';
+    sqia->is[sqidx].idz=1+cx;
+    sqia->is[sqidx].sqz=1+sqia->is[sqidx].sylen;
+    sqia->totbases += sqia->is[sqidx].sylen;
+    if(sqia->is[sqidx].sylen > sqia->mx)
+        sqia->mx = sqia->is[sqidx].sylen;
+    if(sqia->is[sqidx].sylen < sqia->mn)
+        sqia->mn = sqia->is[sqidx].sylen;
 
     /* normalize */
-    numsq=sqidx+1;
-    for(i=numsq;i<gbuf;++i) {
-        free(sqi[i].id);
-        free(sqi[i].sq);
+    sqia->numsq=sqidx+1;
+    for(i=sqia->numsq;i<gbuf;++i) {
+        free(sqia->is[i].id);
+        free(sqia->is[i].sq);
     }
-    sqi=realloc(sqi, numsq*sizeof(i_s));
+    sqia->is=realloc(sqia->is, sqia->numsq*sizeof(i_s));
+    return sqia;
+}
+
+int main(int argc, char *argv[])
+{
+    /* argument accounting: remember argc, the number of arguments, _includes_ the executable */
+    if(argc!=2) {
+        usage(argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    int i, j, k;
+    i_sa *sqia=faf_to_i_s(argv[1]);
 
     int uoasz;
-    uoa_t *uoa = uniquelens(sqi, numsq, &uoasz);
-
-    //    int cumul=0;
-    //    int pa_s_e[2]={0};
-    //    int pb_s_e[2]={0};
-    //    int pc_s_e[2]={0};
-    //    pc_s_e[1]=uoasz-1;
-    //
-    //   int p1=0, p0=0; 
-
-
-    //    for(i=0;i<uoasz;++i) {
-    //        if(uoa[i].uo <400) /* the smallest ones: lump together */
-    //            prtseq1(sqi, numsq, fout, uoa[i].uo, uoa[i].uoids, uoa[i].uoisz); /* all sequences of this length will be merged into one sequence */
-    //            /* it would actually be nice to spread them over 2 or three actually */
-    //        // else if( (!pa_s_e[1]) & (uoa[i].uo > 0.02*mxsqlen) ) {
-    //        else if( (uoa[i].uo > 0.02*mxsqlen) ) /* the bigest ones, print normally, individually */
-    //            prtseq0(sqi, numsq, fout, uoa[i].uo, uoa[i].uoids, uoa[i].uoisz); /* all sequences of this length will be merged into one sequence */
-    //    }
-    // #ifdef DBG
-    //     printf("PA: %u -> %u ", pa_s_e[0], pa_s_e[1]); 
-    //     printf("PB: %u -> %u ", pb_s_e[0], pb_s_e[1]); 
-    //     printf("PC: %u -> %u\n", pc_s_e[0], pc_s_e[1]); 
-    // #endif
+    uoa_t *uoa = uniquelens(sqia, &uoasz);
 
     /* Accumulator strat: run through the uoa, creating a array of arrays of positions */
     unsigned abuf=GBUF;
@@ -495,10 +505,10 @@ int main(int argc, char *argv[])
     }
     unsigned mxsqlen=uoa[uoasz-1].uo; /* the maximum sequence size length */
     unsigned mxasqlen;
-    unsigned uoalim=uoasz/3;
+    unsigned uoalim=15*uoasz/16;
     printf("%u\n", uoalim);
     for(i=0;i<uoasz;++i) {
-        mxasqlen= (i>uoalim)? mxsqlen/10 : mxsqlen ; /* the maximum ALLOWED  sequence size length */
+        mxasqlen= (i>uoalim)? mxsqlen/10 : 2*mxsqlen ; /* the maximum ALLOWED  sequence size length */
         for(j=0;j<uoa[i].uoisz;++j) {
             accsz += uoa[i].uo +MINPADNLEN;
             if(accsz > mxasqlen) {
@@ -521,9 +531,22 @@ int main(int argc, char *argv[])
     sia[ai].sisz=1;
     sia[ai].si[0]=uoa[uoasz-1].uoids[uoa[uoasz-1].uoisz-1];
 
+    /* get output file ready: this will hold the stitched output file */
+    unsigned fnsz=1+strlen(argv[1]);
+    char *tp, *tp2, *foutname=calloc(256, sizeof(char));
+    char insertstr[10]="_stitched";
+    foutname=realloc(foutname, (fnsz+10)*sizeof(char));
+    tp=strrchr(argv[1], '.'); /* the final . position */
+    tp2=strrchr(argv[1], '/'); /* the final / position, useful if files are in another directory */
+    if(tp2)
+        sprintf(foutname, "%.*s%s%s", (int)(tp-tp2-1), tp2+1, insertstr, tp);
+    else 
+        sprintf(foutname, "%.*s%s%s", (int)(tp-argv[1]), argv[1], insertstr, tp);
+    FILE *fout=fopen(foutname, "w");
+
     int siasz=ai+1;
     for(i=0;i<siasz;++i)
-        prtsiaele0(sqi, numsq, fout, sia[i].si, sia[i].sisz, sia[i].mxssz);
+        prtsiaele00(sqia, fout, sia[i].si, sia[i].sisz, sia[i].mxssz);
 
 #ifdef DBG
     for(i=0;i<siasz;++i) {
@@ -537,9 +560,6 @@ int main(int argc, char *argv[])
         free(sia[i].si);
     free(sia);
 
-
-
-
     // prtseq0(sqi, numsq, fout, uoa[1].uoids, uoa[1].uoisz); /* printout to a file named stitched */
     // prtseq1(sqi, numsq, fout, uoa[3].uo, uoa[3].uoids, uoa[3].uoisz);
     // uprtseq1f(sqi, numsq, fout, uoa, 0, 1);
@@ -551,11 +571,7 @@ int main(int argc, char *argv[])
         free(uoa[j].uoids);
     free(uoa);
 
-    for(i=0; i<numsq;++i) {
-        free(sqi[i].id);
-        free(sqi[i].sq);
-    }
-    free(sqi);
+    free_i_sa(&sqia);
 
     free(foutname);
     return 0;
