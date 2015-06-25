@@ -460,7 +460,6 @@ int main(int argc, char *argv[])
         sprintf(fhistname, "%.*s%s", (int)(tp-argv[1]), argv[1], ".uoahist");
     }
 
-    printf("%s\n", fhistname); 
     fprtuoahist(fhistname, uoa, uoasz);
 
     FILE *fout=fopen(foutname, "w");
