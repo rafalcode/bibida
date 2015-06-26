@@ -90,6 +90,12 @@ typedef struct /* sia_t */
     unsigned mxssz; /* the max uo, i.e. max size of seq compoenents */
 } sia_t;
 
+typedef struct /* holder for arrays of sia_t's */
+{
+    sia_t *sia;
+    int sz;
+} siaa_t;
+
 i_sa *crea_i_sa(void)
 {
     i_sa *sqia=malloc(1*sizeof(i_sa));
@@ -292,6 +298,57 @@ void fprtuoahist(char *fname, uoa_t *uoa, int uoasz)
     fclose(fhist);
 }
 
+siaa_t *g_siaa_t(uoa_t *uoa, int uoasz)
+{
+    /* Accumulator strat: run through the uoa, creating a array of arrays of positions */
+    unsigned abuf=GBUF;
+    int i, j, ai=0, acc=0, accsz=0;;
+    siaa_t *s;
+    s->sia=malloc(abuf*sizeof(sia_t));
+    for(i=0;i<abuf;++i) {
+        s->sia[i].sisz=0;
+        s->sia[i].tssz=0;
+        s->sia[i].mxssz=0;
+        s->sia[i].sibf=abuf;
+        s->sia[i].si=malloc(s->sia[i].sibf*sizeof(int));
+    }
+    unsigned mxsqlen=uoa[uoasz-1].uo; /* the maximum sequence size length */
+    unsigned mxasqlen;
+    unsigned uoalim=15*uoasz/16;
+    printf("%u\n", uoalim);
+    for(i=0;i<uoasz;++i) {
+        mxasqlen= (i>uoalim)? mxsqlen/10 : 2*mxsqlen ; /* the maximum ALLOWED sequence size length */
+        for(j=0;j<uoa[i].uoisz;++j) {
+            accsz += uoa[i].uo +MINPADNLEN;
+            if(accsz > mxasqlen) {
+                accsz -= MINPADNLEN;
+                SIACONDREALLOC(ai, abuf, GBUF, s->sia, k);
+                s->sia[ai].tssz=accsz;
+                s->sia[ai].mxssz = uoa[i].uo;
+                accsz=0;
+                s->sia[ai].sisz=acc;
+                acc=0;
+                ai++;
+            }
+            CONDREALLOC2(acc, s->sia[ai].sibf, GBUF, s->sia[ai].si, int);
+            s->sia[ai].si[acc++] = uoa[i].uoids[j];
+        }
+    }
+    /* last one */
+    s->sia[ai].tssz=mxsqlen;
+    s->sia[ai].mxssz=mxsqlen;
+    s->sia[ai].sisz=1;
+    s->sia[ai].si[0]=uoa[uoasz-1].uoids[uoa[uoasz-1].uoisz-1];
+
+    s->sz=ai+1;
+#ifdef DBG
+    for(i=0;i<s->sz;++i)
+        prtsiaele(sqia, fout, s->sia[i].si, s->sia[i].sisz, s->sia[i].mxssz);
+#endif
+
+    return s;
+}
+
 i_sa *faf_to_i_s(char *fafname) /* fasta file to i_s data structure */
 {
     /* general declarations */
@@ -405,45 +462,6 @@ int main(int argc, char *argv[])
     int uoasz;
     uoa_t *uoa = uniquelens(sqia, &uoasz);
 
-    /* Accumulator strat: run through the uoa, creating a array of arrays of positions */
-    unsigned abuf=GBUF;
-    int ai=0, acc=0, accsz=0;;
-    sia_t *sia=malloc(abuf*sizeof(sia_t));
-    for(i=0;i<abuf;++i) {
-        sia[i].sisz=0;
-        sia[i].tssz=0;
-        sia[i].mxssz=0;
-        sia[i].sibf=abuf;
-        sia[i].si=malloc(sia[i].sibf*sizeof(int));
-    }
-    unsigned mxsqlen=uoa[uoasz-1].uo; /* the maximum sequence size length */
-    unsigned mxasqlen;
-    unsigned uoalim=15*uoasz/16;
-    printf("%u\n", uoalim);
-    for(i=0;i<uoasz;++i) {
-        mxasqlen= (i>uoalim)? mxsqlen/10 : 2*mxsqlen ; /* the maximum ALLOWED sequence size length */
-        for(j=0;j<uoa[i].uoisz;++j) {
-            accsz += uoa[i].uo +MINPADNLEN;
-            if(accsz > mxasqlen) {
-                accsz -= MINPADNLEN;
-                SIACONDREALLOC(ai, abuf, GBUF, sia, k);
-                sia[ai].tssz=accsz;
-                sia[ai].mxssz = uoa[i].uo;
-                accsz=0;
-                sia[ai].sisz=acc;
-                acc=0;
-                ai++;
-            }
-            CONDREALLOC2(acc, sia[ai].sibf, GBUF, sia[ai].si, int);
-            sia[ai].si[acc++] = uoa[i].uoids[j];
-        }
-    }
-    /* last one */
-    sia[ai].tssz=mxsqlen;
-    sia[ai].mxssz=mxsqlen;
-    sia[ai].sisz=1;
-    sia[ai].si[0]=uoa[uoasz-1].uoids[uoa[uoasz-1].uoisz-1];
-
     /* get output file ready: this will hold the stitched output file */
     unsigned fnsz=1+strlen(argv[1]);
     char *tp, *tp2, *foutname=calloc(256, sizeof(char));
@@ -461,6 +479,8 @@ int main(int argc, char *argv[])
     }
 
     fprtuoahist(fhistname, uoa, uoasz);
+
+    siaa_t *s=g_sia_t(uoa, uoasz);
 
     FILE *fout=fopen(foutname, "w");
 
@@ -486,6 +506,10 @@ int main(int argc, char *argv[])
     for(j=0; j<uoasz;++j)
         free(uoa[j].uoids);
     free(uoa);
+
+    for(i=0;i<s->sz;++i)
+        free(s->sia.si);
+    free(s);
 
     free_i_sa(&sqia);
 
