@@ -90,7 +90,7 @@ typedef struct /* sia_t */
     unsigned mxssz; /* the max uo, i.e. max size of seq compoenents */
 } sia_t;
 
-typedef struct /* holder for arrays of sia_t's */
+typedef struct /* siaa_t: holder for arrays of sia_t's */
 {
     sia_t *sia;
     int sz;
@@ -234,7 +234,7 @@ void prtsiaele(i_sa *sqia, FILE *fp, int *whichuois, int whichuoisz, unsigned mx
             fprintf(fp, ">");
             for(k=0;k<sqia->is[whichuois[i]].idz-1;k++)
                 fprintf(fp, "%c", sqia->is[whichuois[i]].id[k]);
-            fprintf(fp, "%s", (whichuoisz != 1)? "[NB:MGDSEQ]\n" : "\n"); 
+            fprintf(fp, "%s", (whichuoisz != 1)? "_STITCHEDSQ\n" : "\n"); 
         }
         for(k=0;k<sqia->is[whichuois[i]].sqz-1;k++)
             fprintf(fp, "%c", sqia->is[whichuois[i]].sq[k]);
@@ -302,8 +302,8 @@ siaa_t *g_siaa_t(uoa_t *uoa, int uoasz)
 {
     /* Accumulator strat: run through the uoa, creating a array of arrays of positions */
     unsigned abuf=GBUF;
-    int i, j, ai=0, acc=0, accsz=0;;
-    siaa_t *s;
+    int i, j, k, ai=0, acc=0, accsz=0;;
+    siaa_t *s=malloc(sizeof(siaa_t));
     s->sia=malloc(abuf*sizeof(sia_t));
     for(i=0;i<abuf;++i) {
         s->sia[i].sisz=0;
@@ -341,10 +341,10 @@ siaa_t *g_siaa_t(uoa_t *uoa, int uoasz)
     s->sia[ai].si[0]=uoa[uoasz-1].uoids[uoa[uoasz-1].uoisz-1];
 
     s->sz=ai+1;
-#ifdef DBG
-    for(i=0;i<s->sz;++i)
-        prtsiaele(sqia, fout, s->sia[i].si, s->sia[i].sisz, s->sia[i].mxssz);
-#endif
+    /* normalize */
+    for(i=s->sz;i<abuf;++i) 
+        free(s->sia[i].si);
+    s->sia=realloc(s->sia, s->sz*sizeof(sia_t));
 
     return s;
 }
@@ -456,7 +456,7 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    int i, j, k;
+    int i, j;
     i_sa *sqia=faf_to_i_s(argv[1]);
 
     int uoasz;
@@ -470,45 +470,48 @@ int main(int argc, char *argv[])
     tp=strrchr(argv[1], '.'); /* the final . position */
     tp2=strrchr(argv[1], '/'); /* the final / position, useful if files are in another directory */
     char fhistname[256]={0}; /* also want to output the histogram */
+    char fstitchrepname[256]={0}; /* also want to output the histogram */
     if(tp2) {
         sprintf(foutname, "%.*s%s%s", (int)(tp-tp2-1), tp2+1, insertstr, tp);
         sprintf(fhistname, "%.*s%s", (int)(tp-tp2-1), tp2+1, ".uoahist");
+        sprintf(fstitchrepname, "%.*s%s", (int)(tp-tp2-1), tp2+1, ".stitchreport");
     } else { 
         sprintf(foutname, "%.*s%s%s", (int)(tp-argv[1]), argv[1], insertstr, tp);
         sprintf(fhistname, "%.*s%s", (int)(tp-argv[1]), argv[1], ".uoahist");
+        sprintf(fstitchrepname, "%.*s%s", (int)(tp-argv[1]), argv[1], ".stitchreport");
     }
 
     fprtuoahist(fhistname, uoa, uoasz);
 
-    siaa_t *s=g_sia_t(uoa, uoasz);
+    siaa_t *s=g_siaa_t(uoa, uoasz);
 
+    /*output the new, stitched sequence */
     FILE *fout=fopen(foutname, "w");
-
-    int siasz=ai+1;
-    for(i=0;i<siasz;++i)
-        prtsiaele(sqia, fout, sia[i].si, sia[i].sisz, sia[i].mxssz);
-
-#ifdef DBG
-    for(i=0;i<siasz;++i) {
-        for(j=0;j<sia[i].sisz;++j) 
-            printf("%i ", sia[i].si[j]); 
-        printf("... [%u,%u]\n", sia[i].mxssz, sia[i].tssz); 
-    }
-#endif
-    /* free it up free */
-    for(i=0;i<abuf;++i)
-        free(sia[i].si);
-    free(sia);
-
+    for(i=0;i<s->sz;++i)
+        prtsiaele(sqia, fout, s->sia[i].si, s->sia[i].sisz, s->sia[i].mxssz);
     fclose(fout);
+
+    /* print report of what what stitched and what wasn't */
+    FILE *fsrep=fopen(fstitchrepname, "w");
+    fprintf(fsrep, "***         Report on which sequences were stitched with which.          ***\n");
+    fprintf(fsrep, "*** (sequences numbers refers to their index in the original fasta file  ***\n");
+    fprintf(fsrep, "***  the ID of the first sequence in a stitched sequence is the SEQID)   ***\n\n");
+    for(i=0;i<s->sz;++i) {
+        for(j=0;j<s->sia[i].sisz;++j) 
+            fprintf(fsrep, "%i ", s->sia[i].si[j]); 
+        // fprintf(fsrep, "... [%u,%u]\n", s->sia[i].mxssz, s->sia[i].tssz); 
+        fprintf(fsrep, "\n");
+    }
+    fclose(fsrep);
 
     /* releasing memory */
     for(j=0; j<uoasz;++j)
         free(uoa[j].uoids);
     free(uoa);
 
-    for(i=0;i<s->sz;++i)
-        free(s->sia.si);
+    for(i=0;i<s->sz;++i) 
+        free(s->sia[i].si);
+    free(s->sia);
     free(s);
 
     free_i_sa(&sqia);
