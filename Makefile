@@ -1,5 +1,7 @@
 # BIBIDA Makefile
 # small utilities  dealing with big DNA/PROTEIN datasets.
+# Beware wthat many of the first few program do not store the sequence in memory, and only store statistics on the sequence.
+# Use fastitch as template if you also want the sequence.
 #
 CC=gcc
 DBGCFLAGS=-g -Wall -DDBG
@@ -7,7 +9,7 @@ DBG2CFLAGS=-g -Wall -DDBG2
 CFLAGS=-O3
 LIBS=-ltar
 
-EXES=ltar ltar_dbg yafasumzr mulfaint fasnck cdsck_d cdsck faszck faszck_d fastitch fastitch_d fastitch_dd fastitch0 fastitch0_d
+EXES=ltar ltar_dbg yafasumzr mulfaint fasnck cdsck_d cdsck faszck faszck_d fastitch fastitch_d fastitch_dd fastitch0 fastitch0_d faspli
 
 # ltar, code to use libtar .. in the very vain hope that it will be fast than tar itself!
 ltar: ltar.c
@@ -59,6 +61,12 @@ fastitch: fastitch.c
 fastitch_d: fastitch.c
 	${CC} ${DBGCFLAGS} -o $@ $^
 
+# Split a multifasta file into a 
+faspli: faspli.c
+	${CC} ${CFLAGS} -o $@ $^
+
+faspli2_d: faspli2.c
+	${CC} ${DBGCFLAGS} -o $@ $^
 
 fastitch0: fastitch2.c
 	${CC} ${CFLAGS} -o $@ $^

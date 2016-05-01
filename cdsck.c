@@ -37,7 +37,7 @@ typedef struct /* i_s; sequence index and number of symbols */
     size_t sylen; /* this is the precise symbol length of the sequence */
     size_t sy[SSZ]; /* used to hold counts of symbols */
     float cgp;
-    unsigned ambano[2]; /* number of ambiguous symbots (first), then number of anomalous symbols */
+    unsigned ambano[2]; /* number of ambiguous symbols (first), then number of anomalous symbols */
 } i_s; /* sequence index and number of symbols */
 
 void prtfa(onefa *fac)
@@ -189,7 +189,7 @@ int main(int argc, char *argv[])
 
     for(j=1;j<argc;++j) {
 
-        if(!(fin=fopen(argv[j], "r")) ) { /*s houdl one check the extension of the fasta file ? */
+        if(!(fin=fopen(argv[j], "r")) ) { /*should one check the extension of the fasta file ? */
             printf("Error. Cannot open \"%s\" file.\n", argv[j]);
             exit(EXIT_FAILURE);
         }
@@ -203,7 +203,7 @@ int main(int argc, char *argv[])
         lidx=0, mxsylen=0, mnsylen=0XFFFFFFFFFFFFFFFF;
         mxamb=0, mnamb=0xFFFFFFFF;
 
-        sqidx=-1; /* this is slightly dangerous, you need very much to knwo what you're doing */
+        sqidx=-1; /* this is slightly dangerous, you need very much to know what you're doing */
         gbuf=GBUF;
         sqisz=malloc(gbuf*sizeof(i_s));
         for(i=gbuf-GBUF;i<gbuf;++i) {
