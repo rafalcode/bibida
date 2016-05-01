@@ -62,6 +62,8 @@ fastitch_d: fastitch.c
 	${CC} ${DBGCFLAGS} -o $@ $^
 
 # Split a multifasta file into a 
+# what still needs to be done .. niceer naming
+# dealing with DOS terminated newlines.
 faspli: faspli.c
 	${CC} ${CFLAGS} -o $@ $^
 
