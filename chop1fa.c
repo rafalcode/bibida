@@ -294,38 +294,40 @@ void prtsiaele(i_sa *sqia, FILE *fp, int *whichuois, int whichuoisz, unsigned mx
     fprintf(fp, "\n"); 
 }
 
-void splifa(i_sa *sqa, int *mat, int nr)
+void chopfa(i_sa *sqa, int *mat, int nr)
 {
     int i, j, k, fl /* full lines */, rm /* remainder */;
     char *tmpd=mktmpd();
     FILE *fp;
     char fn[128]={0};
-    int df, rm, fl;
+    int df, s, e;
     for(i=0;i<nr;++i) {
-        sprintf(fn, "%s/%.*s_%03d.fa", tmpd, PREFSZ, sqa->is[i].id, i);
+        sprintf(fn, "%s/%.*s_%03d.fa", tmpd, PREFSZ, sqa->is[0].id, i);
         fp=fopen(fn,"w");
-        fprintf(fp, ">%s_%d_%d\n", sqa->is[i].id, mat[2*nr], mat[2*nr+1]);
-        df = mat[2*nr+1] - mat[2*nr];
+        e = mat[2*i+1]-1; /* note we're expecting the positions to be 1-indexed */
+        s = mat[2*i]-1;
+        fprintf(fp, ">%s_%d_%d\n", sqa->is[0].id, s+1, e+1);
+        df = e - s;
         rm=df%SQWRAP;
         fl=df/SQWRAP;
         if(fl) {
             for(j=0;j<fl;++j) {
                 for(k=0;k<SQWRAP;++k) 
-                    fputc(sqa->is[i].sq[j*SQWRAP+k], fp);
+                    fputc(sqa->is[0].sq[s+j*SQWRAP+k], fp);
                 fputc('\n', fp);
             }
             if(rm) 
                 for(k=0;k<rm;++k) 
-                    fputc(sqa->is[i].sq[j*SQWRAP+k], fp); /* hoping j holds its value! */
+                    fputc(sqa->is[0].sq[s+j*SQWRAP+k], fp); /* hoping j holds its value! */
             fputc('\n', fp);
         } else if (rm) { /* sequence was actually shorter than SQWRAP */
             for(k=0;k<rm;++k) 
-                fputc(sqa->is[i].sq[k], fp);
+                fputc(sqa->is[0].sq[s+k], fp);
             fputc('\n', fp);
         }
         fclose(fp);
     }
-    printf("Look inside \"%s\" for your split fasta files.\n", tmpd);
+    printf("Please look inside \"%s\" folder for your chopped up fasta sequence rendered into separate files.\n", tmpd);
     free(tmpd);
 }
 
@@ -598,7 +600,7 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    splifa(sqia, mat, nr);
+    chopfa(sqia, mat, nr);
 
     free_i_sa(&sqia);
     free(mat);
