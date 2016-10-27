@@ -169,19 +169,19 @@ void la_prti_s(i_s *sqisz, int sz, float *mxcg, float *mncg, char *titlestr) /* 
     return;
 }
 
-void la_prti_s2(i_s *sqisz, int sz, float *mxcg, float *mncg, char *titlestr) /* version2 moidifies printing onto a beamer table, to generic STDOUT table */
+void la_prti_s2(i_s *sqisz, int sz, float *mxcg, float *mncg, char *titlestr) /* version2 modifies printing onto a beamer table, to generic STDOUT table */
 {
     int i, cols=4;
-    char *h0[4]= {"Seq Idx", "Presence AmbSymbs", "Seq Length", "%% CG Content"};
+    char *h0[4]= {"Seq Idx", "Presence AmbSymbs", "Seq Length", "% CG Content"};
     size_t tsz;
     char *sqgood;
 
-    printf("--------------------------------\n");
+    printf("-------------------------------------------------------------\n");
     for(i=0;i<cols;++i) {
         printf("%s", h0[i]);
         (i != cols-1)? printf(" | ") : printf(" \n");
     }
-    printf("--------------------------------\n");
+    printf("-------------------------------------------------------------\n");
 
     for(i=0;i<sz;++i) {
         if(sqisz[i].ambano[1] != 0)
@@ -198,7 +198,7 @@ void la_prti_s2(i_s *sqisz, int sz, float *mxcg, float *mncg, char *titlestr) /*
         printf("%7i | %17s | %9zu | %11.3f\n", i, sqgood, sqisz[i].sylen, sqisz[i].cgp);
     }
 
-    printf("--------------------------------\n");
+    printf("-------------------------------------------------------------\n");
 
     return;
 }
@@ -361,6 +361,8 @@ int main(int argc, char *argv[])
             if(sqisz[i].ambano[1])
                 numano++;
         }
+        if(numano)
+            printf("Note that one of more of the submitted sequences have ambiguous (i.e. not ACTG) characters.\n");
         sqisz=realloc(sqisz, numsq*sizeof(i_s));
         float mxcg, mncg;
         la_prti_s2(sqisz, numsq, &mxcg, &mncg, "Table of Sequence Lengths");
