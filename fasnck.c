@@ -169,6 +169,40 @@ void la_prti_s(i_s *sqisz, int sz, float *mxcg, float *mncg, char *titlestr) /* 
     return;
 }
 
+void la_prti_s2(i_s *sqisz, int sz, float *mxcg, float *mncg, char *titlestr) /* version2 moidifies printing onto a beamer table, to generic STDOUT table */
+{
+    int i, cols=4;
+    char *h0[4]= {"Seq Idx", "Presence AmbSymbs", "Seq Length", "\\% CG Content"};
+    size_t tsz;
+    char *sqgood;
+
+    printf("--------------------------------\n");
+    for(i=0;i<cols;++i) {
+        printf("%s", h0[i]);
+        (i != cols-1)? printf(" & ") : printf(" \\\\\n");
+    }
+    printf("--------------------------------\n");
+
+    for(i=0;i<sz;++i) {
+        if(sqisz[i].ambano[1] != 0)
+            sqgood="AnoSQ";
+        else
+            sqgood="SQ";
+        tsz = sqisz[i].sy[0] + sqisz[i].sy[1];
+        sqisz[i].cgp=(float)sqisz[i].sy[0]/tsz;
+        if(sqisz[i].cgp>*mxcg)
+            *mxcg=sqisz[i].cgp;
+        if(sqisz[i].cgp<*mncg)
+            *mncg=sqisz[i].cgp;
+
+        printf("%i | %s | %zu | %.3f \n", i, sqgood, sqisz[i].sylen, sqisz[i].cgp);
+    }
+
+    printf("--------------------------------\n");
+
+    return;
+}
+
 void tikz_prti_s(i_s *sqisz, int sz, int *histosz, int numbuckets, char *titlestr) /* prints onto a beamer table, also calculates mx amnd min cg in passsing */
 {
     int j;
@@ -328,9 +362,9 @@ int main(int argc, char *argv[])
                 numano++;
         }
         sqisz=realloc(sqisz, numsq*sizeof(i_s));
-        // float mxcg, mncg;
-        // la_prti_s(sqisz, numsq, &mxcg, &mncg, "Table of Sequence Lengths");
-        // prti_s(sqisz, numsq, &mxcg, &mncg);
+        float mxcg, mncg;
+        la_prti_s2(sqisz, numsq, &mxcg, &mncg, "Table of Sequence Lengths");
+        //  prti_s(sqisz, numsq, &mxcg, &mncg);
 
         /* OK sylen histo first */
         numbuckets=HISTBUCKETSZ;
