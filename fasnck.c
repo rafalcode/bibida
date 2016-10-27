@@ -172,14 +172,14 @@ void la_prti_s(i_s *sqisz, int sz, float *mxcg, float *mncg, char *titlestr) /* 
 void la_prti_s2(i_s *sqisz, int sz, float *mxcg, float *mncg, char *titlestr) /* version2 moidifies printing onto a beamer table, to generic STDOUT table */
 {
     int i, cols=4;
-    char *h0[4]= {"Seq Idx", "Presence AmbSymbs", "Seq Length", "\\% CG Content"};
+    char *h0[4]= {"Seq Idx", "Presence AmbSymbs", "Seq Length", "%% CG Content"};
     size_t tsz;
     char *sqgood;
 
     printf("--------------------------------\n");
     for(i=0;i<cols;++i) {
         printf("%s", h0[i]);
-        (i != cols-1)? printf(" & ") : printf(" \\\\\n");
+        (i != cols-1)? printf(" | ") : printf(" \n");
     }
     printf("--------------------------------\n");
 
@@ -195,7 +195,7 @@ void la_prti_s2(i_s *sqisz, int sz, float *mxcg, float *mncg, char *titlestr) /*
         if(sqisz[i].cgp<*mncg)
             *mncg=sqisz[i].cgp;
 
-        printf("%i | %s | %zu | %.3f \n", i, sqgood, sqisz[i].sylen, sqisz[i].cgp);
+        printf("%7i | %17s | %9zu | %11.3f\n", i, sqgood, sqisz[i].sylen, sqisz[i].cgp);
     }
 
     printf("--------------------------------\n");
