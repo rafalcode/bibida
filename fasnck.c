@@ -331,8 +331,6 @@ int main(int argc, char *argv[])
         // float mxcg, mncg;
         // la_prti_s(sqisz, numsq, &mxcg, &mncg, "Table of Sequence Lengths");
         // prti_s(sqisz, numsq, &mxcg, &mncg);
-        /* the summary comes at the end because otherwise, with many sequences, it goes off-screen */
-        // fprintf(stderr, "Number of sequences: %i, Mxsz= %zu, Minsz= %zu, MaxCG=%.4f MinCG=%.4f Mxamb=%u Mnamb=%u. #AnoSQ=%i\n", numsq, mxsylen, mnsylen, mxcg, mncg, mxamb, mnamb, numano);
 
         /* OK sylen histo first */
         numbuckets=HISTBUCKETSZ;
@@ -341,6 +339,8 @@ int main(int argc, char *argv[])
         prthist(argv[j], histosz, numbuckets, numsq, mxsylen, mnsylen);
         //    int *histocg=hist_cg(sqisz, numsq, mxcg, mncg, numbuckets);
         // prthist("cgpart", histocg, numbuckets);
+        /* the summary comes at the end because otherwise, with many sequences, it goes off-screen */
+        fprintf(stderr, "Number of sequences: %i, Mxsz= %zu, Minsz= %zu, MaxCG=%.4f MinCG=%.4f Mxamb=%u Mnamb=%u. #AnoSQ=%i\n", numsq, mxsylen, mnsylen, mxcg, mncg, mxamb, mnamb, numano);
 
         free(histosz);
         //     free(histocg);
