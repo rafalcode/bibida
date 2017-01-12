@@ -9,7 +9,7 @@ DBG2CFLAGS=-g -Wall -DDBG2
 CFLAGS=-O3
 LIBS=-ltar
 
-EXES=ltar ltar_dbg yafasumzr mulfaint fasnck cdsck_d cdsck faszck faszck_d fastitch fastitch_d fastitch_dd fastitch0 fastitch0_d faspli chop1fa
+EXES=ltar ltar_dbg yafasumzr mulfaint fasnck cdsck_d cdsck faszck faszck_d fastitch fastitch_d fastitch_dd fastitch0 fastitch0_d faspli faspli_d chop1fa chop1fa_d uchop1fa uchop1fa_d
 
 # ltar, code to use libtar .. in the very vain hope that it will be fast than tar itself!
 ltar: ltar.c
@@ -80,6 +80,14 @@ chop1fa: chop1fa.c
 	${CC} ${CFLAGS} -o $@ $^
 
 chop1fa2_d: chop1fa2.c
+	${CC} ${DBGCFLAGS} -o $@ $^
+
+
+# Cue a supercilious creation ... almost the same as chop1fa ... but the opposite. Excludes the desired pieces.
+uchop1fa: uchop1fa.c
+	${CC} ${CFLAGS} -o $@ $^
+
+uchop1fa_d: uchop1fa.c
 	${CC} ${DBGCFLAGS} -o $@ $^
 
 .PHONY: clean
