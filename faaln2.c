@@ -137,7 +137,7 @@ void prtpwct(i_s *sqisz, int numsq, int *pwa, int nr, int nc, char *spapad)
 {
     int i, j, k, mi, mj;
 
-    printf("%*.*c", 12, 12, ' '); 
+    printf("%*.*s", 12, 12, " "); 
     for(i=0;i<numsq;++i)
         printf("%*.*s ", 12, 12, sqisz[i].id); 
     printf("\n"); 
@@ -153,6 +153,43 @@ void prtpwct(i_s *sqisz, int numsq, int *pwa, int nr, int nc, char *spapad)
         mi+=numsq-i-1; //multiplier for i
         printf("\n"); 
     }
+}
+
+void prtpwct2(i_s *sqisz, int numsq, int *pwa, int nr, int nc, char *spapad, char *htmlfn)
+{
+    int i, j, k, mi, mj;
+    FILE *fout=fopen(htmlfn, "w");
+    fprintf(fout, "<html>\n");
+    fprintf(fout, "\t<head>\n");
+    fprintf(fout, "\t\t<title>Pairwise SNP Distance Table</title>");
+    fprintf(fout, "\t</head>\n");
+    fprintf(fout, "\t<body>\n");
+    fprintf(fout, "\t\t<h3>Pairwise SNP Distance Table</h3>\n");
+    fprintf(fout, "\t\t<br>\n");
+    fprintf(fout, "\t\t<table>\n");
+
+    fprintf(fout, "\t\t\t<tr>");
+    fprintf(fout, "<td></td>"); // first col of first row empty
+    for(i=0;i<numsq;++i)
+         fprintf(fout, "<td>%s</td>", sqisz[i].id); 
+    fprintf(fout, "</tr>\n");
+    mi=0;
+    for(i=0;i<nr;++i) {
+        fprintf(fout, "\t\t\t<tr>");
+        mj=nc-i;
+        fprintf(fout, "<td>%s</td>", sqisz[i].id); 
+        for(k=0;k<i;++k) 
+            fprintf(fout, "<td></td>"); // first col of first row empty
+        for(j=0;j<mj;++j)
+            fprintf(fout, "<td>%d</td>", pwa[mi+j]);
+        mi+=numsq-i-1; //multiplier for i
+        fprintf(fout, "</tr>\n");
+    }
+
+    fprintf(fout, "\t\t</table>\n");
+    fprintf(fout, "\t</body>\n");
+    fprintf(fout, "</html>\n");
+    fclose(fout);
 }
 
 void prtfa2(onefa *fac)
@@ -267,9 +304,8 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
     /* general declarations */
-    FILE *fin, *fout;
-    char *tp, *foutname=calloc(128, sizeof(char));
-    char insertstr[10]="_filtered";
+    FILE *fin;
+    char *tp, *htmlfn=calloc(256, sizeof(char));
     char IGLINE, begline;
     size_t lidx, mxsylen, mnsylen;
     unsigned mxamb, mnamb;
@@ -282,7 +318,6 @@ int main(int argc, char *argv[])
     unsigned ibf=GBUF, sbf=GBUF;
     fac.id=calloc(ibf, sizeof(char));
     fac.sq=calloc(sbf, sizeof(char));
-    size_t fnsz;
     int ididx=0, ididx0=0;
     int oneln, npwc, *pwa=NULL, nr, nc, mi, mj; // for the PWCT
     char *spapad="    ";
@@ -294,11 +329,8 @@ int main(int argc, char *argv[])
             exit(EXIT_FAILURE);
         }
 
-        fnsz=1+strlen(argv[j]);
-        foutname=realloc(foutname, (fnsz+10)*sizeof(char));
         tp=strrchr(argv[j], '.');
-        sprintf(foutname, "%.*s%s%s", (int)(tp-argv[j]), argv[j], insertstr, tp);
-        fout=fopen(foutname, "w");
+        sprintf(htmlfn, "%.*s%s", (int)(tp-argv[j]), argv[j], ".html");
         IGLINE=0, begline=1;
         lidx=0, mxsylen=0, mnsylen=0XFFFFFFFFFFFFFFFF;
         mxamb=0, mnamb=0xFFFFFFFF;
@@ -462,16 +494,6 @@ int main(int argc, char *argv[])
         sqisz[sqidx].idz=1+ididx0;
         sqisz[sqidx].sqz=1+sqisz[sqidx].sylen;
 
-        /* cds specific calls:
-           prtfa2(&fac);
-           retcki=cki(&fac);
-           if(!retcki) {
-           numfiltered++;
-           prtfaf(&fac, fout);
-           }
-           */
-        fclose(fout);
-
         /* free */
         free(fac.id);
         fac.id=NULL;
@@ -493,7 +515,9 @@ int main(int argc, char *argv[])
         /* check for uniform sequence size, necessary for alignments */
         oneln=uniquelens(sqisz, numsq);
         printf("File %s: numseq=%u, uniform seq size at %d\n", argv[j], numsq, oneln);
+#ifdef DBG
         prtsq(sqisz, numsq);
+#endif
 
         /* go ahead with pairwise table */
         npwc=numsq*(numsq-1)/2; // wll known, from the maths.
@@ -519,7 +543,7 @@ int main(int argc, char *argv[])
 #ifdef DBG2
         printf("\n"); 
 #endif
-        prtpwct(sqisz, numsq, pwa, nr, nc, spapad);
+        prtpwct2(sqisz, numsq, pwa, nr, nc, spapad, htmlfn);
 
         for(i=0;i<numsq;++i) {
             free(sqisz[i].id);
@@ -528,6 +552,6 @@ int main(int argc, char *argv[])
         free(sqisz);
         free(pwa);
     }
-    free(foutname);
+    free(htmlfn);
     return 0;
 }
