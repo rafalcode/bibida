@@ -151,7 +151,7 @@ void prtpwct(i_s *sqisz, int numsq, int *pwa, int nr, int nc, char *spapad)
     }
 }
 
-void prtpwct2(i_s *sqisz, int numsq, int *pwa, int nr, int nc, char *spapad, char *htmlfn)
+void prtpwct2(i_s *sqisz, int numsq, int *pwa, int nr, int nc, char *spapad, char *htmlfn, int oneln)
 {
     int i, j, k, mi, mj;
     FILE *fout=fopen(htmlfn, "w");
@@ -185,7 +185,8 @@ void prtpwct2(i_s *sqisz, int numsq, int *pwa, int nr, int nc, char *spapad, cha
     fprintf(fout, "\t\t<ul>\n");
     fprintf(fout, "\t\t<li>In the first column of this table we have the list of sequence IDs</li>\n");
     fprintf(fout, "\t\t<li>The names in the first row are those sequence which the names in the first column are measured against</li>\n");
-    fprintf(fout, "\t\t<li>A sequence is never measured against itself, only against the other sequences in the FASTA alignment file\n");
+    fprintf(fout, "\t\t<li>A sequence is never measured against itself, only against the other sequences in the FASTA alignment file</li>\n");
+    fprintf(fout, "\t\t<li>A total of %d SNP sites were detected in the analysis (the being the uniform length of the sequences in the alignment)</li>", oneln);
     fprintf(fout, "\t\t</ul>\n");
     fprintf(fout, "\t\t<table>\n");
 
@@ -536,7 +537,7 @@ int main(int argc, char *argv[])
 #ifdef DBG2
         printf("\n"); 
 #endif
-        prtpwct2(sqisz, numsq, pwa, nr, nc, spapad, htmlfn);
+        prtpwct2(sqisz, numsq, pwa, nr, nc, spapad, htmlfn, oneln);
 
         for(i=0;i<numsq;++i) {
             free(sqisz[i].id);
