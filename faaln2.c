@@ -133,6 +133,28 @@ void prtsq(i_s *sqisz, int sz)
     return;
 }
 
+void prtpwct(i_s *sqisz, int numsq, int *pwa, int nr, int nc, char *spapad)
+{
+    int i, j, k, mi, mj;
+
+    printf("%*.*c", 12, 12, ' '); 
+    for(i=0;i<numsq;++i)
+        printf("%*.*s ", 12, 12, sqisz[i].id); 
+    printf("\n"); 
+    mi=0;
+    for(i=0;i<nr;++i) {
+        mj=nc-i;
+        printf("%d) \"%*.*s\": ", i, 12, 12, sqisz[i].id);
+        for(k=0;k<i;++k) 
+            printf("%s", spapad); 
+        for(j=0;j<mj;++j) {
+            printf("%*d ", 12, pwa[mi+j]);
+        }
+        mi+=numsq-i-1; //multiplier for i
+        printf("\n"); 
+    }
+}
+
 void prtfa2(onefa *fac)
 {
     int i;
@@ -251,7 +273,7 @@ int main(int argc, char *argv[])
     char IGLINE, begline;
     size_t lidx, mxsylen, mnsylen;
     unsigned mxamb, mnamb;
-    int i, j, c, sqidx;
+    int i, j, k, c, sqidx;
     int gbuf;
     i_s *sqisz=NULL;
     int whatint;
@@ -263,6 +285,7 @@ int main(int argc, char *argv[])
     size_t fnsz;
     int ididx=0, ididx0=0;
     int oneln, npwc, *pwa=NULL, nr, nc, mi, mj; // for the PWCT
+    char *spapad="    ";
 
     for(j=1;j<argc;++j) {
 
@@ -270,7 +293,7 @@ int main(int argc, char *argv[])
             printf("Error. Cannot open \"%s\" file.\n", argv[j]);
             exit(EXIT_FAILURE);
         }
-        
+
         fnsz=1+strlen(argv[j]);
         foutname=realloc(foutname, (fnsz+10)*sizeof(char));
         tp=strrchr(argv[j], '.');
@@ -440,15 +463,15 @@ int main(int argc, char *argv[])
         sqisz[sqidx].sqz=1+sqisz[sqidx].sylen;
 
         /* cds specific calls:
-        prtfa2(&fac);
-        retcki=cki(&fac);
-        if(!retcki) {
-            numfiltered++;
-            prtfaf(&fac, fout);
-        }
-        */
+           prtfa2(&fac);
+           retcki=cki(&fac);
+           if(!retcki) {
+           numfiltered++;
+           prtfaf(&fac, fout);
+           }
+           */
         fclose(fout);
-        
+
         /* free */
         free(fac.id);
         fac.id=NULL;
@@ -470,6 +493,7 @@ int main(int argc, char *argv[])
         /* check for uniform sequence size, necessary for alignments */
         oneln=uniquelens(sqisz, numsq);
         printf("File %s: numseq=%u, uniform seq size at %d\n", argv[j], numsq, oneln);
+        prtsq(sqisz, numsq);
 
         /* go ahead with pairwise table */
         npwc=numsq*(numsq-1)/2; // wll known, from the maths.
@@ -477,17 +501,25 @@ int main(int argc, char *argv[])
         nc=numsq-1;
         pwa=realloc(pwa, npwc*sizeof(int));
         memset(pwa, 0, npwc*sizeof(int));
-        mi=0;
-        for(i=0;i<nr;++i) {
-            mj=nc-i;
-            for(j=0;j<mj;++j) {
-                pwa[mi+j]=na[i+j+1];
-                printf("%d/%d ", mi+j, i+j+1);
+        for(k=0;k<oneln;++k) {
+            mi=0;
+            for(i=0;i<nr;++i) {
+                mj=nc-i;
+                for(j=0;j<mj;++j)
+                    if(sqisz[i].sq[k]!=sqisz[i+j+1].sq[k]) {// if the characters are not the same, record a SNP difference
+                        pwa[mi+j]++;
+#ifdef DBG2
+                        if(i!=0)
+                            printf("diff@%d ", k); // on which colum
+#endif
+                    }
+                mi+=numsq-i-1; //multiplier for i
             }
-            printf("\n"); 
-            mi+=n-i-1; //multiplier for i
         }
-        prtsq(sqisz, numsq);
+#ifdef DBG2
+        printf("\n"); 
+#endif
+        prtpwct(sqisz, numsq, pwa, nr, nc, spapad);
 
         for(i=0;i<numsq;++i) {
             free(sqisz[i].id);
