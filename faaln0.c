@@ -276,6 +276,8 @@ int main(int argc, char *argv[])
     int whatint;
     unsigned numsq, numano;
 
+    int oneln, npwc, *pwa, nr, nc, mi, mj; // for the PWCT
+
     for(j=1;j<argc;++j) {
 
         if(!(fin=fopen(argv[j], "r")) ) { /*s houdl one check the extension of the fasta file ? */
@@ -392,7 +394,22 @@ int main(int argc, char *argv[])
         }
         sqisz=realloc(sqisz, numsq*sizeof(i_s));
 
-        int oneln=uniquelens(sqisz, numsq);
+        mi=0;
+        oneln=uniquelens(sqisz, numsq);
+        npwc=numsq*(numsq-1)/2; // wll known, from the maths.
+        nr=numsq-1;
+        nc=numsq-1;
+        pwa=realloc(pwa, npwc*sizeof(int));
+        memset(pwa, 0, npwc*sizeof(int));
+        for(i=0;i<nr;++i) {
+            mj=nc-i;
+            for(j=0;j<mj;++j) {
+                pwa[mi+j]=na[i+j+1];
+                printf("%d/%d ", mi+j, i+j+1);
+            }
+            printf("\n"); 
+            mi+=n-i-1; //multiplier for i
+        }
 
         printf("Oneln=%d\n", oneln);
 
