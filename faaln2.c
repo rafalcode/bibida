@@ -11,6 +11,7 @@
 #endif
 #define SSZ 2 /* CG count, first, AT count second, third are the anomalous characters */
 #define HISTBUCKETSZ 10
+#define HTCOLWIDTH 120
 
 #define CONDREALLOC(x, b, c, a, t); \
     if((x)==((b)-1)) { \
@@ -27,11 +28,6 @@
         (a2)=realloc((a2), (b)*sizeof(t)); \
         memset((a2)+(b)-(c), '\0', (c)*sizeof(t)); \
     }
-
-const char *stcod="ATG";
-const char *ecod1="TAG";
-const char *ecod2="TAA";
-const char *ecod3="TGA";
 
 typedef struct /* onefa */
 {
@@ -162,16 +158,41 @@ void prtpwct2(i_s *sqisz, int numsq, int *pwa, int nr, int nc, char *spapad, cha
     fprintf(fout, "<html>\n");
     fprintf(fout, "\t<head>\n");
     fprintf(fout, "\t\t<title>Pairwise SNP Distance Table</title>");
+    fprintf(fout, "\t\t<style>\n");
+    fprintf(fout, "\t\t\ttable\n");
+    fprintf(fout, "\t\t\t{\n");
+    // fprintf(fout, "\t\t\t\ttable-layout: fixed;\n");
+    // fprintf(fout, "\t\t\t\twidth: 100px;\n");
+    fprintf(fout, "\t\t\t\tborder: 1px solid black;\n");
+    fprintf(fout, "\t\t\t\tborder-collapse: collapse;\n");
+    fprintf(fout, "\t\t\t}\n");
+    fprintf(fout, "\t\t\ttd\n");
+    fprintf(fout, "\t\t\t{\n");
+    fprintf(fout, "\t\t\t\twidth: %dpx;\n", HTCOLWIDTH);
+    fprintf(fout, "\t\t\t\tborder: 1px solid black;\n");
+    fprintf(fout, "\t\t\t\ttext-align:right;\n");
+    fprintf(fout, "\t\t\t}\n");
+    fprintf(fout, "\t\t\tth\n");
+    fprintf(fout, "\t\t\t{\n");
+    fprintf(fout, "\t\t\t\twidth: %dpx;\n", HTCOLWIDTH);
+    fprintf(fout, "\t\t\t\tborder: 1px solid black;\n");
+    fprintf(fout, "\t\t\t\ttext-align:right;\n");
+    fprintf(fout, "\t\t\t}\n");
+    fprintf(fout, "\t\t</style>\n");
     fprintf(fout, "\t</head>\n");
     fprintf(fout, "\t<body>\n");
     fprintf(fout, "\t\t<h3>Pairwise SNP Distance Table</h3>\n");
-    fprintf(fout, "\t\t<br>\n");
+    fprintf(fout, "\t\t<ul>\n");
+    fprintf(fout, "\t\t<li>In the first column of this table we have the list of sequence IDs</li>\n");
+    fprintf(fout, "\t\t<li>The names in the first row are those sequence which the names in the first column are measured against</li>\n");
+    fprintf(fout, "\t\t<li>A sequence is never measured against itself, only against the other sequences in the FASTA alignment file\n");
+    fprintf(fout, "\t\t</ul>\n");
     fprintf(fout, "\t\t<table>\n");
 
     fprintf(fout, "\t\t\t<tr>");
     fprintf(fout, "<td></td>"); // first col of first row empty
-    for(i=0;i<numsq;++i)
-         fprintf(fout, "<td>%s</td>", sqisz[i].id); 
+    for(i=1;i<numsq;++i)
+         fprintf(fout, "<th>%s</th>", sqisz[i].id); 
     fprintf(fout, "</tr>\n");
     mi=0;
     for(i=0;i<nr;++i) {
@@ -179,7 +200,7 @@ void prtpwct2(i_s *sqisz, int numsq, int *pwa, int nr, int nc, char *spapad, cha
         mj=nc-i;
         fprintf(fout, "<td>%s</td>", sqisz[i].id); 
         for(k=0;k<i;++k) 
-            fprintf(fout, "<td></td>"); // first col of first row empty
+            fprintf(fout, "<td></td>");
         for(j=0;j<mj;++j)
             fprintf(fout, "<td>%d</td>", pwa[mi+j]);
         mi+=numsq-i-1; //multiplier for i
@@ -199,34 +220,6 @@ void prtfa2(onefa *fac)
     for(i=0;i<3;++i) 
         putchar(fac->sq[i]);
     printf("\n"); 
-}
-
-void ck(onefa *fac)
-{
-    char repstr[128]={0};
-    if(((fac->sqz-1)%3) != 0)
-        strcat(repstr, "E_%3 ");
-    if( (strncmp(fac->sq, stcod, 3*sizeof(char))) )
-        strcat(repstr, "E_stcod ");
-    char *lcod=fac->sq+(fac->sqz-4);
-    if( (strncmp(lcod, ecod1, 3*sizeof(char))) & (strncmp(lcod, ecod2, 3*sizeof(char))) & (strncmp(lcod, ecod3, 3*sizeof(char))) )
-        strcat(repstr, "E_ecod ");
-
-    if(repstr[0])
-        printf("%s: %s\n", fac->id, repstr); 
-}
-
-int cki(onefa *fac)
-{
-    int i=0;
-    if(((fac->sqz-1)%3) != 0)
-        i++;
-    if( (strncmp(fac->sq, stcod, 3*sizeof(char))) )
-        i++;
-    char *lcod=fac->sq+(fac->sqz-4);
-    if( (strncmp(lcod, ecod1, 3*sizeof(char))) & (strncmp(lcod, ecod2, 3*sizeof(char))) & (strncmp(lcod, ecod3, 3*sizeof(char))) )
-        i++;
-    return i;
 }
 
 void prti_s(i_s *sqisz, int sz, float *mxcg, float *mncg)
