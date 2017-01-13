@@ -9,7 +9,7 @@ DBG2CFLAGS=-g -Wall -DDBG2
 CFLAGS=-O3
 LIBS=-ltar
 
-EXES=ltar ltar_dbg yafasumzr mulfaint fasnck cdsck_d cdsck faszck faszck_d fastitch fastitch_d fastitch_dd fastitch0 fastitch0_d faspli faspli_d chop1fa chop1fa_d uchop1fa uchop1fa_d faaln0 faaln0_d faaln0_dd
+EXES=ltar ltar_dbg yafasumzr mulfaint fasnck cdsck_d cdsck faszck faszck_d fastitch fastitch_d fastitch_dd fastitch0 fastitch0_d faspli faspli_d chop1fa chop1fa_d uchop1fa uchop1fa_d faaln0 faaln0_d faaln0_dd faaln2 faaln2_d faaln2_dd
 
 # ltar, code to use libtar .. in the very vain hope that it will be fast than tar itself!
 ltar: ltar.c
@@ -47,11 +47,20 @@ faszck_dd: faszck.c
 
 # Stats on fasta files that are actually alignments. seqret will convert for you
 # sequences must be the same size of course.
+# started basing on fasnck only to discover later that it doesn't hold the sequence.
+# however cdsck.c does, so crea tefaaln2 from it and reset your tracks.
 faaln0: faaln0.c
 	${CC} ${CFLAGS} -o $@ $^
 faaln0_d: faaln0.c
 	${CC} ${DBGCFLAGS} -o $@ $^
 faaln0_dd: faaln0.c
+	${CC} ${DBG2CFLAGS} -o $@ $^
+
+faaln2: faaln2.c
+	${CC} ${CFLAGS} -o $@ $^
+faaln2_d: faaln2.c
+	${CC} ${DBGCFLAGS} -o $@ $^
+faaln2_dd: faaln2.c
 	${CC} ${DBG2CFLAGS} -o $@ $^
 
 # Codon checker
