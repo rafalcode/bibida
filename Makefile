@@ -46,9 +46,7 @@ faszck_dd: faszck.c
 	${CC} ${DBG2CFLAGS} -o $@ $^
 
 # Stats on fasta files that are actually alignments. seqret will convert for you
-# sequences must be the same size of course.
-# started basing on fasnck only to discover later that it doesn't hold the sequence.
-# however cdsck.c does, so crea tefaaln2 from it and reset your tracks.
+# this version can only take one file, which is probably going to be the most common way to use it.
 faaln0: faaln0.c
 	${CC} ${CFLAGS} -o $@ $^
 faaln0_d: faaln0.c
@@ -56,6 +54,7 @@ faaln0_d: faaln0.c
 faaln0_dd: faaln0.c
 	${CC} ${DBG2CFLAGS} -o $@ $^
 
+# Stats on fasta files that are actually alignments. seqret will convert for you
 faaln2: faaln2.c
 	${CC} ${CFLAGS} -o $@ $^
 faaln2_d: faaln2.c
