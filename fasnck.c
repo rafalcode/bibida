@@ -246,6 +246,7 @@ int main(int argc, char *argv[])
     int numbuckets;
     int *histosz;
     unsigned numsq, numano;
+	unsigned long totbases=0UL;
 
     for(j=1;j<argc;++j) {
 
@@ -276,6 +277,7 @@ int main(int argc, char *argv[])
                 IGLINE =1;
                 begline=0; 
                 if(sqidx>=0) { /* chancing my arm here ... operating on the past sequence */
+					totbases += sqisz[sqidx].sylen;
                     if(sqisz[sqidx].sylen > mxsylen)
                         mxsylen = sqisz[sqidx].sylen;
                     if(sqisz[sqidx].sylen < mnsylen)
@@ -377,7 +379,7 @@ int main(int argc, char *argv[])
         // prthist("cgpart", histocg, numbuckets);
         /* the summary comes at the end because otherwise, with many sequences, it goes off-screen */
         fprintf(stderr, "Number of sequences: %i, Mxsz= %zu, Minsz= %zu, MaxCG=%.4f MinCG=%.4f Mxamb=%u Mnamb=%u. #AnoSQ=%i\n", numsq, mxsylen, mnsylen, mxcg, mncg, mxamb, mnamb, numano);
-
+		printf("Total number of bases recorded = %lu\n", totbases);
         free(histosz);
         //     free(histocg);
         free(sqisz);
