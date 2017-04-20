@@ -214,6 +214,36 @@ void prtpwct2(i_s *sqisz, int numsq, int *pwa, int nr, int nc, char *spapad, cha
     fclose(fout);
 }
 
+void prtpwct2tsv(i_s *sqisz, int numsq, int *pwa, int nr, int nc, char *spapad, char *tsvfn, int oneln)
+{
+    int i, j, k, mi, mj;
+    FILE *fout=fopen(tsvfn, "w");
+    fprintf(fout, "Pairwise arrangement of a Multiple SNP Alignment.\n");
+    fprintf(fout, "In the first column of this table we have the list of sequence IDs.\n");
+    fprintf(fout, "The names in the first row are those sequence which the names in the first column are measured against.\n");
+    fprintf(fout, "A sequence is never measured against itself, only against the other sequences in the FASTA alignment file.\n");
+    fprintf(fout, "A total of %d SNP sites were detected in the analysis (this being the uniform (naturally) length of the sequences in the alignment.\n", oneln);
+    fprintf(fout, "\n");
+
+    fprintf(fout, "\t"); // first col of first row empty
+    for(i=1;i<numsq;++i)
+         fprintf(fout, "%s\t", sqisz[i].id); 
+    fprintf(fout, "\n");
+    mi=0;
+    for(i=0;i<nr;++i) {
+        mj=nc-i;
+        fprintf(fout, "%s\t", sqisz[i].id); 
+        for(k=0;k<i;++k) 
+            fprintf(fout, "\t");
+        for(j=0;j<mj;++j)
+            fprintf(fout, "%d\t", pwa[mi+j]);
+        mi+=numsq-i-1; //multiplier for i
+        fprintf(fout, "\n");
+    }
+
+    fclose(fout);
+}
+
 void prtfa2(onefa *fac)
 {
     int i;
@@ -325,6 +355,8 @@ int main(int argc, char *argv[])
 
         tp=strrchr(argv[j], '.');
         sprintf(htmlfn, "%.*s%s", (int)(tp-argv[j]), argv[j], ".html");
+        /* OK I have to clean this up ... obviuous I want a TSV this time but it's too much trouble to set up getopts and friends! */
+        sprintf(htmlfn, "%.*s%s", (int)(tp-argv[j]), argv[j], ".tsv");
         IGLINE=0, begline=1;
         lidx=0, mxsylen=0, mnsylen=0XFFFFFFFFFFFFFFFF;
         mxamb=0, mnamb=0xFFFFFFFF;
@@ -537,7 +569,9 @@ int main(int argc, char *argv[])
 #ifdef DBG2
         printf("\n"); 
 #endif
-        prtpwct2(sqisz, numsq, pwa, nr, nc, spapad, htmlfn, oneln);
+        /* HTML version */
+        // prtpwct2(sqisz, numsq, pwa, nr, nc, spapad, htmlfn, oneln);
+        prtpwct2tsv(sqisz, numsq, pwa, nr, nc, spapad, htmlfn, oneln);
 
         for(i=0;i<numsq;++i) {
             free(sqisz[i].id);

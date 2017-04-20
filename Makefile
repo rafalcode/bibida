@@ -9,7 +9,7 @@ DBG2CFLAGS=-g -Wall -DDBG2
 CFLAGS=-O3
 LIBS=-ltar
 
-EXES=ltar ltar_dbg yafasumzr mulfaint fasnck cdsck_d cdsck faszck faszck_d fastitch fastitch_d fastitch_dd fastitch0 fastitch0_d faspli faspli_d chop1fa chop1fa_d uchop1fa uchop1fa_d faaln0 faaln0_d faaln0_dd faaln2 faaln2_d faaln2_dd
+EXES=ltar ltar_dbg yafasumzr mulfaint fasnck cdsck_d cdsck faszck faszck_d fastitch fastitch_d fastitch_dd fastitch0 fastitch0_d faspli faspli_d chop1fa chop1fa_d uchop1fa uchop1fa_d faaln0 faaln0_d faaln0_dd pwamfa pwamfa_d pwamfa_dd
 
 # ltar, code to use libtar .. in the very vain hope that it will be fast than tar itself!
 ltar: ltar.c
@@ -55,11 +55,13 @@ faaln0_dd: faaln0.c
 	${CC} ${DBG2CFLAGS} -o $@ $^
 
 # Stats on fasta files that are actually alignments. seqret will convert for you
-faaln2: faaln2.c
+# Used to be called faaln2 .. but that's a dreadful name
+# pwamfa: Pairwise (verb) A MultiFasta Alignment. Note how the A is for alignment, not FA in fasta. That's important.
+pwamfa: pwamfa.c
 	${CC} ${CFLAGS} -o $@ $^
-faaln2_d: faaln2.c
+pwamfa_d: pwamfa.c
 	${CC} ${DBGCFLAGS} -o $@ $^
-faaln2_dd: faaln2.c
+pwamfa_dd: pwamfa.c
 	${CC} ${DBG2CFLAGS} -o $@ $^
 
 # Codon checker
