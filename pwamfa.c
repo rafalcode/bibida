@@ -324,7 +324,8 @@ int main(int argc, char *argv[])
 {
     /* argument accounting: remember argc, the number of arguments, _includes_ the executable */
     if(argc==1) {
-        printf("Error. Pls supply 1+ arguments: A sequence of multi-fasta filenames. \n");
+         printf("pwamfa: _P_air_W_ise (verb) _A_ _M_ultiple _F_asta SNP _A_lignment.\n")
+         printf("Usage: Pls supply 1+ arguments: Each a multi-fasta SNP alignment filenames. \n");
         exit(EXIT_FAILURE);
     }
     /* general declarations */
