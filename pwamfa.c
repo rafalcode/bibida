@@ -193,7 +193,7 @@ void prtpwct2(i_s *sqisz, int numsq, int *pwa, int nr, int nc, char *spapad, cha
     fprintf(fout, "\t\t\t<tr>");
     fprintf(fout, "<td></td>"); // first col of first row empty
     for(i=1;i<numsq;++i)
-         fprintf(fout, "<th>%s</th>", sqisz[i].id); 
+        fprintf(fout, "<th>%s</th>", sqisz[i].id); 
     fprintf(fout, "</tr>\n");
     mi=0;
     for(i=0;i<nr;++i) {
@@ -227,7 +227,7 @@ void prtpwct2tsv(i_s *sqisz, int numsq, int *pwa, int nr, int nc, char *spapad, 
 
     fprintf(fout, "\t"); // first col of first row empty
     for(i=1;i<numsq;++i)
-         fprintf(fout, "%s\t", sqisz[i].id); 
+        fprintf(fout, "%s\t", sqisz[i].id); 
     fprintf(fout, "\n");
     mi=0;
     for(i=0;i<nr;++i) {
@@ -324,8 +324,8 @@ int main(int argc, char *argv[])
 {
     /* argument accounting: remember argc, the number of arguments, _includes_ the executable */
     if(argc==1) {
-         printf("pwamfa: _P_air_W_ise (verb) _A_ _M_ultiple _F_asta SNP _A_lignment.\n")
-         printf("Usage: Pls supply 1+ arguments: Each a multi-fasta SNP alignment filenames. \n");
+        printf("pwamfa: _P_air_W_ise (verb) _A_ _M_ultiple _F_asta SNP _A_lignment.\n");
+        printf("Usage: Pls supply 1+ arguments: Each a multi-fasta SNP alignment filenames. \n");
         exit(EXIT_FAILURE);
     }
     /* general declarations */
