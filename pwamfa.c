@@ -253,13 +253,11 @@ void prtpwct2tsv2(i_s *sqisz, int numsq, int *ma, char *tsvfn) /* this version r
     FILE *fout=fopen(tsvfn, "w");
     fprintf(fout, "\t"); // first col of first row empty
     for(i=0;i<numsq;++i)
-        fprintf(fout, "%s\t", sqisz[i].id); 
-    fprintf(fout, "\n");
+        fprintf(fout, (i==numsq-1)? "%s\n":"%s\t", sqisz[i].id); 
     for(i=0;i<numsq;++i) {
         fprintf(fout, "%s\t", sqisz[i].id); 
         for(j=0;j<numsq;++j)
-            fprintf(fout, "%d\t", ma[numsq*i+j]);
-        fprintf(fout, "\n");
+            fprintf(fout, (j==numsq-1)? "%d\n":"%d\t", ma[numsq*i+j]);
     }
     fclose(fout);
 }
