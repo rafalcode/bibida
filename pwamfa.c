@@ -12,6 +12,7 @@
 #define SSZ 2 /* CG count, first, AT count second, third are the anomalous characters */
 #define HISTBUCKETSZ 10
 #define HTCOLWIDTH 120
+#define OFFSET 1
 
 #define CONDREALLOC(x, b, c, a, t); \
     if((x)==((b)-1)) { \
@@ -29,6 +30,7 @@
         memset((a2)+(b)-(c), '\0', (c)*sizeof(t)); \
     }
 
+typedef unsigned char boole;
 typedef struct /* onefa */
 {
     char *id;
@@ -244,6 +246,70 @@ void prtpwct2tsv(i_s *sqisz, int numsq, int *pwa, int nr, int nc, char *spapad, 
     fclose(fout);
 }
 
+void prtpwct2tsv2(i_s *sqisz, int numsq, int *ma, char *tsvfn) /* this version requires the properly rendered symmetric matrix, generates bassic TSV no comments,
+																  as it's expected this will be used with R's cmdscale() */
+{
+    int i, j;
+    FILE *fout=fopen(tsvfn, "w");
+    fprintf(fout, "\t"); // first col of first row empty
+    for(i=0;i<numsq;++i)
+        fprintf(fout, "%s\t", sqisz[i].id); 
+    fprintf(fout, "\n");
+    for(i=0;i<numsq;++i) {
+        fprintf(fout, "%s\t", sqisz[i].id); 
+        for(j=0;j<numsq;++j)
+            fprintf(fout, "%d\t", ma[numsq*i+j]);
+        fprintf(fout, "\n");
+    }
+    fclose(fout);
+}
+
+void mirut(int *m, int n, boole cpdown) /* Upperleft triangular to lower left trianular entries, or viceversa depending on cpdown */
+{
+    int i, j, piv;
+
+    for(i=1;i<n;++i) {
+        piv=OFFSET+i;
+        for(j=0;j<piv-1;++j)
+            if(cpdown ==1) // copy upper entries down onto lower
+                m[n*i+j]=m[n*j+i];
+            else if(cpdown ==0) // copy lower entries up onto upper
+                m[n*j+i]=m[n*i+j];
+    }
+    return;
+}
+
+int *rendutma(int *pwa, int nr) /* render as upper triangular matrix ... square matrix returned */
+{
+    int i, j, mi, mj, m;
+    int n=nr+1;
+    int nc=nr;
+    int *ma=calloc(n*n, sizeof(int));
+
+    printf("The values of the pwa are given:\n"); 
+    mi=0;
+    for(i=0;i<nr;++i) {
+        mj=nc-i; // gradually decreasing extent of the column run
+        m=(nr+1)*i;
+        for(j=0;j<mj;++j) {
+            ma[m+i+j+1]=pwa[mi+j];
+            printf("%i ", pwa[mi+j]);
+        }
+        mi+=n-i-1;
+    }
+    printf("\n"); 
+	mirut(ma, n, 1);
+    /*
+    printf("Matrix rendition:\n"); 
+    for(i=0;i<n;++i) {
+        for(j=0;j<n;++j)
+            printf("%d ", ma[n*i+j]);
+        printf("\n"); 
+    }
+    */
+    return ma;
+}
+
 void prtfa2(onefa *fac)
 {
     int i;
@@ -346,6 +412,7 @@ int main(int argc, char *argv[])
     int ididx=0, ididx0=0;
     int oneln, npwc, *pwa=NULL, nr, nc, mi, mj; // for the PWCT
     char *spapad="    ";
+    int *ma;
 
     for(j=1;j<argc;++j) {
 
@@ -572,7 +639,10 @@ int main(int argc, char *argv[])
 #endif
         /* HTML version */
         // prtpwct2(sqisz, numsq, pwa, nr, nc, spapad, htmlfn, oneln);
-        prtpwct2tsv(sqisz, numsq, pwa, nr, nc, spapad, htmlfn, oneln);
+        // prtpwct2tsv(sqisz, numsq, pwa, nr, nc, spapad, htmlfn, oneln);
+		ma=rendutma(pwa, nr);
+        prtpwct2tsv2(sqisz, numsq, ma, htmlfn);
+		free(ma);
 
         for(i=0;i<numsq;++i) {
             free(sqisz[i].id);
