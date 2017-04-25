@@ -398,7 +398,7 @@ int main(int argc, char *argv[])
     char IGLINE, begline;
     size_t lidx, mxsylen, mnsylen;
     unsigned mxamb, mnamb;
-    int i, j, k, c, sqidx;
+    int i, j, k, m, c, sqidx;
     int gbuf;
     i_s *sqisz=NULL;
     int whatint;
@@ -412,17 +412,17 @@ int main(int argc, char *argv[])
     char *spapad="    ";
     int *ma;
 
-    for(j=1;j<argc;++j) {
+    for(m=1;m<argc;++m) {
 
-        if(!(fin=fopen(argv[j], "r")) ) { /*should one check the extension of the fasta file ? */
+        if(!(fin=fopen(argv[m], "r")) ) { /*should one check the extension of the fasta file ? */
             printf("Error. Cannot open \"%s\" file.\n", argv[j]);
             exit(EXIT_FAILURE);
         }
 
-        tp=strrchr(argv[j], '.');
-        sprintf(htmlfn, "%.*s%s", (int)(tp-argv[j]), argv[j], ".html");
+        tp=strrchr(argv[m], '.');
+        sprintf(htmlfn, "%.*s%s", (int)(tp-argv[m]), argv[m], ".html");
         /* OK I have to clean this up ... obviuous I want a TSV this time but it's too much trouble to set up getopts and friends! */
-        sprintf(htmlfn, "%.*s%s", (int)(tp-argv[j]), argv[j], ".tsv");
+        sprintf(htmlfn, "%.*s%s", (int)(tp-argv[m]), argv[m], ".tsv");
         IGLINE=0, begline=1;
         lidx=0, mxsylen=0, mnsylen=0XFFFFFFFFFFFFFFFF;
         mxamb=0, mnamb=0xFFFFFFFF;
@@ -606,7 +606,7 @@ int main(int argc, char *argv[])
 
         /* check for uniform sequence size, necessary for alignments */
         oneln=uniquelens(sqisz, numsq);
-        printf("File %s: numseq=%u, uniform seq size at %d\n", argv[j], numsq, oneln);
+        printf("File %s: numseq=%u, uniform seq size at %d\n", argv[m], numsq, oneln);
 #ifdef DBG
         prtsq(sqisz, numsq);
 #endif

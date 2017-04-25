@@ -9,7 +9,7 @@ DBG2CFLAGS=-g -Wall -DDBG2
 CFLAGS=-O3
 LIBS=-ltar
 
-EXES=ltar ltar_dbg yafasumzr mulfaint fasnck cdsck_d cdsck faszck faszck_d fastitch fastitch_d fastitch_dd fastitch0 fastitch0_d faspli faspli_d chop1fa chop1fa_d uchop1fa uchop1fa_d faaln0 faaln0_d faaln0_dd pwamfa pwamfa_d pwamfa_dd
+EXES=ltar ltar_dbg yafasumzr mulfaint fasnck cdsck_d cdsck faszck faszck_d fastitch fastitch_d fastitch_dd fastitch0 fastitch0_d faspli faspli_d chop1fa chop1fa_d uchop1fa uchop1fa_d faaln0 faaln0_d faaln0_dd pwamfa pwamfa_d pwamfa_dd pairupsnpa
 
 # ltar, code to use libtar .. in the very vain hope that it will be fast than tar itself!
 ltar: ltar.c
@@ -63,6 +63,9 @@ pwamfa_d: pwamfa.c
 	${CC} ${DBGCFLAGS} -o $@ $^
 pwamfa_dd: pwamfa.c
 	${CC} ${DBG2CFLAGS} -o $@ $^
+# Taking up  from pwamfa ... more user oriented though. 
+pairupsnpa: pairupsnpa.c
+	${CC} ${DBGCFLAGS} -o $@ $^
 
 # Codon checker
 cdsck: cdsck.c
