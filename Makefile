@@ -9,7 +9,7 @@ DBG2CFLAGS=-g -Wall -DDBG2
 CFLAGS=-O3
 LIBS=-ltar
 
-EXES=ltar ltar_dbg yafasumzr mulfaint fasnck cdsck_d cdsck faszck faszck_d fastitch fastitch_d fastitch_dd fastitch0 fastitch0_d faspli faspli_d chop1fa chop1fa_d uchop1fa uchop1fa_d faaln0 faaln0_d faaln0_dd pwamfa pwamfa_d pwamfa_dd pairupsnpa
+EXES=ltar ltar_dbg yafasumzr mulfaint fasnck cdsck_d cdsck faszck faszck_d fastitch fastitch_d fastitch_dd fastitch0 fastitch0_d faspli faspli_d chop1fa chop1fa_d uchop1fa uchop1fa_d faaln0 faaln0_d faaln0_dd pwamfa pwamfa_d pwamfa_dd pairupsnpa faf2snp
 
 # ltar, code to use libtar .. in the very vain hope that it will be fast than tar itself!
 ltar: ltar.c
@@ -111,6 +111,9 @@ uchop1fa: uchop1fa.c
 
 uchop1fa_d: uchop1fa.c
 	${CC} ${DBGCFLAGS} -o $@ $^
+
+faf2snp: faf2snp.c
+	${CC} ${CFLAGS} -o $@ $^
 
 .PHONY: clean
 

@@ -43,3 +43,7 @@ Caveats:
 * the merged sequences are then appended to the end, the first merged being the last in the new "stitched" sequence.
 * simply performs the most basic of merging on the smallest contigs without caring whether they belong to each other.
 * The new name of the sequence is merely one of the names of the merged contigs (extra coding can change this).
+
+## chopping
+* chop1fa ... says it chops a file with one fasta according to file to positions. WHat does that exactly mean? Well, I guess it actually
+takes positions and extracts the sequence inside those positions. I wonder how you would come up with those positions?
