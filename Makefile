@@ -9,7 +9,7 @@ DBG2CFLAGS=-g -Wall -DDBG2
 CFLAGS=-O3
 LIBS=-ltar
 
-EXES=ltar ltar_dbg yafasumzr mulfaint fasnck cdsck_d cdsck faszck faszck_d fastitch fastitch_d fastitch_dd fastitch0 fastitch0_d faspli faspli_d chop1fa chop1fa_d uchop1fa uchop1fa_d faaln0 faaln0_d faaln0_dd pwamfa pwamfa_d pwamfa_dd pairupsnpa faf2snp
+EXES=ltar ltar_dbg yafasumzr mulfaint fasnck cdsck_d cdsck faszck faszck_d fastitch fastitch_d fastitch_dd fastitch0 fastitch0_d faspli faspli_d chop1fa chop1fa_d uchop1fa uchop1fa_d faaln0 faaln0_d faaln0_dd pwamfa pwamfa_d pwamfa_dd pairupsnpa faf2snp fa_ck
 
 # ltar, code to use libtar .. in the very vain hope that it will be fast than tar itself!
 ltar: ltar.c
@@ -36,6 +36,10 @@ fasnck: fasnck.c
 # but actually outputs the unique sequence lengthsof the fasta togther with how often that
 # length occurred.
 faszck: faszck.c
+	${CC} ${CFLAGS} -o $@ $^
+
+# More general fasta checker based on faszck
+fa_ck: fa_ck.c
 	${CC} ${CFLAGS} -o $@ $^
 
 faszck_d: faszck.c
