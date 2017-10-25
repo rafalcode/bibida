@@ -62,17 +62,19 @@ void prtuo(uo_t *uov)
 {
 	unsigned j;
 	printf("number of different sequence lengths: %u\n", uov->usz);
-	printf("vals: "); 
 	size_t totsz=0;
-	for(j=0; j<uov->usz;++j) {
-		printf("%5u ", uov->ua[j]);
+	for(j=0; j<uov->usz;++j)
 		totsz += uov->ua[j]*uov->oa[j];
-	}
+#ifdef DBG
+	printf("vals: "); 
+	for(j=0; j<uov->usz;++j)
+		printf("%5u ", uov->ua[j]);
 	printf("\n"); 
 	printf("ocs: "); 
 	for(j=0; j<uov->usz;++j)
 		printf("%5u ", uov->oa[j]);
 	printf("\n"); 
+#endif
 	printf("Total size of sequences added together=%zu\n", totsz); 
 	return;
 }
@@ -128,10 +130,13 @@ void prtfaf(onefa *fac, FILE *fp)
 void prtsq(i_s *sqisz, int sz)
 {
 	int i;
+	printf("Number of different sequences=%i\n", sz); 
+#ifdef DBG
 	for(i=0;i<sz;++i) {
 		printf("%s\n", sqisz[i].id);
 		printf("%s\n", sqisz[i].sq);
 	}
+#endif
 	return;
 }
 
@@ -351,9 +356,7 @@ int main(int argc, char *argv[])
 	uo_t *uov=uniquelens(sqisz, numsq);
 	prtuo(uov);
 
-#ifdef DBG
 	prtsq(sqisz, numsq);
-#endif
 
 	for(i=0;i<numsq;++i) {
 		free(sqisz[i].id);
