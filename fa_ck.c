@@ -354,7 +354,7 @@ int main(int argc, char *argv[])
 
 	/* check for uniform sequence size, necessary for alignments */
 	uo_t *uov=uniquelens(sqisz, numsq);
-	prtuo(uov);
+	// prtuo(uov);
 
 	prtsq(sqisz, numsq);
 
