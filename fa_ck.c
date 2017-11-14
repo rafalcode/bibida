@@ -174,15 +174,8 @@ void prti_s(i_s *sqisz, int sz, float *mxcg, float *mncg)
 	printf("|\n"); 
 }
 
-int main(int argc, char *argv[])
+i_s *procfa(char *fname, unsigned *nsq)
 {
-	/* argument accounting: remember argc, the number of arguments, _includes_ the executable */
-	if(argc!=2) {
-		printf("fa_ck, a program to calculate pairwise distances on a sequence alignment: input format is FASTA only\n"); 
-		printf("Error. Progam requires 1 argument: the fast input file name.\n");
-		exit(EXIT_FAILURE);
-	}
-	/* general declarations */
 	FILE *fin;
 	char IGLINE, begline;
 	size_t lidx, mxsylen, mnsylen;
@@ -196,8 +189,8 @@ int main(int argc, char *argv[])
 	char *spapad="    ";
 
 	// OK open the file
-	if(!(fin=fopen(argv[1], "r")) ) { /*should one check the extension of the fasta file ? */
-		printf("Error. Cannot open \"%s\" file.\n", argv[1]);
+	if(!(fin=fopen(fname, "r")) ) { /*should one check the extension of the fasta file ? */
+		printf("Error. Cannot open file named \"%s\".\n", fname);
 		exit(EXIT_FAILURE);
 	}
 
@@ -345,12 +338,29 @@ int main(int argc, char *argv[])
 		if(sqisz[i].ambano[1])
 			numano++;
 	}
-	// return 0;
+
 	for(i=numsq;i<gbuf;++i) {
 		free(sqisz[i].id);
 		free(sqisz[i].sq);
 	}
 	sqisz=realloc(sqisz, numsq*sizeof(i_s));
+
+    *nsq=numsq;
+	return sqisz;
+}
+
+int main(int argc, char *argv[])
+{
+	/* argument accounting: remember argc, the number of arguments, _includes_ the executable */
+	if(argc!=2) {
+		printf("fa_ck, simple fasta file checker\n");
+		printf("Error. Progam requires 1 argument: the fast input file name.\n");
+		exit(EXIT_FAILURE);
+	}
+    int i;
+    unsigned numsq;
+
+	i_s *sqisz=procfa(argv[1], &numsq);
 
 	/* check for uniform sequence size, necessary for alignments */
 	uo_t *uov=uniquelens(sqisz, numsq);
@@ -358,6 +368,7 @@ int main(int argc, char *argv[])
 
 	prtsq(sqisz, numsq);
 
+    /* closedown */
 	for(i=0;i<numsq;++i) {
 		free(sqisz[i].id);
 		free(sqisz[i].sq);
