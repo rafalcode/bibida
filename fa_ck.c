@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <locale.h>
 
 #if defined DBG || defined DBG2
 #define GBUF 4
@@ -60,22 +61,21 @@ typedef struct /* ou_t unique occurence vector: often uov */
 
 void prtuo(uo_t *uov)
 {
+    setlocale(LC_NUMERIC, "");
 	unsigned j;
 	printf("number of different sequence lengths: %u\n", uov->usz);
 	size_t totsz=0;
 	for(j=0; j<uov->usz;++j)
 		totsz += uov->ua[j]*uov->oa[j];
-#ifdef DBG
-	printf("vals: "); 
+	printf("array of unique sequence lengths:\n"); 
 	for(j=0; j<uov->usz;++j)
-		printf("%5u ", uov->ua[j]);
+		printf("%'5u ", uov->ua[j]);
 	printf("\n"); 
-	printf("ocs: "); 
+	printf("Number of occurrences for each length:\n"); 
 	for(j=0; j<uov->usz;++j)
 		printf("%5u ", uov->oa[j]);
 	printf("\n"); 
-#endif
-	printf("Total size of sequences added together=%zu\n", totsz); 
+	printf("Total size of all sequences added together=%'zu bp.\n", totsz); 
 	return;
 }
 
@@ -131,7 +131,7 @@ void prtsq(i_s *sqisz, int sz)
 {
 	int i;
 	printf("Number of different sequences=%i\n", sz); 
-#ifdef DBG
+#ifdef DBG2
 	for(i=0;i<sz;++i) {
 		printf("%s\n", sqisz[i].id);
 		printf("%s\n", sqisz[i].sq);

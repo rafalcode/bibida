@@ -41,6 +41,8 @@ faszck: faszck.c
 # More general fasta checker based on faszck
 fa_ck: fa_ck.c
 	${CC} ${CFLAGS} -o $@ $^
+fa_ck_d: fa_ck.c
+	${CC} ${DBGCFLAGS} -o $@ $^
 
 faszck_d: faszck.c
 	${CC} ${DBGCFLAGS} -o $@ $^
