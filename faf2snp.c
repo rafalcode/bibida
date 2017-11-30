@@ -1,5 +1,7 @@
-/* nfasack.c DNA Fasta file sanity check: principally it will say 
- * if it a multisequence file */
+/* faf2snp.c Fist two sequence FASTA alignment checker:
+ * Mnemnic fa: fasta alignment, f2: first two (sequences) snp: because the alignments are usually of SNPs
+ * The rationale is that in pairwise comparisons, there are usually 3 sequences. The third being the reference
+ * provided out of comfort */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -13,7 +15,7 @@
 #define HISTBUCKETSZ 10
 #define HTCOLWIDTH 120
 #define NAMESTRSZ 256 // an arbitrary size for a name.
-#define F2 2
+#define F2 2 // F2 the first two sequences!
 
 #define CONDREALLOC(x, b, c, a, t); \
 	if((x)==((b)-1)) { \
@@ -481,7 +483,7 @@ int main(int argc, char *argv[])
 
 	int snpcou=0;
 	for(k=0;k<oneln;++k)
-		if(sqisz[0].sq[k]!=sqisz[1].sq[k])
+		if(sqisz[0].sq[k]!=sqisz[1].sq[k]) // vital: the two sequences may have scored a SNP against the reference, but do they score one against each other?
 			snpcou++;
 
 	printf("Num F2 snps = %i\n", snpcou);
