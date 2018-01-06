@@ -127,6 +127,17 @@ void prtfaf(onefa *fac, FILE *fp)
 	fprintf(fp, "%s\n", fac->sq);
 }
 
+void prtdets(i_s *sqisz, int sz)
+{
+	int i;
+    long totba=0UL;
+	for(i=0;i<sz;++i) {
+		totba += sqisz[i].sylen;
+	}
+	printf("numsqs=%i|totbasess=%lu\n", sz, totba); 
+	return;
+}
+
 void prtsq(i_s *sqisz, int sz)
 {
 	int i;
@@ -366,7 +377,8 @@ int main(int argc, char *argv[])
 	uo_t *uov=uniquelens(sqisz, numsq);
 	// prtuo(uov);
 
-	prtsq(sqisz, numsq);
+	// prtsq(sqisz, numsq);
+	prtdets(sqisz, numsq);
 
     /* closedown */
 	for(i=0;i<numsq;++i) {

@@ -479,14 +479,13 @@ int main(int argc, char *argv[])
 
 	/* check for uniform sequence size, necessary for alignments */
 	oneln=f2uniquelens(sqisz, numsq);
-	printf("File %s: numseq=%u, F2 uniform seq size at %d\n", argv[1], numsq, oneln);
 
 	int snpcou=0;
 	for(k=0;k<oneln;++k)
 		if(sqisz[0].sq[k]!=sqisz[1].sq[k]) // vital: the two sequences may have scored a SNP against the reference, but do they score one against each other?
 			snpcou++;
 
-	printf("Num F2 snps = %i\n", snpcou);
+	printf("File %s: numseq=%u, F2 uniform seq size at %d. SNP Count: %i\n", argv[1], numsq, oneln, snpcou);
 	for(i=0;i<numsq;++i) {
 		free(sqisz[i].id);
 		free(sqisz[i].sq);
