@@ -1,0 +1,1294 @@
+Eukaryotic genomes annotated at NCBI
+ref. https://www.ncbi.nlm.nih.gov/genome/annotation_euk/all/
+needs to be cleaned up
+
+   Hundreds of eukaryotic genomes have been annotated by the NCBI
+   Eukaryotic Genome Annotation Pipeline (see [205]graphs). The latest
+   annotation release available for each genome is shown in the tables
+   below. The tables are organized by taxonomic group and provide links to
+   the annotation report, FTP site, genome BLAST page, and Map Viewer
+   page.
+
+   Only completed annotations are shown here. Please browse the
+   [206]annotation runs currently in progress to see what will become
+   available in a few days.
+
+[207]Show/Hide All
+
+[208]Featured (6)
+
+   FTP - FTP DownloadMV - Map ViewerB - Organism-specific BLASTAR -
+   Annotation ReportGDV - Genome Data Viewer
+   Species RefSeq assembly(ies) Annotation Release Freeze Date Release
+   Date Links
+   [209]Homo sapiens (human) [210]GRCh38.p7 (GCF_000001405.33)
+
+   [211]CHM1_1.1 (GCF_000306695.2) 108 2016-05-05 2016-06-06 [212]FTP
+   [213]MV [214]B [215]AR [216]GDV
+   [217]Mus musculus (house mouse) [218]GRCm38.p4 (GCF_000001635.24) 106
+   2016-06-09 2016-06-22 [219]FTP [220]MV [221]B [222]AR [223]GDV
+   [224]Rattus norvegicus (Norway rat) [225]Rnor_6.0 (GCF_000001895.5)
+
+   [226]Rn_Celera (GCF_000002265.2) 106 2016-07-07 2016-07-27 [227]FTP
+   [228]B [229]AR [230]GDV
+   [231]Danio rerio (zebrafish) [232]GRCz11 (GCF_000002035.6) 106
+   2017-06-02 2017-06-26 [233]FTP    [234]B [235]AR [236]GDV
+   [237]Apis mellifera (honey bee) [238]Amel_4.5 (GCF_000002195.4) 103
+   2016-05-19 2016-05-24 [239]FTP    [240]B [241]AR [242]GDV
+   [243]Zea mays (maize) [244]B73 RefGen_v4 (GCF_000005005.2) 102
+   2017-12-07 2017-12-18 [245]FTP    [246]B [247]AR [248]GDV
+
+[249]Primates (25)
+
+   FTP - FTP DownloadMV - Map ViewerB - Organism-specific BLASTAR -
+   Annotation ReportGDV - Genome Data Viewer
+   Species RefSeq assembly(ies) Annotation Release Freeze Date Release
+   Date Links
+   [250]Otolemur garnettii (small-eared galago) [251]OtoGar3
+   (GCF_000181295.1) 102 2018-01-09 2018-01-12 [252]FTP    [253]B [254]AR
+   [255]GDV
+   [256]Piliocolobus tephrosceles (Ugandan red Colobus) [257]ASM277652v1
+   (GCF_002776525.1) 100 2017-11-30 2017-12-07 [258]FTP    [259]B [260]AR
+   [261]GDV
+   [262]Papio anubis (olive baboon) [263]Panu_3.0 (GCF_000264685.3) 103
+   2017-07-15 2017-07-26 [264]FTP    [265]B [266]AR [267]GDV
+   [268]Carlito syrichta (Philippine tarsier) [269]Tarsius_syrichta-2.0.1
+   (GCF_000164805.1) 101 2017-06-27 2017-07-15 [270]FTP    [271]B [272]AR
+   [273]GDV
+   [274]Aotus nancymaae (Ma's night monkey) [275]Anan_2.0
+   (GCF_000952055.2) 101 2017-06-23 2017-06-28 [276]FTP    [277]B [278]AR
+   [279]GDV
+   [280]Microcebus murinus (gray mouse lemur) [281]Mmur_3.0
+   (GCF_000165445.2) 101 2017-02-15 2017-02-27 [282]FTP    [283]B [284]AR
+   [285]GDV
+   [286]Gorilla gorilla (western gorilla) [287]gorGor4 (GCF_000151905.2)
+   101 2016-10-31 2016-11-04 [288]FTP    [289]B [290]AR [291]GDV
+   [292]Callithrix jacchus (white-tufted-ear marmoset) [293]Callithrix
+   jacchus-3.2 (GCF_000004665.1) 104 2016-08-19 2016-08-31 [294]FTP
+   [295]B [296]AR [297]GDV
+   [298]Rhinopithecus bieti (black snub-nosed monkey) [299]ASM169854v1
+   (GCF_001698545.1) 100 2016-08-18 2016-08-25 [300]FTP    [301]B [302]AR
+   [303]GDV
+   [304]Cebus capucinus imitator (white-faced sapajou)
+   [305]Cebus_imitator-1.0 (GCF_001604975.1) 100 2016-07-07 2016-07-18
+   [306]FTP    [307]B [308]AR [309]GDV
+   [310]Pan troglodytes (chimpanzee) [311]Pan_tro 3.0 (GCF_000001515.7)
+   104 2016-05-16 2016-06-02 [312]FTP    [313]B [314]AR [315]GDV
+   [316]Homo sapiens (human) [317]GRCh38.p7 (GCF_000001405.33)
+
+   [318]CHM1_1.1 (GCF_000306695.2) 108 2016-05-05 2016-06-06 [319]FTP
+   [320]MV [321]B [322]AR [323]GDV
+   [324]Macaca fascicularis (crab-eating macaque)
+   [325]Macaca_fascicularis_5.0 (GCF_000364345.1) 101 2016-01-06
+   2016-01-25 [326]FTP    [327]B [328]AR [329]GDV
+   [330]Macaca mulatta (Rhesus monkey) [331]Mmul_8.0.1 (GCF_000772875.2)
+   102 2015-12-08 2015-12-22 [332]FTP    [333]B [334]AR [335]GDV
+   [336]Pan paniscus (pygmy chimpanzee) [337]panpan1.1 (GCF_000258655.2)
+   102 2015-09-28 2015-09-30 [338]FTP    [339]B [340]AR [341]GDV
+   [342]Propithecus coquereli (Coquerel's sifaka) [343]Pcoq_1.0
+   (GCF_000956105.1) 100 2015-05-27 2015-06-01 [344]FTP    [345]B [346]AR
+   [347]GDV
+   [348]Nomascus leucogenys (northern white-cheeked gibbon) [349]Nleu_3.0
+   (GCF_000146795.2) 102 2015-05-07 2015-05-13 [350]FTP    [351]B [352]AR
+   [353]GDV
+   [354]Colobus angolensis palliatus (Angolan colobus) [355]Cang.pa_1.0
+   (GCF_000951035.1) 100 2015-03-26 2015-03-30 [356]FTP    [357]B [358]AR
+   [359]GDV
+   [360]Mandrillus leucophaeus (drill) [361]Mleu.le_1.0 (GCF_000951045.1)
+   100 2015-03-26 2015-03-30 [362]FTP    [363]B [364]AR [365]GDV
+   [366]Cercocebus atys (sooty mangabey) [367]Caty_1.0 (GCF_000955945.1)
+   100 2015-03-23 2015-03-30 [368]FTP    [369]B [370]AR [371]GDV
+   [372]Macaca nemestrina (pig-tailed macaque) [373]Mnem_1.0
+   (GCF_000956065.1) 100 2015-03-23 2015-03-30 [374]FTP    [375]B [376]AR
+   [377]GDV
+   [378]Rhinopithecus roxellana (golden snub-nosed monkey) [379]Rrox_v1
+   (GCF_000769185.1) 100 2014-11-18 2014-11-22 [380]FTP [381]MV [382]B
+   [383]AR [384]GDV
+   [385]Saimiri boliviensis (Bolivian squirrel monkey) [386]SaiBol1.0
+   (GCF_000235385.1) 101 2014-11-17 2014-11-24 [387]FTP [388]MV [389]B
+   [390]AR [391]GDV
+   [392]Pongo abelii (Sumatran orangutan) [393]P_pygmaeus_2.0.2
+   (GCF_000001545.4) 102 2014-09-16 2014-09-23 [394]FTP [395]MV [396]B
+   [397]AR [398]GDV
+   [399]Chlorocebus sabaeus (green monkey) [400]Chlorocebus_sabeus 1.1
+   (GCF_000409795.2) 100 2014-04-29 2014-05-14 [401]FTP [402]MV [403]B
+   [404]AR [405]GDV
+
+[406]Rodents (20)
+
+   FTP - FTP DownloadMV - Map ViewerB - Organism-specific BLASTAR -
+   Annotation ReportGDV - Genome Data Viewer
+   Species RefSeq assembly(ies) Annotation Release Freeze Date Release
+   Date Links
+   [407]Octodon degus (degu) [408]OctDeg1.0 (GCF_000260255.1) 102
+   2018-01-16 2018-01-24 [409]FTP    [410]B [411]AR [412]GDV
+   [413]Cavia porcellus (domestic guinea pig) [414]Cavpor3.0
+   (GCF_000151735.1) 103 2018-01-09 2018-01-22 [415]FTP    [416]B [417]AR
+   [418]GDV
+   [419]Ictidomys tridecemlineatus (thirteen-lined ground squirrel)
+   [420]SpeTri2.0 (GCF_000236235.1) 102 2017-06-30 2017-07-03 [421]FTP
+   [422]B [423]AR [424]GDV
+   [425]Meriones unguiculatus (Mongolian gerbil) [426]MunDraft-v1.0
+   (GCF_002204375.1) 100 2017-06-26 2017-06-27 [427]FTP    [428]B [429]AR
+   [430]GDV
+   [431]Mesocricetus auratus (golden hamster) [432]MesAur1.0
+   (GCF_000349665.1) 102 2017-05-19 2017-05-22 [433]FTP    [434]B [435]AR
+   [436]GDV
+   [437]Heterocephalus glaber (naked mole-rat) [438]HetGla_female_1.0
+   (GCF_000247695.1) 102 2017-05-19 2017-05-23 [439]FTP    [440]B [441]AR
+   [442]GDV
+   [443]Mus pahari (shrew mouse) [444]PAHARI_EIJ_v1.1 (GCF_900095145.1)
+   100 2017-05-18 2017-05-19 [445]FTP    [446]B [447]AR [448]GDV
+   [449]Mus caroli (Ryukyu mouse) [450]CAROLI_EIJ_v1.1 (GCF_900094665.1)
+   100 2017-05-18 2017-05-21 [451]FTP    [452]B [453]AR [454]GDV
+   [455]Castor canadensis (American beaver) [456]C.can genome v1.0
+   (GCF_001984765.1) 100 2017-02-09 2017-02-17 [457]FTP    [458]B [459]AR
+   [460]GDV
+   [461]Fukomys damarensis (Damara mole-rat) [462]DMR_v1.0
+   (GCF_000743615.1) 101 2016-11-16 2016-11-25 [463]FTP    [464]B [465]AR
+   [466]GDV
+   [467]Nannospalax galili (Upper Galilee mountains blind mole rat)
+   [468]S.galili_v1.0 (GCF_000622305.1) 101 2016-08-08 2016-08-12 [469]FTP
+      [470]B [471]AR [472]GDV
+   [473]Rattus norvegicus (Norway rat) [474]Rnor_6.0 (GCF_000001895.5)
+
+   [475]Rn_Celera (GCF_000002265.2) 106 2016-07-07 2016-07-27 [476]FTP
+   [477]B [478]AR [479]GDV
+   [480]Mus musculus (house mouse) [481]GRCm38.p4 (GCF_000001635.24) 106
+   2016-06-09 2016-06-22 [482]FTP [483]MV [484]B [485]AR [486]GDV
+   [487]Cricetulus griseus (Chinese hamster) [488]CriGri_1.0
+   (GCF_000223135.1)
+
+   [489]C_griseus_v1.0 (GCF_000419365.1) 102 2016-05-19 2016-05-27
+   [490]FTP    [491]B [492]AR [493]GDV
+   [494]Peromyscus maniculatus bairdii (prairie deer mouse) [495]Pman_1.0
+   (GCF_000500345.1) 101 2016-03-17 2016-03-21 [496]FTP    [497]B [498]AR
+   [499]GDV
+   [500]Marmota marmota marmota (Alpine marmot) [501]marMar2.1
+   (GCF_001458135.1) 100 2016-01-19 2016-01-28 [502]FTP    [503]B [504]AR
+   [505]GDV
+   [506]Microtus ochrogaster (prairie vole) [507]MicOch1.0
+   (GCF_000317375.1) 101 2015-08-05 2015-08-07 [508]FTP    [509]B [510]AR
+   [511]GDV
+   [512]Chinchilla lanigera (long-tailed chinchilla) [513]ChiLan1.0
+   (GCF_000276665.1) 101 2015-07-27 2015-08-19 [514]FTP    [515]B [516]AR
+   [517]GDV
+   [518]Dipodomys ordii (Ord's kangaroo rat) [519]Dord_2.0
+   (GCF_000151885.1) 100 2015-06-24 2015-07-07 [520]FTP    [521]B [522]AR
+   [523]GDV
+   [524]Jaculus jaculus (lesser Egyptian jerboa) [525]JacJac1.0
+   (GCF_000280705.1) 101 2015-06-18 2015-06-23 [526]FTP    [527]B [528]AR
+   [529]GDV
+
+[530]Even-toed ungulates and whales (Cetartiodactyla) (20)
+
+   FTP - FTP DownloadMV - Map ViewerB - Organism-specific BLASTAR -
+   Annotation ReportGDV - Genome Data Viewer
+   Species RefSeq assembly(ies) Annotation Release Freeze Date Release
+   Date Links
+   [531]Delphinapterus leucas (beluga whale) [532]ASM228892v2
+   (GCF_002288925.1) 100 2017-09-19 2017-09-23 [533]FTP    [534]B [535]AR
+   [536]GDV
+   [537]Sus scrofa (pig) [538]Sscrofa11.1 (GCF_000003025.6) 106 2017-05-03
+   [539]FTP    [540]B [541]AR [542]GDV
+   [543]Odocoileus virginianus texanus (white-tailed deer)
+   [544]Ovir.te_1.0 (GCF_002102435.1) 100 2017-04-25 2017-04-28 [545]FTP
+     [546]B [547]AR [548]GDV
+   [549]Tursiops truncatus (bottlenose dolphin) [550]NIST Tur_tru v1
+   (GCF_001922835.1) 101 2017-01-05 2017-01-12 [551]FTP    [552]B [553]AR
+   [554]GDV
+   [555]Bos indicus (zebu cattle) [556]Bos_indicus_1.0 (GCF_000247795.1)
+   100 2017-01-04 2017-01-12 [557]FTP    [558]B [559]AR [560]GDV
+   [561]Capra hircus (goat) [562]ARS1 (GCF_001704415.1) 102 2016-08-29
+   2016-09-08 [563]FTP    [564]B [565]AR [566]GDV
+   [567]Bos taurus (cattle) [568]Bos_taurus_UMD_3.1.1 (GCF_000003055.6)
+
+   [569]Btau_5.0.1 (GCF_000003205.7) 105 2016-01-20 2016-01-26 [570]FTP
+   [571]B [572]AR [573]GDV
+   [574]Vicugna pacos (alpaca) [575]Vicugna_pacos-2.0.1 (GCF_000164845.1)
+   101 2015-12-21 2015-12-30 [576]FTP    [577]B [578]AR [579]GDV
+   [580]Ovis aries (sheep) [581]Oar_v4.0 (GCF_000298735.2)
+
+   [582]Oori1 (GCF_000765115.1) 102 2015-12-02 2015-12-17 [583]FTP
+   [584]B [585]AR [586]GDV
+   [587]Camelus ferus (Wild Bactrian camel) [588]CB1 (GCF_000311805.1) 101
+   2015-11-02 2015-11-03 [589]FTP    [590]B [591]AR [592]GDV
+   [593]Bos mutus (wild yak) [594]BosGru_v2.0 (GCF_000298355.1) 101
+   2015-10-23 2015-10-26 [595]FTP    [596]B [597]AR [598]GDV
+   [599]Orcinus orca (killer whale) [600]Oorc_1.1 (GCF_000331955.1) 101
+   2015-05-13 2015-05-15 [601]FTP    [602]B [603]AR [604]GDV
+   [605]Camelus dromedarius (Arabian camel)
+   [606]PRJNA234474_Ca_dromedarius_V1.0 (GCF_000767585.1) 100 2015-01-05
+   2015-01-07 [607]FTP [608]MV [609]B [610]AR [611]GDV
+   [612]Camelus bactrianus (Bactrian camel) [613]Ca_bactrianus_MBC_1.0
+   (GCF_000767855.1) 100 2015-01-02 2015-01-06 [614]FTP [615]MV [616]B
+   [617]AR [618]GDV
+   [619]Bison bison bison (American bison) [620]Bison_UMD1.0
+   (GCF_000754665.1) 100 2014-12-23 2014-12-31 [621]FTP [622]MV [623]B
+   [624]AR [625]GDV
+   [626]Lipotes vexillifer (Yangtze River dolphin)
+   [627]Lipotes_vexillifer_v1 (GCF_000442215.1) 100 2014-03-27 2014-04-01
+   [628]FTP [629]MV [630]B [631]AR [632]GDV
+   [633]Balaenoptera acutorostrata scammoni (minke whale) [634]BalAcu1.0
+   (GCF_000493695.1) 100 2014-03-06 2014-03-17 [635]FTP [636]MV [637]B
+   [638]AR [639]GDV
+   [640]Physeter catodon (sperm whale) [641]Physeter_macrocephalus-2.0.2
+   (GCF_000472045.1) 100 2014-03-05 2014-03-11 [642]FTP [643]MV [644]B
+   [645]AR [646]GDV
+   [647]Bubalus bubalis (water buffalo) [648]UMD_CASPUR_WB_2.0
+   (GCF_000471725.1) 100 2013-11-25 2014-03-14 [649]FTP [650]MV [651]B
+   [652]AR
+   [653]Pantholops hodgsonii (chiru) [654]PHO1.0 (GCF_000400835.1) 100
+   2013-10-30 2013-11-06 [655]FTP [656]MV [657]B
+
+[658]Other Mammals (45)
+
+   FTP - FTP DownloadMV - Map ViewerB - Organism-specific BLASTAR -
+   Annotation ReportGDV - Genome Data Viewer
+   Species RefSeq assembly(ies) Annotation Release Freeze Date Release
+   Date Links
+   [659]Trichechus manatus latirostris (Florida manatee) [660]TriManLat1.0
+   (GCF_000243295.1) 102 2018-01-23 2018-01-29 [661]FTP    [662]B [663]AR
+   [664]GDV
+   [665]Myotis lucifugus (little brown bat) [666]Myoluc2.0
+   (GCF_000147115.1) 102 2018-01-17 2018-01-26 [667]FTP    [668]B [669]AR
+   [670]GDV
+   [671]Equus caballus (horse) [672]EquCab3.0 (GCF_002863925.1) 103
+   2018-01-11 2018-01-29 [673]FTP    [674]B [675]AR [676]GDV
+   [677]Loxodonta africana (African savanna elephant) [678]Loxafr3.0
+   (GCF_000001905.1) 102 2018-01-09 2018-01-16 [679]FTP    [680]B [681]AR
+   [682]GDV
+   [683]Pteropus vampyrus (large flying fox) [684]Pvam_2.0
+   (GCF_000151845.1) 101 2018-01-05 2018-01-19 [685]FTP    [686]B [687]AR
+   [688]GDV
+   [689]Dasypus novemcinctus (nine-banded armadillo) [690]Dasnov3.0
+   (GCF_000208655.1) 102 2018-01-05 2018-01-17 [691]FTP    [692]B [693]AR
+   [694]GDV
+   [695]Sarcophilus harrisii (Tasmanian devil) [696]Devil_ref v7.0
+   (GCF_000189315.1) 102 2018-01-05 2018-01-12 [697]FTP    [698]B [699]AR
+   [700]GDV
+   [701]Felis catus (domestic cat) [702]Felis_catus_9.0 (GCF_000181335.3)
+   104 2017-12-06 2017-12-12 [703]FTP    [704]B [705]AR [706]GDV
+   [707]Enhydra lutris kenyoni (sea otter) [708]ASM228890v2
+   (GCF_002288905.1) 100 2017-09-19 2017-09-20 [709]FTP    [710]B [711]AR
+   [712]GDV
+   [713]Canis lupus familiaris (dog) [714]CanFam3.1 (GCF_000002285.3) 105
+   2017-08-29 2017-09-05 [715]FTP    [716]B [717]AR [718]GDV
+   [719]Neomonachus schauinslandi (Hawaiian monk seal) [720]ASM220157v1
+   (GCF_002201575.1) 100 2017-06-27 2017-06-28 [721]FTP    [722]B [723]AR
+   [724]GDV
+   [725]Phascolarctos cinereus (koala) [726]phaCin_unsw_v4.1
+   (GCF_002099425.1) 100 2017-04-24 2017-05-10 [727]FTP    [728]B [729]AR
+   [730]GDV
+   [731]Ailuropoda melanoleuca (giant panda) [732]AilMel_1.0
+   (GCF_000004335.2) 102 2016-12-22 2016-12-29 [733]FTP    [734]B [735]AR
+   [736]GDV
+   [737]Rhinolophus sinicus (Chinese rufous horseshoe bat)
+   [738]ASM188883v1 (GCF_001888835.1) 100 2016-12-19 2016-12-27 [739]FTP
+     [740]B [741]AR [742]GDV
+   [743]Hipposideros armiger (great roundleaf bat) [744]ASM189008v1
+   (GCF_001890085.1) 100 2016-12-16 2016-12-20 [745]FTP    [746]B [747]AR
+   [748]GDV
+   [749]Panthera pardus (leopard) [750]PanPar1.0 (GCF_001857705.1) 100
+   2016-11-29 2016-12-06 [751]FTP    [752]B [753]AR [754]GDV
+   [755]Manis javanica (Malayan pangolin) [756]ManJav1.0 (GCF_001685135.1)
+   100 2016-07-28 2016-07-30 [757]FTP    [758]B [759]AR [760]GDV
+   [761]Oryctolagus cuniculus (rabbit) [762]OryCun2.0 (GCF_000003625.3)
+   102 2016-06-13 2016-06-23 [763]FTP    [764]B [765]AR [766]GDV
+   [767]Monodelphis domestica (gray short-tailed opossum) [768]MonDom5
+   (GCF_000002295.2) 103 2016-04-14 2016-04-27 [769]FTP    [770]B [771]AR
+   [772]GDV
+   [773]Ornithorhynchus anatinus (platypus)
+   [774]Ornithorhynchus_anatinus-5.0.1 (GCF_000002275.2) 103 2016-04-12
+   2016-04-16 [775]FTP    [776]B [777]AR [778]GDV
+   [779]Erinaceus europaeus (western European hedgehog) [780]EriEur2.0
+   (GCF_000296755.1) 101 2016-04-08 2016-04-11 [781]FTP    [782]B [783]AR
+   [784]GDV
+   [785]Miniopterus natalensis (bats) [786]Mnat.v1 (GCF_001595765.1) 100
+   2016-04-08 2016-04-11 [787]FTP    [788]B [789]AR [790]GDV
+   [791]Rousettus aegyptiacus (Egyptian rousette) [792]Raegyp2.0
+   (GCF_001466805.2) 100 2016-03-25 2016-03-29 [793]FTP    [794]B [795]AR
+   [796]GDV
+   [797]Pteropus alecto (black flying fox) [798]ASM32557v1
+   (GCF_000325575.1) 101 2016-02-08 2016-02-10 [799]FTP    [800]B [801]AR
+   [802]GDV
+   [803]Myotis davidii (bats) [804]ASM32734v1 (GCF_000327345.1) 101
+   2016-02-04 2016-02-10 [805]FTP    [806]B [807]AR [808]GDV
+   [809]Panthera tigris altaica (Amur tiger) [810]PanTig1.0
+   (GCF_000464555.1) 101 2016-02-04 2016-02-08 [811]FTP    [812]B [813]AR
+   [814]GDV
+   [815]Acinonyx jubatus (cheetah) [816]aciJub1 (GCF_001443585.1) 100
+   2015-12-11 2015-12-15 [817]FTP    [818]B [819]AR [820]GDV
+   [821]Ceratotherium simum simum (southern white rhinoceros)
+   [822]CerSimSim1.0 (GCF_000283155.1) 101 2015-11-25 2015-11-27 [823]FTP
+      [824]B [825]AR [826]GDV
+   [827]Equus asinus (ass) [828]ASM130575v1 (GCF_001305755.1) 100
+   2015-11-25 2015-12-02 [829]FTP    [830]B [831]AR [832]GDV
+   [833]Tupaia chinensis (Chinese tree shrew) [834]TupChi_1.0
+   (GCF_000334495.1) 101 2015-10-29 2015-11-04 [835]FTP    [836]B [837]AR
+   [838]GDV
+   [839]Myotis brandtii (Brandt's bat) [840]ASM41265v1 (GCF_000412655.1)
+   101 2015-10-26 2015-11-05 [841]FTP    [842]B [843]AR [844]GDV
+   [845]Mustela putorius furo (domestic ferret) [846]MusPutFur1.0
+   (GCF_000215625.1) 101 2015-06-25 2015-07-01 [847]FTP    [848]B [849]AR
+   [850]GDV
+   [851]Echinops telfairi (small Madagascar hedgehog) [852]EchTel2.0
+   (GCF_000313985.1) 101 2015-06-23 2015-06-25 [853]FTP    [854]B [855]AR
+   [856]GDV
+   [857]Ochotona princeps (American pika) [858]OchPri3.0 (GCF_000292845.1)
+   101 2015-06-15 2015-06-19 [859]FTP    [860]B [861]AR [862]GDV
+   [863]Sorex araneus (European shrew) [864]SorAra2.0 (GCF_000181275.1)
+   101 2015-06-15 2015-06-18 [865]FTP    [866]B [867]AR [868]GDV
+   [869]Condylura cristata (star-nosed mole) [870]ConCri1.0
+   (GCF_000260355.1) 101 2015-06-05 2015-06-10 [871]FTP    [872]B [873]AR
+   [874]GDV
+   [875]Odobenus rosmarus divergens (Pacific walrus) [876]Oros_1.0
+   (GCF_000321225.1) 101 2015-05-18 2015-05-26 [877]FTP    [878]B [879]AR
+   [880]GDV
+   [881]Ursus maritimus (polar bear) [882]UrsMar_1.0 (GCF_000687225.1) 100
+   2014-07-31 2014-08-04 [883]FTP [884]MV [885]B [886]AR [887]GDV
+   [888]Galeopterus variegatus (Sunda flying lemur)
+   [889]G_variegatus-3.0.2 (GCF_000696425.1) 100 2014-07-18 2014-07-23
+   [890]FTP [891]MV [892]B [893]AR [894]GDV
+   [895]Equus przewalskii (Przewalski's horse) [896]Burgud
+   (GCF_000696695.1) 100 2014-07-10 2014-07-14 [897]FTP [898]MV [899]B
+   [900]AR [901]GDV
+   [902]Eptesicus fuscus (big brown bat) [903]EptFus1.0 (GCF_000308155.1)
+   100 2014-05-26 2014-05-30 [904]FTP [905]MV [906]B [907]AR [908]GDV
+   [909]Orycteropus afer afer (aardvark) [910]OryAfe1.0 (GCF_000298275.1)
+   100 2014-05-09 2014-05-14 [911]FTP [912]MV [913]B [914]AR [915]GDV
+   [916]Chrysochloris asiatica (Cape golden mole) [917]ChrAsi1.0
+   (GCF_000296735.1) 100 2014-02-10 2014-02-19 [918]FTP [919]MV [920]B
+   [921]AR [922]GDV
+   [923]Elephantulus edwardii (Cape elephant shrew) [924]EleEdw1.0
+   (GCF_000299155.1) 100 2014-02-10 2014-02-19 [925]FTP [926]MV [927]B
+   [928]AR [929]GDV
+   [930]Leptonychotes weddellii (Weddell seal) [931]LepWed1.0
+   (GCF_000349705.1) 100 2014-01-28 2014-02-14 [932]FTP [933]MV [934]B
+   [935]AR [936]GDV
+
+[937]Birds (62)
+
+   FTP - FTP DownloadMV - Map ViewerB - Organism-specific BLASTAR -
+   Annotation ReportGDV - Genome Data Viewer
+   Species RefSeq assembly(ies) Annotation Release Freeze Date Release
+   Date Links
+   [938]Cyanistes caeruleus (blue tit) [939]cyaCae2 (GCF_002901205.1) 100
+   2018-02-05 2018-02-07 [940]FTP    [941]B [942]AR [943]GDV
+   [944]Lonchura striata domestica (Bengalese finch) [945]LonStrDom1
+   (GCF_002197715.1) 100 2017-06-23 2017-06-24 [946]FTP    [947]B [948]AR
+   [949]GDV
+   [950]Numida meleagris (helmeted guineafowl) [951]NumMel1.0
+   (GCF_002078875.1) 100 2017-06-05 2017-06-07 [952]FTP    [953]B [954]AR
+   [955]GDV
+   [956]Columba livia (rock pigeon) [957]Cliv_1.0 (GCF_000337935.1) 102
+   2017-05-22 2017-05-24 [958]FTP    [959]B [960]AR [961]GDV
+   [962]Anas platyrhynchos (mallard) [963]BGI_duck_1.0 (GCF_000355885.1)
+   102 2017-05-19 2017-05-24 [964]FTP    [965]B [966]AR [967]GDV
+   [968]Corvus cornix cornix (hooded crow) [969]ASM73873v2
+   (GCF_000738735.2) 102 2017-03-14 2017-03-22 [970]FTP    [971]B [972]AR
+   [973]GDV
+   [974]Meleagris gallopavo (turkey) [975]Turkey_5.0 (GCF_000146605.2) 102
+   2016-12-09 2016-12-23 [976]FTP    [977]B [978]AR [979]GDV
+   [980]Aptenodytes forsteri (emperor penguin) [981]ASM69914v1
+   (GCF_000699145.1) 101 2016-12-02 2016-12-05 [982]FTP    [983]B [984]AR
+   [985]GDV
+   [986]Parus major (Great Tit) [987]Parus_major1.1 (GCF_001522545.2) 101
+   2016-11-01 2016-11-14 [988]FTP    [989]B [990]AR [991]GDV
+   [992]Serinus canaria (common canary) [993]SCA1 (GCF_000534875.1) 101
+   2016-10-27 2016-11-04 [994]FTP    [995]B [996]AR [997]GDV
+   [998]Manacus vitellinus (golden-collared manakin) [999]ASM171598v1
+   (GCF_001715985.1) 101 2016-09-01 2016-09-13 [1000]FTP    [1001]B
+   [1002]AR [1003]GDV
+   [1004]Lepidothrix coronata (blue-crowned manakin)
+   [1005]Lepidothrix_coronata-1.0 (GCF_001604755.1) 100 2016-08-09
+   2016-08-11 [1006]FTP    [1007]B [1008]AR [1009]GDV
+   [1010]Corvus brachyrhynchos (American crow) [1011]ASM69197v1
+   (GCF_000691975.1) 101 2016-07-29 2016-08-03 [1012]FTP    [1013]B
+   [1014]AR [1015]GDV
+   [1016]Ficedula albicollis (collared flycatcher) [1017]FicAlb1.5
+   (GCF_000247815.1) 101 2016-04-13 2016-04-20 [1018]FTP    [1019]B
+   [1020]AR [1021]GDV
+   [1022]Coturnix japonica (Japanese quail) [1023]Coturnix japonica 2.0
+   (GCF_001577835.1) 100 2016-03-03 2016-03-09 [1024]FTP    [1025]B
+   [1026]AR [1027]GDV
+   [1028]Gallus gallus (chicken) [1029]Gallus_gallus-5.0 (GCF_000002315.4)
+   103 2015-12-21 2016-01-04 [1030]FTP    [1031]B [1032]AR [1033]GDV
+   [1034]Calidris pugnax (ruff) [1035]ASM143184v1 (GCF_001431845.1) 100
+   2015-12-08 2015-12-09 [1036]FTP    [1037]B [1038]AR [1039]GDV
+   [1040]Sturnus vulgaris (common starling) [1041]Sturnus_vulgaris-1.0
+   (GCF_001447265.1) 100 2015-12-01 2015-12-02 [1042]FTP    [1043]B
+   [1044]AR [1045]GDV
+   [1046]Geospiza fortis (medium ground-finch) [1047]GeoFor_1.0
+   (GCF_000277835.1) 101 2015-09-22 2015-09-24 [1048]FTP    [1049]B
+   [1050]AR [1051]GDV
+   [1052]Falco cherrug (Saker falcon) [1053]F_cherrug_v1.0
+   (GCF_000337975.1) 101 2015-09-18 2015-09-21 [1054]FTP    [1055]B
+   [1056]AR [1057]GDV
+   [1058]Pseudopodoces humilis (Tibetan ground-tit) [1059]PseHum1.0
+   (GCF_000331425.1) 101 2015-09-18 2015-09-21 [1060]FTP    [1061]B
+   [1062]AR [1063]GDV
+   [1064]Zonotrichia albicollis (white-throated sparrow)
+   [1065]Zonotrichia_albicollis-1.0.1 (GCF_000385455.1) 101 2015-09-18
+   2015-09-21 [1066]FTP    [1067]B [1068]AR [1069]GDV
+   [1070]Apteryx australis mantelli (brown kiwi) [1071]AptMant0
+   (GCF_001039765.1) 100 2015-09-03 2015-09-09 [1072]FTP    [1073]B
+   [1074]AR [1075]GDV
+   [1076]Falco peregrinus (peregrine falcon) [1077]F_peregrinus_v1.0
+   (GCF_000337955.1) 101 2015-07-30 2015-08-03 [1078]FTP    [1079]B
+   [1080]AR [1081]GDV
+   [1082]Anser cygnoides domesticus (swan goose)
+   [1083]AnsCyg_PRJNA183603_v1.0 (GCF_000971095.1) 100 2015-07-22
+   2015-07-24 [1084]FTP    [1085]B [1086]AR [1087]GDV
+   [1088]Melopsittacus undulatus (budgerigar)
+   [1089]Melopsittacus_undulatus_6.3 (GCF_000238935.1) 102 2015-07-10
+   2015-07-14 [1090]FTP    [1091]B [1092]AR [1093]GDV
+   [1094]Taeniopygia guttata (zebra finch) [1095]Taeniopygia_guttata-3.2.4
+   (GCF_000151805.1) 103 2015-05-19 2015-05-26 [1096]FTP    [1097]B
+   [1098]AR [1099]GDV
+   [1100]Aquila chrysaetos canadensis (golden eagle)
+   [1101]Aquila_chrysaetos-1.0.2 (GCF_000766835.1) 100 2015-03-10
+   2015-03-13 [1102]FTP [1103]MV [1104]B [1105]AR [1106]GDV
+   [1107]Haliaeetus leucocephalus (bald eagle)
+   [1108]Haliaeetus_leucocephalus-4.0 (GCF_000737465.1) 100 2014-12-04
+   2014-12-06 [1109]FTP [1110]MV [1111]B [1112]AR [1113]GDV
+   [1114]Balearica regulorum gibbericeps (East African grey crowned-crane)
+   [1115]ASM70989v1 (GCF_000709895.1) 100 2014-11-17 2014-11-18 [1116]FTP
+   [1117]MV [1118]B [1119]AR [1120]GDV
+   [1121]Colius striatus (speckled mousebird) [1122]ASM69071v1
+   (GCF_000690715.1) 100 2014-11-06 2014-11-07 [1123]FTP [1124]MV [1125]B
+   [1126]AR [1127]GDV
+   [1128]Tinamus guttatus (white-throated tinamou) [1129]ASM70537v2
+   (GCF_000705375.1) 100 2014-11-06 2014-11-13 [1130]FTP [1131]MV [1132]B
+   [1133]AR [1134]GDV
+   [1135]Phaethon lepturus (white-tailed tropicbird) [1136]ASM68728v1
+   (GCF_000687285.1) 100 2014-11-05 2014-11-17 [1137]FTP [1138]MV [1139]B
+   [1140]AR [1141]GDV
+   [1142]Buceros rhinoceros silvestris (Rhinoceros hornbill)
+   [1143]ASM71030v1 (GCF_000710305.1) 100 2014-11-04 2014-11-06 [1144]FTP
+   [1145]MV [1146]B [1147]AR [1148]GDV
+   [1149]Chlamydotis macqueenii (Macqueen's bustard) [1150]ASM69519v1
+   (GCF_000695195.1) 100 2014-11-04 2014-11-07 [1151]FTP [1152]MV [1153]B
+   [1154]AR [1155]GDV
+   [1156]Antrostomus carolinensis (chuck-will's-widow) [1157]ASM70074v1
+   (GCF_000700745.1) 100 2014-11-03 2014-11-06 [1158]FTP [1159]MV [1160]B
+   [1161]AR [1162]GDV
+   [1163]Eurypyga helias (sunbittern) [1164]ASM69077v1 (GCF_000690775.1)
+   100 2014-11-03 2014-11-06 [1165]FTP [1166]MV [1167]B [1168]AR [1169]GDV
+   [1170]Mesitornis unicolor (brown roatelo) [1171]ASM69576v1
+   (GCF_000695765.1) 100 2014-11-03 2014-11-06 [1172]FTP [1173]MV [1174]B
+   [1175]AR [1176]GDV
+   [1177]Pterocles gutturalis (yellow-throated sandgrouse)
+   [1178]ASM69924v1 (GCF_000699245.1) 100 2014-11-02 2014-11-06 [1179]FTP
+   [1180]MV [1181]B [1182]AR [1183]GDV
+   [1184]Tauraco erythrolophus (red-crested turaco) [1185]ASM70936v1
+   (GCF_000709365.1) 100 2014-10-30 2014-10-31 [1186]FTP [1187]MV [1188]B
+   [1189]AR [1190]GDV
+   [1191]Tyto alba (barn owl) [1192]ASM68720v1 (GCF_000687205.1) 100
+   2014-10-30 2014-10-31 [1193]FTP [1194]MV [1195]B [1196]AR [1197]GDV
+   [1198]Chaetura pelagica (chimney swift) [1199]ChaPel_1.0
+   (GCF_000747805.1) 100 2014-10-29 2014-10-31 [1200]FTP [1201]MV [1202]B
+   [1203]AR [1204]GDV
+   [1205]Nestor notabilis (Kea) [1206]ASM69687v1 (GCF_000696875.1) 100
+   2014-10-29 2014-10-31 [1207]FTP [1208]MV [1209]B [1210]AR [1211]GDV
+   [1212]Leptosomus discolor (cuckoo roller) [1213]ASM69178v1
+   (GCF_000691785.1) 100 2014-10-27 2014-10-28 [1214]FTP [1215]MV [1216]B
+   [1217]AR [1218]GDV
+   [1219]Opisthocomus hoazin (hoatzin) [1220]ASM69207v1 (GCF_000692075.1)
+   100 2014-10-27 2014-10-28 [1221]FTP [1222]MV [1223]B [1224]AR [1225]GDV
+   [1226]Haliaeetus albicilla (white-tailed eagle) [1227]ASM69140v1
+   (GCF_000691405.1) 100 2014-10-23 2014-10-28 [1228]FTP [1229]MV [1230]B
+   [1231]AR [1232]GDV
+   [1233]Apaloderma vittatum (bar-tailed trogon) [1234]ASM70340v1
+   (GCF_000703405.1) 100 2014-10-22 2014-10-24 [1235]FTP [1236]MV [1237]B
+   [1238]AR [1239]GDV
+   [1240]Charadrius vociferus (killdeer) [1241]ASM70802v2
+   (GCF_000708025.1) 100 2014-10-21 2014-10-24 [1242]FTP [1243]MV [1244]B
+   [1245]AR [1246]GDV
+   [1247]Picoides pubescens (Downy woodpecker) [1248]ASM69900v1
+   (GCF_000699005.1) 100 2014-10-21 2014-10-24 [1249]FTP [1250]MV [1251]B
+   [1252]AR [1253]GDV
+   [1254]Cariama cristata (red-legged seriema) [1255]ASM69053v1
+   (GCF_000690535.1) 100 2014-10-16 2014-10-21 [1256]FTP [1257]MV [1258]B
+   [1259]AR [1260]GDV
+   [1261]Gavia stellata (red-throated loon) [1262]ASM69087v1
+   (GCF_000690875.1) 100 2014-10-15 2014-10-21 [1263]FTP [1264]MV [1265]B
+   [1266]AR [1267]GDV
+   [1268]Struthio camelus australis (African ostrich) [1269]ASM69896v1
+   (GCF_000698965.1) 100 2014-10-14 2014-10-15 [1270]FTP [1271]MV [1272]B
+   [1273]AR [1274]GDV
+   [1275]Egretta garzetta (little egret) [1276]ASM68718v1
+   (GCF_000687185.1) 100 2014-10-10 2014-10-16 [1277]FTP [1278]MV [1279]B
+   [1280]AR [1281]GDV
+   [1282]Cuculus canorus (common cuckoo) [1283]ASM70932v1
+   (GCF_000709325.1) 100 2014-10-09 2014-10-14 [1284]FTP [1285]MV [1286]B
+   [1287]AR [1288]GDV
+   [1289]Fulmarus glacialis (Northern fulmar) [1290]ASM69083v1
+   (GCF_000690835.1) 100 2014-10-07 2014-10-14 [1291]FTP [1292]MV [1293]B
+   [1294]AR [1295]GDV
+   [1296]Phalacrocorax carbo (great cormorant) [1297]ASM70892v1
+   (GCF_000708925.1) 100 2014-10-06 2014-10-08 [1298]FTP [1299]MV [1300]B
+   [1301]AR [1302]GDV
+   [1303]Nipponia nippon (crested ibis) [1304]ASM70822v1 (GCF_000708225.1)
+   100 2014-10-03 2014-10-07 [1305]FTP [1306]MV [1307]B [1308]AR [1309]GDV
+   [1310]Pelecanus crispus (Dalmatian pelican) [1311]ASM68737v1
+   (GCF_000687375.1) 100 2014-10-03 2014-10-06 [1312]FTP [1313]MV [1314]B
+   [1315]AR [1316]GDV
+   [1317]Pygoscelis adeliae (Adelie penguin) [1318]ASM69910v1
+   (GCF_000699105.1) 100 2014-09-23 2014-09-26 [1319]FTP [1320]MV [1321]B
+   [1322]AR [1323]GDV
+   [1324]Acanthisitta chloris (rifleman) [1325]ASM69581v1
+   (GCF_000695815.1) 100 2014-09-03 2014-09-05 [1326]FTP [1327]MV [1328]B
+   [1329]AR [1330]GDV
+   [1331]Merops nubicus (carmine bee-eater) [1332]ASM69184v1
+   (GCF_000691845.1) 100 2014-08-29 2014-09-02 [1333]FTP [1334]MV [1335]B
+   [1336]AR [1337]GDV
+   [1338]Calypte anna (Anna's hummingbird) [1339]ASM69908v1
+   (GCF_000699085.1) 100 2014-07-08 2014-07-10 [1340]FTP [1341]MV [1342]B
+   [1343]AR [1344]GDV
+
+[1345]Fish (50)
+
+   FTP - FTP DownloadMV - Map ViewerB - Organism-specific BLASTAR -
+   Annotation ReportGDV - Genome Data Viewer
+   Species RefSeq assembly(ies) Annotation Release Freeze Date Release
+   Date Links
+   [1346]Paramormyrops kingsleyae (bony fishes) [1347]PKINGS_0.1
+   (GCF_002872115.1) 100 2018-01-31 2018-02-03 [1348]FTP    [1349]B
+   [1350]AR [1351]GDV
+   [1352]Seriola lalandi dorsalis (yellowtail amberjack) [1353]Sedor1
+   (GCF_002814215.1) 100 2017-12-21 2017-12-26 [1354]FTP    [1355]B
+   [1356]AR [1357]GDV
+   [1358]Xiphophorus maculatus (southern platyfish)
+   [1359]X_maculatus-5.0-male (GCF_002775205.1) 102 2017-12-14 2017-12-22
+   [1360]FTP    [1361]B [1362]AR [1363]GDV
+   [1364]Amphiprion ocellaris (clown anemonefish) [1365]AmpOce1.0
+   (GCF_002776465.1) 100 2017-12-11 2017-12-13 [1366]FTP    [1367]B
+   [1368]AR [1369]GDV
+   [1370]Maylandia zebra (zebra mbuna) [1371]M_zebra_UMD1
+   (GCF_000238955.2) 103 2017-11-26 2017-11-30 [1372]FTP    [1373]B
+   [1374]AR [1375]GDV
+   [1376]Seriola dumerili (greater amberjack) [1377]Sdu_1.0
+   (GCF_002260705.1) 100 2017-10-02 2017-10-05 [1378]FTP    [1379]B
+   [1380]AR [1381]GDV
+   [1382]Astyanax mexicanus (Mexican tetra) [1383]Astyanax_mexicanus-2.0
+   (GCF_000372685.2) 102 2017-09-27 2017-10-03 [1384]FTP    [1385]B
+   [1386]AR [1387]GDV
+   [1388]Acanthochromis polyacanthus (spiny chromis) [1389]ASM210954v1
+   (GCF_002109545.1) 100 2017-08-03 2017-08-07 [1390]FTP    [1391]B
+   [1392]AR [1393]GDV
+   [1394]Oncorhynchus mykiss (rainbow trout) [1395]Omyk_1.0
+   (GCF_002163495.1) 100 2017-06-16 2017-06-27 [1396]FTP    [1397]B
+   [1398]AR [1399]GDV
+   [1400]Danio rerio (zebrafish) [1401]GRCz11 (GCF_000002035.6) 106
+   2017-06-02 2017-06-26 [1402]FTP    [1403]B [1404]AR [1405]GDV
+   [1406]Fundulus heteroclitus (mummichog)
+   [1407]Fundulus_heteroclitus-3.0.2 (GCF_000826765.1) 101 2017-05-29
+   2017-06-01 [1408]FTP    [1409]B [1410]AR [1411]GDV
+   [1412]Boleophthalmus pectinirostris (great blue-spotted mudskipper)
+   [1413]BP.fa (GCF_000788275.1) 100 2017-04-26 2017-04-29 [1414]FTP
+   [1415]B [1416]AR [1417]GDV
+   [1418]Oryzias latipes (Japanese medaka) [1419]ASM31367v1
+   (GCF_000313675.1) 102 2017-03-30 2017-04-07 [1420]FTP    [1421]B
+   [1422]AR [1423]GDV
+   [1424]Monopterus albus (swamp eel) [1425]M_albus_1.0 (GCF_001952655.1)
+   100 2017-03-23 2017-03-27 [1426]FTP    [1427]B [1428]AR [1429]GDV
+   [1430]Labrus bergylta (ballan wrasse) [1431]BallGen_V1
+   (GCF_900080235.1) 100 2017-03-22 2017-03-27 [1432]FTP    [1433]B
+   [1434]AR [1435]GDV
+   [1436]Rhincodon typus (whale shark) [1437]ASM164234v2 (GCF_001642345.1)
+   100 2017-03-13 2017-03-20 [1438]FTP    [1439]B [1440]AR [1441]GDV
+   [1442]Oncorhynchus kisutch (coho salmon) [1443]Okis_V1
+   (GCF_002021735.1) 100 2017-03-09 2017-03-14 [1444]FTP    [1445]B
+   [1446]AR [1447]GDV
+   [1448]Paralichthys olivaceus (Japanese flounder)
+   [1449]Flounder_ref_guided_V1.0 (GCF_001970005.1) 100 2017-02-03
+   2017-02-08 [1450]FTP    [1451]B [1452]AR [1453]GDV
+   [1454]Esox lucius (northern pike) [1455]Eluc_V3 (GCF_000721915.3) 102
+   2017-01-24 2017-01-30 [1456]FTP    [1457]B [1458]AR [1459]GDV
+   [1460]Hippocampus comes (tiger tail seahorse) [1461]H_comes_QL1_v1
+   (GCF_001891065.1) 100 2017-01-03 2017-01-11 [1462]FTP    [1463]B
+   [1464]AR [1465]GDV
+   [1466]Oreochromis niloticus (Nile tilapia) [1467]ASM185804v2
+   (GCF_001858045.1) 103 2016-11-25 2016-12-05 [1468]FTP    [1469]B
+   [1470]AR [1471]GDV
+   [1472]Larimichthys crocea (large yellow croaker) [1473]L_crocea_1.0
+   (GCF_000972845.1) 101 2016-11-22 2016-11-29 [1474]FTP    [1475]B
+   [1476]AR [1477]GDV
+   [1478]Cyprinus carpio (common carp) [1479]common carp genome
+   (GCF_000951615.1) 100 2016-11-03 2016-11-10 [1480]FTP    [1481]B
+   [1482]AR [1483]GDV
+   [1484]Scleropages formosus (Asian bonytongue) [1485]ASM162426v1
+   (GCF_001624265.1) 100 2016-10-12 2016-10-19 [1486]FTP    [1487]B
+   [1488]AR [1489]GDV
+   [1490]Lates calcarifer (barramundi perch) [1491]ASM164080v1
+   (GCF_001640805.1) 100 2016-10-06 2016-10-14 [1492]FTP    [1493]B
+   [1494]AR [1495]GDV
+   [1496]Pygocentrus nattereri (red-bellied piranha)
+   [1497]Pygocentrus_nattereri-1.0.2 (GCF_001682695.1) 100 2016-07-28
+   2016-08-17 [1498]FTP    [1499]B [1500]AR [1501]GDV
+   [1502]Ictalurus punctatus (channel catfish) [1503]IpCoco_1.2
+   (GCF_001660625.1) 100 2016-07-01 2016-07-06 [1504]FTP    [1505]B
+   [1506]AR [1507]GDV
+   [1508]Kryptolebias marmoratus (mangrove rivulus) [1509]ASM164957v1
+   (GCF_001649575.1) 100 2016-06-27 2016-06-28 [1510]FTP    [1511]B
+   [1512]AR [1513]GDV
+   [1514]Poecilia reticulata (guppy) [1515]Guppy_female_1.0+MT
+   (GCF_000633615.1) 101 2016-06-10 2016-06-21 [1516]FTP    [1517]B
+   [1518]AR [1519]GDV
+   [1520]Cynoglossus semilaevis (tongue sole) [1521]Cse_v1.0
+   (GCF_000523025.1) 101 2016-06-03 2016-06-07 [1522]FTP    [1523]B
+   [1524]AR [1525]GDV
+   [1526]Poecilia formosa (Amazon molly) [1527]Poecilia_formosa-5.1.2
+   (GCF_000485575.1) 101 2016-04-29 2016-05-03 [1528]FTP    [1529]B
+   [1530]AR [1531]GDV
+   [1532]Sinocyclocheilus rhinocerous (bony fishes)
+   [1533]SAMN03320098_v1.1 (GCF_001515625.1) 100 2016-04-26 2016-05-04
+   [1534]FTP    [1535]B [1536]AR [1537]GDV
+   [1538]Sinocyclocheilus anshuiensis (bony fishes)
+   [1539]SAMN03320099.WGS_v1.1 (GCF_001515605.1) 100 2016-04-25 2016-05-03
+   [1540]FTP    [1541]B [1542]AR [1543]GDV
+   [1544]Sinocyclocheilus grahami (bony fishes)
+   [1545]SAMN03320097.WGS_v1.1 (GCF_001515645.1) 100 2016-04-15 2016-04-19
+   [1546]FTP    [1547]B [1548]AR [1549]GDV
+   [1550]Nothobranchius furzeri (turquoise killifish) [1551]Nfu_20140520
+   (GCF_001465895.1) 100 2016-03-14 2016-03-18 [1552]FTP    [1553]B
+   [1554]AR [1555]GDV
+   [1556]Cyprinodon variegatus (sheepshead minnow) [1557]C_variegatus-1.0
+   (GCF_000732505.1) 100 2016-01-08 2016-01-14 [1558]FTP    [1559]B
+   [1560]AR [1561]GDV
+   [1562]Lepisosteus oculatus (spotted gar) [1563]LepOcu1
+   (GCF_000242695.1) 101 2016-01-06 2016-01-08 [1564]FTP    [1565]B
+   [1566]AR [1567]GDV
+   [1568]Poecilia latipinna (sailfin molly) [1569]P_latipinna-1.0
+   (GCF_001443285.1) 100 2015-12-10 2015-12-15 [1570]FTP    [1571]B
+   [1572]AR [1573]GDV
+   [1574]Poecilia mexicana (shortfin molly) [1575]P_mexicana-1.0
+   (GCF_001443325.1) 100 2015-12-10 2015-12-15 [1576]FTP    [1577]B
+   [1578]AR [1579]GDV
+   [1580]Latimeria chalumnae (coelacanth) [1581]LatCha1 (GCF_000225785.1)
+   101 2015-10-21 2015-10-26 [1582]FTP    [1583]B [1584]AR [1585]GDV
+   [1586]Haplochromis burtoni (Burton's mouthbrooder) [1587]AstBur1.0
+   (GCF_000239415.1) 101 2015-09-23 2015-09-29 [1588]FTP    [1589]B
+   [1590]AR [1591]GDV
+   [1592]Salmo salar (Atlantic salmon) [1593]ICSASG_v2 (GCF_000233375.1)
+   100 2015-09-15 2015-09-22 [1594]FTP    [1595]B [1596]AR [1597]GDV
+   [1598]Austrofundulus limnaeus (bony fishes)
+   [1599]Austrofundulus_limnaeus-1.0 (GCF_001266775.1) 100 2015-09-02
+   2015-09-17 [1600]FTP    [1601]B [1602]AR [1603]GDV
+   [1604]Pundamilia nyererei (bony fishes) [1605]PunNye1.0
+   (GCF_000239375.1) 101 2015-08-28 2015-08-31 [1606]FTP    [1607]B
+   [1608]AR [1609]GDV
+   [1610]Clupea harengus (Atlantic herring) [1611]ASM96633v1
+   (GCF_000966335.1) 100 2015-06-10 2015-06-12 [1612]FTP    [1613]B
+   [1614]AR [1615]GDV
+   [1616]Takifugu rubripes (torafugu) [1617]FUGU5 (GCF_000180615.1) 101
+   2015-03-11 2015-03-16 [1618]FTP    [1619]B [1620]AR [1621]GDV
+   [1622]Notothenia coriiceps (black rockcod) [1623]NC01 (GCF_000735185.1)
+   100 2014-12-18 2014-12-23 [1624]FTP [1625]MV [1626]B [1627]AR [1628]GDV
+   [1629]Stegastes partitus (bicolor damselfish)
+   [1630]Stegastes_partitus-1.0.2 (GCF_000690725.1) 100 2014-06-16
+   2014-06-19 [1631]FTP [1632]MV [1633]B [1634]AR [1635]GDV
+   [1636]Callorhinchus milii (elephant shark)
+   [1637]Callorhinchus_milii-6.1.3 (GCF_000165045.1) 100 2014-04-29
+   2014-05-09 [1638]FTP [1639]MV [1640]B [1641]AR [1642]GDV
+   [1643]Neolamprologus brichardi (lyretail cichlid) [1644]NeoBri1.0
+   (GCF_000239395.1) 100 2014-01-14 2014-02-10 [1645]FTP [1646]MV [1647]B
+   [1648]AR [1649]GDV
+
+[1650]Other Vertebrates (16)
+
+   FTP - FTP DownloadMV - Map ViewerB - Organism-specific BLASTAR -
+   Annotation ReportGDV - Genome Data Viewer
+   Species RefSeq assembly(ies) Annotation Release Freeze Date Release
+   Date Links
+   [1651]Pogona vitticeps (central bearded dragon) [1652]pvi1.1
+   (GCF_900067755.1) 100 2017-04-07 2017-04-10 [1653]FTP    [1654]B
+   [1655]AR [1656]GDV
+   [1657]Crocodylus porosus (Australian saltwater crocodile)
+   [1658]CroPor_comp1 (GCF_001723895.1) 100 2016-12-12 2016-12-20
+   [1659]FTP    [1660]B [1661]AR [1662]GDV
+   [1663]Gavialis gangeticus (Gharial) [1664]GavGan_comp1
+   (GCF_001723915.1) 100 2016-12-12 2016-12-16 [1665]FTP    [1666]B
+   [1667]AR [1668]GDV
+   [1669]Alligator mississippiensis (American alligator) [1670]ASM28112v4
+   (GCF_000281125.3) 102 2016-12-07 2016-12-09 [1671]FTP    [1672]B
+   [1673]AR [1674]GDV
+   [1675]Nanorana parkeri (frogs & toads) [1676]ASM93562v1
+   (GCF_000935625.1) 100 2016-09-27 2016-09-30 [1677]FTP    [1678]B
+   [1679]AR [1680]GDV
+   [1681]Xenopus laevis (African clawed frog) [1682]Xenopus_laevis_v2
+   (GCF_001663975.1) 100 2016-09-14 2016-09-21 [1683]FTP    [1684]B
+   [1685]AR [1686]GDV
+   [1687]Xenopus tropicalis (tropical clawed frog)
+   [1688]Xenopus_tropicalis_v9.1 (GCF_000004195.3) 103 2016-08-31
+   2016-09-13 [1689]FTP    [1690]B [1691]AR [1692]GDV
+   [1693]Anolis carolinensis (green anole) [1694]AnoCar2.0
+   (GCF_000090745.1) 102 2016-05-26 2016-05-31 [1695]FTP    [1696]B
+   [1697]AR [1698]GDV
+   [1699]Python bivittatus (Burmese python)
+   [1700]Python_molurus_bivittatus-5.0.2 (GCF_000186305.1) 101 2016-03-07
+   2016-03-11 [1701]FTP    [1702]B [1703]AR [1704]GDV
+   [1705]Protobothrops mucrosquamatus (snakes) [1706]P.Mucros_1.0
+   (GCF_001527695.1) 100 2016-03-01 2016-03-02 [1707]FTP    [1708]B
+   [1709]AR [1710]GDV
+   [1711]Gekko japonicus (lizards) [1712]Gekko_japonicus_V1.1
+   (GCF_001447785.1) 100 2016-01-12 2016-01-21 [1713]FTP    [1714]B
+   [1715]AR [1716]GDV
+   [1717]Pelodiscus sinensis (Chinese soft-shelled turtle)
+   [1718]PelSin_1.0 (GCF_000230535.1) 101 2015-11-02 2015-11-03 [1719]FTP
+      [1720]B [1721]AR [1722]GDV
+   [1723]Alligator sinensis (Chinese alligator) [1724]ASM45574v1
+   (GCF_000455745.1) 101 2015-10-28 2015-10-30 [1725]FTP    [1726]B
+   [1727]AR [1728]GDV
+   [1729]Thamnophis sirtalis (snakes) [1730]Thamnophis_sirtalis-6.0
+   (GCF_001077635.1) 100 2015-09-02 2015-09-17 [1731]FTP    [1732]B
+   [1733]AR [1734]GDV
+   [1735]Chrysemys picta (painted turtle)
+   [1736]Chrysemys_picta_bellii-3.0.3 (GCF_000241765.3) 101 2014-05-23
+   2014-06-04 [1737]FTP [1738]MV [1739]B [1740]AR [1741]GDV
+   [1742]Chelonia mydas (green sea turtle) [1743]CheMyd_1.0
+   (GCF_000344595.1) 100 2014-02-28 2014-03-07 [1744]FTP [1745]MV [1746]B
+   [1747]AR [1748]GDV
+
+[1749]Insects (97)
+
+   FTP - FTP DownloadMV - Map ViewerB - Organism-specific BLASTAR -
+   Annotation ReportGDV - Genome Data Viewer
+   Species RefSeq assembly(ies) Annotation Release Freeze Date Release
+   Date Links
+   [1750]Cryptotermes secundus (termites) [1751]Csec_1.0 (GCF_002891405.1)
+   100 2018-02-02 2018-02-04 [1752]FTP    [1753]B [1754]AR [1755]GDV
+   [1756]Anoplophora glabripennis (Asian longhorned beetle) [1757]Agla_2.0
+   (GCF_000390285.2) 101 2018-01-04 2018-01-10 [1758]FTP    [1759]B
+   [1760]AR [1761]GDV
+   [1762]Lucilia cuprina (Australian sheep blowfly) [1763]Lcup_2.0
+   (GCF_000699065.1) 100 2018-01-04 2018-01-05 [1764]FTP    [1765]B
+   [1766]AR [1767]GDV
+   [1768]Trichogramma pretiosum (wasps &c.) [1769]Tpre_2.0
+   (GCF_000599845.2) 101 2018-01-04 2018-01-05 [1770]FTP    [1771]B
+   [1772]AR [1773]GDV
+   [1774]Orussus abietinus (hymenopterans) [1775]Oabi_2.0
+   (GCF_000612105.2) 101 2017-12-28 2018-01-02 [1776]FTP    [1777]B
+   [1778]AR [1779]GDV
+   [1780]Copidosoma floridanum (wasps &c.) [1781]Cflo_2.0
+   (GCF_000648655.2) 101 2017-12-22 2017-12-26 [1782]FTP    [1783]B
+   [1784]AR [1785]GDV
+   [1786]Drosophila hydei (flies) [1787]ASM278046v1 (GCF_002780465.1) 100
+   2017-12-14 2017-12-18 [1788]FTP    [1789]B [1790]AR [1791]GDV
+   [1792]Ceratitis capitata (Mediterranean fruit fly) [1793]Ccap_2.1
+   (GCF_000347755.3) 103 2017-12-14 2017-12-18 [1794]FTP    [1795]B
+   [1796]AR [1797]GDV
+   [1798]Drosophila willistoni (flies) [1799]dwil_caf1 (GCF_000005925.1)
+   101 2017-12-01 2017-12-04 [1800]FTP    [1801]B [1802]AR [1803]GDV
+   [1804]Leptinotarsa decemlineata (Colorado potato beetle) [1805]Ldec_2.0
+   (GCF_000500325.1) 100 2017-11-29 2017-12-01 [1806]FTP    [1807]B
+   [1808]AR [1809]GDV
+   [1810]Onthophagus taurus (beetles) [1811]Otau_2.0 (GCF_000648695.1) 100
+   2017-11-21 2017-11-24 [1812]FTP    [1813]B [1814]AR [1815]GDV
+   [1816]Spodoptera litura (moths) [1817]ASM270686v1 (GCF_002706865.1) 100
+   2017-11-02 2017-11-04 [1818]FTP    [1819]B [1820]AR [1821]GDV
+   [1822]Drosophila obscura (flies) [1823]Dobs_1.0 (GCF_002217835.1) 100
+   2017-08-23 2017-08-24 [1824]FTP    [1825]B [1826]AR [1827]GDV
+   [1828]Nilaparvata lugens (brown planthopper) [1829]NilLug1.0
+   (GCF_000757685.1) 100 2017-08-15 2017-08-17 [1830]FTP    [1831]B
+   [1832]AR [1833]GDV
+   [1834]Myzus persicae (green peach aphid) [1835]MPER_G0061.0
+   (GCF_001856785.1) 100 2017-08-10 2017-08-11 [1836]FTP    [1837]B
+   [1838]AR [1839]GDV
+   [1840]Pieris rapae (cabbage white) [1841]P_rapae_3842_assembly_v2
+   (GCF_001856805.1) 100 2017-08-08 2017-08-15 [1842]FTP    [1843]B
+   [1844]AR [1845]GDV
+   [1846]Zootermopsis nevadensis (termites) [1847]ZooNev1.0
+   (GCF_000696155.1) 100 2017-08-03 2017-08-06 [1848]FTP    [1849]B
+   [1850]AR [1851]GDV
+   [1852]Aedes aegypti (yellow fever mosquito) [1853]AaegL5.0
+   (GCF_002204515.2) 101 2017-07-12 2017-07-20 [1854]FTP    [1855]B
+   [1856]AR [1857]GDV
+   [1858]Bombyx mori (domestic silkworm) [1859]ASM15162v1
+   (GCF_000151625.1) 102 2017-05-30 2017-06-06 [1860]FTP    [1861]B
+   [1862]AR [1863]GDV
+   [1864]Helicoverpa armigera (cotton bollworm) [1865]Harm_1.0
+   (GCF_002156985.1) 100 2017-05-30 2017-06-01 [1866]FTP    [1867]B
+   [1868]AR [1869]GDV
+   [1870]Drosophila serrata (flies) [1871]Dser1.0 (GCF_002093755.1) 100
+   2017-05-01 2017-05-02 [1872]FTP    [1873]B [1874]AR [1875]GDV
+   [1876]Bombus terrestris (buff-tailed bumblebee) [1877]Bter_1.0
+   (GCF_000214255.1) 102 2017-04-21 2017-04-25 [1878]FTP    [1879]B
+   [1880]AR [1881]GDV
+   [1882]Athalia rosae (coleseed sawfly) [1883]Aros_1.0 (GCF_000344095.1)
+   101 2017-04-19 2017-04-20 [1884]FTP    [1885]B [1886]AR [1887]GDV
+   [1888]Pseudomyrmex gracilis (ants) [1889]ASM200609v1 (GCF_002006095.1)
+   100 2017-03-02 2017-03-08 [1890]FTP    [1891]B [1892]AR [1893]GDV
+   [1894]Aedes albopictus (Asian tiger mosquito) [1895]canu_80X_arrow2.2
+   (GCF_001876365.2) 101 2017-01-25 2017-02-03 [1896]FTP    [1897]B
+   [1898]AR [1899]GDV
+   [1900]Musca domestica (house fly) [1901]Musca_domestica-2.0.2
+   (GCF_000371365.1) 102 2017-01-24 2017-01-26 [1902]FTP    [1903]B
+   [1904]AR [1905]GDV
+   [1906]Ooceraea biroi (clonal raider ant) [1907]CerBir1.0
+   (GCF_000611835.1) 101 2017-01-19 2017-01-24 [1908]FTP    [1909]B
+   [1910]AR [1911]GDV
+   [1912]Camponotus floridanus (Florida carpenter ant) [1913]CamFlo_1.0
+   (GCF_000147175.1) 101 2017-01-17 2017-01-24 [1914]FTP    [1915]B
+   [1916]AR [1917]GDV
+   [1918]Aethina tumida (small hive beetle) [1919]Atum_1.0
+   (GCF_001937115.1) 100 2017-01-13 2017-01-18 [1920]FTP    [1921]B
+   [1922]AR [1923]GDV
+   [1924]Bactrocera dorsalis (oriental fruit fly) [1925]ASM78921v2
+   (GCF_000789215.1) 101 2017-01-06 2017-01-17 [1926]FTP    [1927]B
+   [1928]AR [1929]GDV
+   [1930]Dendroctonus ponderosae (mountain pine beetle)
+   [1931]DendPond_male_1.0 (GCF_000355655.1) 100 2017-01-05 2017-01-10
+   [1932]FTP    [1933]B [1934]AR [1935]GDV
+   [1936]Harpegnathos saltator (Jerdon's jumping ant) [1937]HarSal_1.0
+   (GCF_000147195.1) 101 2016-12-22 2016-12-30 [1938]FTP    [1939]B
+   [1940]AR [1941]GDV
+   [1942]Bemisia tabaci (sweet potato whitefly) [1943]ASM185493v1
+   (GCF_001854935.1) 100 2016-11-04 2016-11-10 [1944]FTP    [1945]B
+   [1946]AR [1947]GDV
+   [1948]Bactrocera latifrons (flies) [1949]ASM185335v1 (GCF_001853355.1)
+   100 2016-10-28 2016-11-03 [1950]FTP    [1951]B [1952]AR [1953]GDV
+   [1954]Cyphomyrmex costatus (ants) [1955]Ccosl1.0 (GCF_001594065.1) 100
+   2016-09-22 2016-09-27 [1956]FTP    [1957]B [1958]AR [1959]GDV
+   [1960]Trachymyrmex cornetzi (ants) [1961]Tcor1.0 (GCF_001594075.1) 100
+   2016-09-22 2016-09-23 [1962]FTP    [1963]B [1964]AR [1965]GDV
+   [1966]Trachymyrmex septentrionalis (ants) [1967]Tsep1.0
+   (GCF_001594115.1) 100 2016-09-22 2016-09-23 [1968]FTP    [1969]B
+   [1970]AR [1971]GDV
+   [1972]Agrilus planipennis (emerald ash borer) [1973]Apla_1.0
+   (GCF_000699045.1) 100 2016-09-21 2016-09-22 [1974]FTP    [1975]B
+   [1976]AR [1977]GDV
+   [1978]Atta colombica (ants) [1979]Acol1.0 (GCF_001594045.1) 100
+   2016-09-16 2016-09-19 [1980]FTP    [1981]B [1982]AR [1983]GDV
+   [1984]Trachymyrmex zeteki (ants) [1985]Tzet1.0 (GCF_001594055.1) 100
+   2016-09-16 2016-09-22 [1986]FTP    [1987]B [1988]AR [1989]GDV
+   [1990]Drosophila navojoa (flies) [1991]ASM165401v1 (GCF_001654015.1)
+   100 2016-09-02 2016-09-08 [1992]FTP    [1993]B [1994]AR [1995]GDV
+   [1996]Ceratina calcarata (bees) [1997]ASM165200v1 (GCF_001652005.1) 100
+   2016-08-25 2016-08-31 [1998]FTP    [1999]B [2000]AR [2001]GDV
+   [2002]Drosophila busckii (flies) [2003]ASM127793v1 (GCF_001277935.1)
+   100 2016-08-25 2016-08-29 [2004]FTP    [2005]B [2006]AR [2007]GDV
+   [2008]Drosophila arizonae (flies) [2009]ASM165402v1 (GCF_001654025.1)
+   100 2016-08-24 2016-08-29 [2010]FTP    [2011]B [2012]AR [2013]GDV
+   [2014]Habropoda laboriosa (bees) [2015]ASM126327v1 (GCF_001263275.1)
+   100 2016-08-24 2016-08-26 [2016]FTP    [2017]B [2018]AR [2019]GDV
+   [2020]Eufriesea mexicana (bees) [2021]ASM148370v1 (GCF_001483705.1) 100
+   2016-08-23 2016-08-26 [2022]FTP    [2023]B [2024]AR [2025]GDV
+   [2026]Nicrophorus vespilloides (beetles) [2027]Nicve_v1.0
+   (GCF_001412225.1) 100 2016-08-23 2016-08-24 [2028]FTP    [2029]B
+   [2030]AR [2031]GDV
+   [2032]Rhagoletis zephyria (snowberry fruit fly)
+   [2033]Rhagoletis_zephyria_1.0 (GCF_001687245.1) 100 2016-07-26
+   2016-07-29 [2034]FTP    [2035]B [2036]AR [2037]GDV
+   [2038]Diaphorina citri (Asian citrus psyllid) [2039]Diaci psyllid
+   genome assembly version 1.1 (GCF_000475195.1) 101 2016-06-28 2016-07-01
+   [2040]FTP    [2041]B [2042]AR [2043]GDV
+   [2044]Drosophila biarmipes (flies) [2045]Dbia_2.0 (GCF_000233415.1) 101
+   2016-06-13 2016-06-17 [2046]FTP    [2047]B [2048]AR [2049]GDV
+   [2050]Drosophila bipectinata (flies) [2051]Dbip_2.0 (GCF_000236285.1)
+   101 2016-06-13 2016-06-17 [2052]FTP    [2053]B [2054]AR [2055]GDV
+   [2056]Drosophila elegans (flies) [2057]Dele_2.0 (GCF_000224195.1) 101
+   2016-06-13 2016-06-17 [2058]FTP    [2059]B [2060]AR [2061]GDV
+   [2062]Drosophila eugracilis (flies) [2063]Deug_2.0 (GCF_000236325.1)
+   101 2016-06-13 2016-06-17 [2064]FTP    [2065]B [2066]AR [2067]GDV
+   [2068]Drosophila ficusphila (flies) [2069]Dfic_2.0 (GCF_000220665.1)
+   101 2016-06-13 2016-06-17 [2070]FTP    [2071]B [2072]AR [2073]GDV
+   [2074]Drosophila kikkawai (flies) [2075]Dkik_2.0 (GCF_000224215.1) 101
+   2016-06-13 2016-06-17 [2076]FTP    [2077]B [2078]AR [2079]GDV
+   [2080]Drosophila miranda (flies) [2081]DroMir_2.2 (GCF_000269505.1) 101
+   2016-06-13 2016-06-17 [2082]FTP    [2083]B [2084]AR [2085]GDV
+   [2086]Drosophila rhopaloa (flies) [2087]Drho_2.0 (GCF_000236305.1) 101
+   2016-06-13 2016-06-17 [2088]FTP    [2089]B [2090]AR [2091]GDV
+   [2092]Drosophila takahashii (flies) [2093]Dtak_2.0 (GCF_000224235.1)
+   101 2016-06-13 2016-06-17 [2094]FTP    [2095]B [2096]AR [2097]GDV
+   [2098]Drosophila suzukii (flies) [2099]Dsuzukii.v01 (GCF_000472105.1)
+   101 2016-06-09 2016-06-10 [2100]FTP    [2101]B [2102]AR [2103]GDV
+   [2104]Apis cerana (Asiatic honeybee) [2105]ACSNU-2.0 (GCF_001442555.1)
+   100 2016-06-06 2016-06-09 [2106]FTP    [2107]B [2108]AR [2109]GDV
+   [2110]Nasonia vitripennis (jewel wasp) [2111]Nvit_2.1 (GCF_000002325.3)
+   102 2016-05-23 2016-05-26 [2112]FTP    [2113]B [2114]AR [2115]GDV
+   [2116]Apis mellifera (honey bee) [2117]Amel_4.5 (GCF_000002195.4) 103
+   2016-05-19 2016-05-24 [2118]FTP    [2119]B [2120]AR [2121]GDV
+   [2122]Acyrthosiphon pisum (pea aphid) [2123]Acyr_2.0 (GCF_000142985.2)
+   102 2016-05-12 2016-05-17 [2124]FTP    [2125]B [2126]AR [2127]GDV
+   [2128]Tribolium castaneum (red flour beetle) [2129]Tcas5.2
+   (GCF_000002335.3) 103 2016-03-16 2016-03-21 [2130]FTP    [2131]B
+   [2132]AR [2133]GDV
+   [2134]Cephus cinctus (wheat stem sawfly) [2135]Ccin1 (GCF_000341935.1)
+   100 2016-02-23 2016-02-24 [2136]FTP    [2137]B [2138]AR [2139]GDV
+   [2140]Neodiprion lecontei (redheaded pine sawfly) [2141]Nlec1.0
+   (GCF_001263575.1) 100 2016-02-18 2016-02-19 [2142]FTP    [2143]B
+   [2144]AR [2145]GDV
+   [2146]Dufourea novaeangliae (bees) [2147]ASM127255v1 (GCF_001272555.1)
+   100 2016-02-08 2016-02-09 [2148]FTP    [2149]B [2150]AR [2151]GDV
+   [2152]Diuraphis noxia (Russian wheat aphid) [2153]Dnoxia_1.0
+   (GCF_001186385.1) 100 2016-02-01 2016-02-02 [2154]FTP    [2155]B
+   [2156]AR [2157]GDV
+   [2158]Polistes dominula (European paper wasp) [2159]Pdom r1.2
+   (GCF_001465965.1) 100 2016-01-05 2016-01-06 [2160]FTP    [2161]B
+   [2162]AR [2163]GDV
+   [2164]Diachasma alloeum (wasps &c.) [2165]Dall1.0 (GCF_001412515.1) 100
+   2015-12-23 2015-12-30 [2166]FTP    [2167]B [2168]AR [2169]GDV
+   [2170]Polistes canadensis (wasps &c.) [2171]ASM131383v1
+   (GCF_001313835.1) 100 2015-11-23 2015-11-24 [2172]FTP    [2173]B
+   [2174]AR [2175]GDV
+   [2176]Dinoponera quadriceps (ants) [2177]ASM131382v1 (GCF_001313825.1)
+   100 2015-11-09 2015-11-12 [2178]FTP    [2179]B [2180]AR [2181]GDV
+   [2182]Papilio machaon (common yellow swallowtail) [2183]Pap_ma_1.0
+   (GCF_001298355.1) 100 2015-10-28 2015-10-29 [2184]FTP    [2185]B
+   [2186]AR [2187]GDV
+   [2188]Microplitis demolitor (wasps &c.) [2189]Mdem2 (GCF_000572035.2)
+   101 2015-10-16 2015-10-19 [2190]FTP    [2191]B [2192]AR [2193]GDV
+   [2194]Halyomorpha halys (brown marmorated stink bug) [2195]Hhal_1.0
+   (GCF_000696795.1) 100 2015-10-15 2015-10-19 [2196]FTP    [2197]B
+   [2198]AR [2199]GDV
+   [2200]Cimex lectularius (bed bug) [2201]Clec_1.0 (GCF_000648675.1) 100
+   2015-10-14 2015-10-16 [2202]FTP    [2203]B [2204]AR [2205]GDV
+   [2206]Bactrocera oleae (olive fruit fly)
+   [2207]gapfilled_joined_lt9474.gt500.covgt10 (GCF_001188975.1) 100
+   2015-09-18 2015-09-21 [2208]FTP    [2209]B [2210]AR [2211]GDV
+   [2212]Amyelois transitella (moths) [2213]ASM118610v1 (GCF_001186105.1)
+   100 2015-08-05 2015-08-06 [2214]FTP    [2215]B [2216]AR [2217]GDV
+   [2218]Papilio xuthus (Asian swallowtail) [2219]Pxut_1.0
+   (GCF_000836235.1) 100 2015-07-31 2015-08-04 [2220]FTP    [2221]B
+   [2222]AR [2223]GDV
+   [2224]Papilio polytes (common Mormon) [2225]Ppol_1.0 (GCF_000836215.1)
+   100 2015-07-30 2015-07-31 [2226]FTP    [2227]B [2228]AR [2229]GDV
+   [2230]Stomoxys calcitrans (stable fly) [2231]Stomoxys_calcitrans-1.0.1
+   (GCF_001015335.1) 100 2015-07-27 2015-07-29 [2232]FTP    [2233]B
+   [2234]AR [2235]GDV
+   [2236]Monomorium pharaonis (pharaoh ant) [2237]M.pharaonis_V2.0
+   (GCF_000980195.1) 100 2015-05-29 2015-06-01 [2238]FTP    [2239]B
+   [2240]AR [2241]GDV
+   [2242]Apis florea (little honeybee) [2243]Aflo_1.0 (GCF_000184785.1)
+   101 2015-05-03 2015-05-12 [2244]FTP    [2245]B [2246]AR [2247]GDV
+   [2248]Bombus impatiens (common eastern bumble bee) [2249]BIMP_2.0
+   (GCF_000188095.1) 101 2015-04-24 2015-04-28 [2250]FTP    [2251]B
+   [2252]AR [2253]GDV
+   [2254]Linepithema humile (Argentine ant) [2255]Lhum_UMD_V04
+   (GCF_000217595.1) 100 2015-04-23 2015-04-27 [2256]FTP    [2257]B
+   [2258]AR [2259]GDV
+   [2260]Megachile rotundata (alfalfa leafcutting bee) [2261]MROT_1.0
+   (GCF_000220905.1) 101 2015-04-06 2015-04-07 [2262]FTP    [2263]B
+   [2264]AR [2265]GDV
+   [2266]Atta cephalotes (ants) [2267]Attacep1.0 (GCF_000143395.1) 100
+   2015-04-01 2015-04-02 [2268]FTP    [2269]B [2270]AR [2271]GDV
+   [2272]Vollenhovia emeryi (ants) [2273]V.emery_V1.0 (GCF_000949405.1)
+   100 2015-03-27 2015-03-30 [2274]FTP    [2275]B [2276]AR [2277]GDV
+   [2278]Wasmannia auropunctata (little fire ant) [2279]wasmannia.A_1.0
+   (GCF_000956235.1) 100 2015-03-23 2015-03-24 [2280]FTP    [2281]B
+   [2282]AR [2283]GDV
+   [2284]Pogonomyrmex barbatus (red harvester ant) [2285]Pbar_UMD_V03
+   (GCF_000187915.1) 100 2015-03-16 2015-03-17 [2286]FTP    [2287]B
+   [2288]AR [2289]GDV
+   [2290]Plutella xylostella (diamondback moth) [2291]DBM_FJ_V1.1
+   (GCF_000330985.1) 100 2015-03-11 2015-03-13 [2292]FTP [2293]MV [2294]B
+   [2295]AR [2296]GDV
+   [2297]Ceratosolen solmsi marchali (wasps &c.) [2298]CerSol_1.0
+   (GCF_000503995.1) 100 2015-03-06 2015-03-09 [2299]FTP [2300]MV [2301]B
+   [2302]AR [2303]GDV
+   [2304]Fopius arisanus (wasps &c.) [2305]ASM80636v1 (GCF_000806365.1)
+   100 2015-02-09 2015-02-10 [2306]FTP [2307]MV [2308]B [2309]AR [2310]GDV
+   [2311]Zeugodacus cucurbitae (melon fly) [2312]ASM80634v1
+   (GCF_000806345.1) 100 2015-01-28 2015-01-29 [2313]FTP [2314]MV [2315]B
+   [2316]AR [2317]GDV
+   [2318]Solenopsis invicta (red fire ant) [2319]Si_gnG (GCF_000188075.1)
+   100 2015-01-26 2015-01-27 [2320]FTP [2321]MV [2322]B [2323]AR [2324]GDV
+   [2325]Acromyrmex echinatior (Panamanian leafcutter ant) [2326]Aech_3.9
+   (GCF_000204515.1) 100 2015-01-08 2015-01-13 [2327]FTP [2328]MV [2329]B
+   [2330]AR [2331]GDV
+   [2332]Apis dorsata (giant honeybee) [2333]Apis dorsata 1.3
+   (GCF_000469605.1) 100 2013-12-20 2014-01-08 [2334]FTP [2335]MV [2336]B
+   [2337]AR [2338]GDV
+
+[2339]Other Invertebrates (29)
+
+   FTP - FTP DownloadMV - Map ViewerB - Organism-specific BLASTAR -
+   Annotation ReportGDV - Genome Data Viewer
+   Species RefSeq assembly(ies) Annotation Release Freeze Date Release
+   Date Links
+   [2340]Eurytemora affinis (crustaceans) [2341]Eaff_2.0 (GCF_000591075.1)
+   100 2017-12-21 2018-01-10 [2342]FTP    [2343]B [2344]AR [2345]GDV
+   [2346]Centruroides sculpturatus (bark scorpion) [2347]Cexi_2.0
+   (GCF_000671375.1) 100 2017-12-20 2017-12-22 [2348]FTP    [2349]B
+   [2350]AR [2351]GDV
+   [2352]Stylophora pistillata (stony corals) [2353]Stylophora pistillata
+   v1 (GCF_002571385.1) 100 2017-10-23 2017-10-25 [2354]FTP    [2355]B
+   [2356]AR [2357]GDV
+   [2358]Varroa jacobsoni (mites & ticks) [2359]vjacob_1.0
+   (GCF_002532875.1) 100 2017-10-17 2017-10-19 [2360]FTP    [2361]B
+   [2362]AR [2363]GDV
+   [2364]Varroa destructor (honeybee mite) [2365]Vdes_3.0
+   (GCF_002443255.1) 100 2017-10-06 2017-10-11 [2366]FTP    [2367]B
+   [2368]AR [2369]GDV
+   [2370]Crassostrea virginica (eastern oyster) [2371]C_virginica-3.0
+   (GCF_002022765.2) 100 2017-09-11 2017-09-14 [2372]FTP    [2373]B
+   [2374]AR [2375]GDV
+   [2376]Limulus polyphemus (Atlantic horseshoe crab)
+   [2377]Limulus_polyphemus-2.1.2 (GCF_000517525.1) 101 2017-08-28
+   2017-09-01 [2378]FTP    [2379]B [2380]AR [2381]GDV
+   [2382]Acanthaster planci (crown-of-thorns starfish) [2383]OKI-Apl_1.0
+   (GCF_001949145.1) 100 2017-08-07 2017-08-08 [2384]FTP    [2385]B
+   [2386]AR [2387]GDV
+   [2388]Folsomia candida (springtails) [2389]ASM221717v1
+   (GCF_002217175.1) 100 2017-08-03 2017-08-07 [2390]FTP    [2391]B
+   [2392]AR [2393]GDV
+   [2394]Mizuhopecten yessoensis (Yesso scallop) [2395]ASM211388v2
+   (GCF_002113885.1) 100 2017-06-15 2017-06-17 [2396]FTP    [2397]B
+   [2398]AR [2399]GDV
+   [2400]Exaiptasia pallida (sea anemones) [2401]Aiptasia genome 1.1
+   (GCF_001417965.1) 100 2017-05-10 2017-05-12 [2402]FTP    [2403]B
+   [2404]AR [2405]GDV
+   [2406]Parasteatoda tepidariorum (common house spider) [2407]Ptep_2.0
+   (GCF_000365465.2) 101 2017-05-09 2017-05-15 [2408]FTP    [2409]B
+   [2410]AR [2411]GDV
+   [2412]Orbicella faveolata (stony corals) [2413]ofav_dov_v1
+   (GCF_002042975.1) 100 2017-04-04 2017-04-10 [2414]FTP    [2415]B
+   [2416]AR [2417]GDV
+   [2418]Crassostrea gigas (Pacific oyster) [2419]oyster_v9
+   (GCF_000297895.1) 101 2017-01-26 2017-02-02 [2420]FTP    [2421]B
+   [2422]AR [2423]GDV
+   [2424]Amphimedon queenslandica (sponges) [2425]v1.0 (GCF_000090795.1)
+   102 2017-01-13 2017-01-24 [2426]FTP    [2427]B [2428]AR [2429]GDV
+   [2430]Branchiostoma belcheri (Belcher's lancelet) [2431]Haploidv18h27
+   (GCF_001625305.1) 100 2016-12-23 2016-12-28 [2432]FTP    [2433]B
+   [2434]AR [2435]GDV
+   [2436]Ciona intestinalis (vase tunicate) [2437]KH (GCF_000224145.2) 103
+   2016-10-17 2016-10-21 [2438]FTP    [2439]B [2440]AR [2441]GDV
+   [2442]Galendromus occidentalis (western predatory mite) [2443]Mocc_1.0
+   (GCF_000255335.1) 101 2016-10-05 2016-10-12 [2444]FTP    [2445]B
+   [2446]AR [2447]GDV
+   [2448]Hyalella azteca (amphipods) [2449]Hazt_2.0 (GCF_000764305.1) 100
+   2016-09-13 2016-09-16 [2450]FTP    [2451]B [2452]AR [2453]GDV
+   [2454]Tetranychus urticae (two-spotted spider mite) [2455]ASM23943v1
+   (GCF_000239435.1) 100 2016-03-14 2016-03-16 [2456]FTP    [2457]B
+   [2458]AR [2459]GDV
+   [2460]Acropora digitifera (stony corals) [2461]Adig_1.1
+   (GCF_000222465.1) 100 2016-03-10 2016-03-14 [2462]FTP    [2463]B
+   [2464]AR [2465]GDV
+   [2466]Octopus bimaculoides (cephalopods)
+   [2467]Octopus_bimaculoides_v2_0 (GCF_001194135.1) 100 2015-12-07
+   2015-12-10 [2468]FTP    [2469]B [2470]AR [2471]GDV
+   [2472]Priapulus caudatus (priapulids) [2473]Priapulus_caudatus-5.0.1
+   (GCF_000485595.1) 100 2015-11-30 2015-12-01 [2474]FTP    [2475]B
+   [2476]AR [2477]GDV
+   [2478]Lingula anatina (brachiopods) [2479]LinAna1.0 (GCF_001039355.1)
+   100 2015-08-17 2015-08-19 [2480]FTP    [2481]B [2482]AR [2483]GDV
+   [2484]Biomphalaria glabrata (bloodfluke planorb) [2485]ASM45736v1
+   (GCF_000457365.1) 100 2015-07-23 2015-07-31 [2486]FTP    [2487]B
+   [2488]AR [2489]GDV
+   [2490]Aplysia californica (California sea hare) [2491]AplCal3.0
+   (GCF_000002075.1) 101 2015-06-29 2015-07-07 [2492]FTP    [2493]B
+   [2494]AR [2495]GDV
+   [2496]Hydra vulgaris (hydrozoans) [2497]Hydra_RP_1.0 (GCF_000004095.1)
+   102 2015-06-03 2015-06-08 [2498]FTP    [2499]B [2500]AR [2501]GDV
+   [2502]Strongylocentrotus purpuratus (purple sea urchin) [2503]Spur_4.2
+   (GCF_000002235.4) 101 2015-03-19 2015-03-24 [2504]FTP    [2505]B
+   [2506]AR [2507]GDV
+   [2508]Saccoglossus kowalevskii (hemichordates) [2509]Skow_1.1
+   (GCF_000003605.2) 101 2014-02-04 2014-02-19 [2510]FTP [2511]MV [2512]B
+   [2513]AR [2514]GDV
+
+[2515]Plants (79)
+
+   FTP - FTP DownloadMV - Map ViewerB - Organism-specific BLASTAR -
+   Annotation ReportGDV - Genome Data Viewer
+   Species RefSeq assembly(ies) Annotation Release Freeze Date Release
+   Date Links
+   [2516]Lactuca sativa (eudicots) [2517]Lsat_Salinas_v7 (GCF_002870075.1)
+   100 2018-01-31 2018-02-06 [2518]FTP    [2519]B [2520]AR [2521]GDV
+   [2522]Capsella rubella (eudicots) [2523]Caprub1_0 (GCF_000375325.1) 100
+   2018-01-31 2018-02-02 [2524]FTP    [2525]B [2526]AR [2527]GDV
+   [2528]Cucurbita pepo subsp. pepo (vegetable marrow) [2529]ASM280686v2
+   (GCF_002806865.1) 100 2018-01-19 2018-01-22 [2530]FTP    [2531]B
+   [2532]AR [2533]GDV
+   [2534]Zea mays (maize) [2535]B73 RefGen_v4 (GCF_000005005.2) 102
+   2017-12-07 2017-12-18 [2536]FTP    [2537]B [2538]AR [2539]GDV
+   [2540]Cucurbita maxima (winter squash) [2541]Cmax_1.0 (GCF_002738345.1)
+   100 2017-11-26 2017-11-29 [2542]FTP    [2543]B [2544]AR [2545]GDV
+   [2546]Cucurbita moschata (crookneck pumpkin) [2547]Cmos_1.0
+   (GCF_002738365.1) 100 2017-11-21 2017-11-24 [2548]FTP    [2549]B
+   [2550]AR [2551]GDV
+   [2552]Olea europaea var. sylvestris (wild olive) [2553]O_europaea_v1
+   (GCF_002742605.1) 100 2017-11-09 2017-11-19 [2554]FTP    [2555]B
+   [2556]AR [2557]GDV
+   [2558]Durio zibethinus (durian) [2559]Duzib1.0 (GCF_002303985.1) 100
+   2017-10-23 2017-10-25 [2560]FTP    [2561]B [2562]AR [2563]GDV
+   [2564]Setaria italica (foxtail millet) [2565]Setaria_italica_v2.0
+   (GCF_000263155.2) 103 2017-10-11 2017-10-16 [2566]FTP    [2567]B
+   [2568]AR [2569]GDV
+   [2570]Vigna radiata (mung bean) [2571]Vradiata_ver6 (GCF_000741045.1)
+   101 2017-10-06 2017-10-12 [2572]FTP    [2573]B [2574]AR [2575]GDV
+   [2576]Brassica napus (rape) [2577]Bra_napus_v2.0 (GCF_000686985.2) 101
+   2017-09-22 2017-10-04 [2578]FTP    [2579]B [2580]AR [2581]GDV
+   [2582]Momordica charantia (bitter melon) [2583]ASM199503v1
+   (GCF_001995035.1) 100 2017-08-10 2017-08-11 [2584]FTP    [2585]B
+   [2586]AR [2587]GDV
+   [2588]Carica papaya (papaya) [2589]Papaya1.0 (GCF_000150535.2) 100
+   2017-08-03 2017-08-04 [2590]FTP    [2591]B [2592]AR [2593]GDV
+   [2594]Helianthus annuus (common sunflower) [2595]HanXRQr1.0
+   (GCF_002127325.1) 100 2017-07-28 2017-08-07 [2596]FTP    [2597]B
+   [2598]AR [2599]GDV
+   [2600]Spinacia oleracea (spinach) [2601]ASM200726v1 (GCF_002007265.1)
+   100 2017-07-28 2017-08-01 [2602]FTP    [2603]B [2604]AR [2605]GDV
+   [2606]Prunus avium (sweet cherry) [2607]PAV_r1.0 (GCF_002207925.1) 100
+   2017-07-25 2017-07-26 [2608]FTP    [2609]B [2610]AR [2611]GDV
+   [2612]Chenopodium quinoa (quinoa) [2613]ASM168347v1 (GCF_001683475.1)
+   100 2017-07-17 2017-07-20 [2614]FTP    [2615]B [2616]AR [2617]GDV
+   [2618]Hevea brasiliensis (rubber tree) [2619]ASM165405v1
+   (GCF_001654055.1) 100 2017-07-16 2017-07-19 [2620]FTP    [2621]B
+   [2622]AR [2623]GDV
+   [2624]Manihot esculenta (cassava) [2625]Manihot esculenta v6
+   (GCF_001659605.1) 100 2017-07-14 2017-07-16 [2626]FTP    [2627]B
+   [2628]AR [2629]GDV
+   [2630]Herrania umbratica (eudicots) [2631]ASM216827v2 (GCF_002168275.1)
+   100 2017-06-08 2017-06-09 [2632]FTP    [2633]B [2634]AR [2635]GDV
+   [2636]Sorghum bicolor (sorghum) [2637]Sorghum_bicolor_NCBIv3
+   (GCF_000003195.3) 101 2017-06-02 2017-06-13 [2638]FTP    [2639]B
+   [2640]AR [2641]GDV
+   [2642]Arachis duranensis (eudicots) [2643]Aradu1.1 (GCF_000817695.2)
+   101 2017-05-02 2017-05-17 [2644]FTP    [2645]B [2646]AR [2647]GDV
+   [2648]Arachis ipaensis (eudicots) [2649]Araip1.1 (GCF_000816755.2) 101
+   2017-05-02 [2650]FTP    [2651]B [2652]AR [2653]GDV
+   [2654]Arabidopsis lyrata subsp. lyrata (lyrate rockcress) [2655]v.1.0
+   (GCF_000004255.2) 101 2017-05-02 2017-05-11 [2656]FTP    [2657]B
+   [2658]AR [2659]GDV
+   [2660]Dendrobium officinale (monocots) [2661]ASM160598v1
+   (GCF_001605985.1) 100 2017-04-11 2017-04-18 [2662]FTP    [2663]B
+   [2664]AR [2665]GDV
+   [2666]Phalaenopsis equestris (monocots) [2667]ASM126359v1
+   (GCF_001263595.1) 100 2017-04-07 2017-04-17 [2668]FTP    [2669]B
+   [2670]AR [2671]GDV
+   [2672]Jatropha curcas (eudicots) [2673]JatCur_1.0 (GCF_000696525.1) 101
+   2017-03-31 2017-04-06 [2674]FTP    [2675]B [2676]AR [2677]GDV
+   [2678]Sesamum indicum (sesame) [2679]S_indicum_v1.0 (GCF_000512975.1)
+   101 2017-03-30 2017-04-06 [2680]FTP    [2681]B [2682]AR [2683]GDV
+   [2684]Amborella trichopoda (flowering plants) [2685]AMTR1.0
+   (GCF_000471905.2) 101 2017-03-29 2017-04-04 [2686]FTP    [2687]B
+   [2688]AR [2689]GDV
+   [2690]Prunus persica (peach) [2691]Prunus_persica_NCBIv2
+   (GCF_000346465.2) 100 2017-03-07 2017-03-21 [2692]FTP    [2693]B
+   [2694]AR [2695]GDV
+   [2696]Asparagus officinalis (garden asparagus) [2697]Aspof.V1
+   (GCF_001876935.1) 100 2017-02-24 2017-03-01 [2698]FTP    [2699]B
+   [2700]AR [2701]GDV
+   [2702]Cajanus cajan (pigeon pea) [2703]C.cajan_V1.0 (GCF_000340665.1)
+   100 2017-02-24 2017-02-27 [2704]FTP    [2705]AR [2706]GDV
+   [2707]Aegilops tauschii (monocots) [2708]Aet_MR_1.0 (GCF_001957025.1)
+   100 2017-02-21 2017-02-27 [2709]FTP    [2710]B [2711]AR [2712]GDV
+   [2713]Ananas comosus (pineapple) [2714]ASM154086v1 (GCF_001540865.1)
+   100 2017-02-13 2017-02-17 [2715]FTP    [2716]B [2717]AR [2718]GDV
+   [2719]Elaeis guineensis (African oil palm) [2720]EG5 (GCF_000442705.1)
+   101 2017-01-06 2017-01-11 [2721]FTP    [2722]B [2723]AR [2724]GDV
+   [2725]Lupinus angustifolius (narrow-leaved blue lupine)
+   [2726]LupAngTanjil_v1.0 (GCF_001865875.1) 100 2016-12-07 2016-12-16
+   [2727]FTP    [2728]B [2729]AR [2730]GDV
+   [2731]Nicotiana attenuata (eudicots) [2732]NIATTr2 (GCF_001879085.1)
+   100 2016-11-28 2016-12-06 [2733]FTP    [2734]B [2735]AR [2736]GDV
+   [2737]Ipomoea nil (Japanese morning glory) [2738]Asagao_1.1
+   (GCF_001879475.1) 100 2016-11-25 2016-11-29 [2739]FTP    [2740]B
+   [2741]AR [2742]GDV
+   [2743]Beta vulgaris subsp. vulgaris (beet) [2744]RefBeet-1.2.2
+   (GCF_000511025.2) 101 2016-11-18 2016-11-30 [2745]FTP    [2746]B
+   [2747]AR [2748]GDV
+   [2749]Vitis vinifera (wine grape) [2750]12X (GCF_000003745.3) 102
+   2016-11-18 2016-11-25 [2751]FTP    [2752]B [2753]AR [2754]GDV
+   [2755]Tarenaya hassleriana (spider flower) [2756]ASM46358v1
+   (GCF_000463585.1) 101 2016-11-16 2016-11-18 [2757]FTP    [2758]B
+   [2759]AR [2760]GDV
+   [2761]Solanum lycopersicum (tomato) [2762]SL2.50 (GCF_000188115.3) 102
+   2016-11-15 2016-11-23 [2763]FTP    [2764]B [2765]AR [2766]GDV
+   [2767]Camelina sativa (false flax) [2768]Cs (GCF_000633955.1) 101
+   2016-11-10 2016-11-29 [2769]FTP    [2770]B [2771]AR [2772]GDV
+   [2773]Nelumbo nucifera (sacred lotus) [2774]Chinese Lotus 1.1
+   (GCF_000365185.1) 101 2016-11-10 2016-11-16 [2775]FTP    [2776]B
+   [2777]AR [2778]GDV
+   [2779]Juglans regia (English walnut) [2780]wgs.5d (GCF_001411555.1) 100
+   2016-10-28 2016-11-04 [2781]FTP    [2782]B [2783]AR [2784]GDV
+   [2785]Eucalyptus grandis (rose gum) [2786]Egrandis1_0 (GCF_000612305.1)
+   101 2016-10-20 2016-10-25 [2787]FTP    [2788]B [2789]AR [2790]GDV
+   [2791]Musa acuminata (dwarf banana) [2792]ASM31385v2 (GCF_000313855.2)
+   101 2016-10-14 2016-10-25 [2793]FTP    [2794]B [2795]AR [2796]GDV
+   [2797]Nicotiana tomentosiformis (eudicots) [2798]Ntom_v01
+   (GCF_000390325.1) 101 2016-10-13 2016-10-24 [2799]FTP    [2800]B
+   [2801]AR [2802]GDV
+   [2803]Brassica rapa (field mustard) [2804]Brapa_1.0 (GCF_000309985.1)
+   101 2016-10-04 2016-10-13 [2805]FTP    [2806]B [2807]AR [2808]GDV
+   [2809]Pyrus x bretschneideri (Chinese white pear) [2810]Pbr_v1.0
+   (GCF_000315295.1) 101 2016-10-04 2016-10-12 [2811]FTP    [2812]B
+   [2813]AR [2814]GDV
+   [2815]Raphanus sativus (radish) [2816]Rs1.0 (GCF_000801105.1) 100
+   2016-09-30 2016-10-04 [2817]FTP    [2818]B [2819]AR [2820]GDV
+   [2821]Theobroma cacao (cacao) [2822]Criollo_cocoa_genome_V2
+   (GCF_000208745.1) 100 2016-09-05 2016-09-12 [2823]FTP    [2824]B
+   [2825]AR [2826]GDV
+   [2827]Phoenix dactylifera (date palm) [2828]DPV01 (GCF_000413155.1) 101
+   2016-08-09 2016-08-15 [2829]FTP    [2830]B [2831]AR [2832]GDV
+   [2833]Gossypium arboreum (tree cotton) [2834]Gossypium_arboreum_v1.0
+   (GCF_000612285.1) 100 2016-08-01 2016-08-11 [2835]FTP    [2836]B
+   [2837]AR [2838]GDV
+   [2839]Vigna angularis (adzuki bean) [2840]Vigan1.1 (GCF_001190045.1)
+   100 2016-07-13 2016-07-20 [2841]FTP    [2842]B [2843]AR [2844]GDV
+   [2845]Daucus carota subsp. sativus (carrot) [2846]ASM162521v1
+   (GCF_001625215.1) 100 2016-06-22 2016-06-27 [2847]FTP    [2848]B
+   [2849]AR [2850]GDV
+   [2851]Malus domestica (apple) [2852]MalDomGD1.0 (GCF_000148765.1) 101
+   2016-06-14 2016-06-22 [2853]FTP    [2854]B [2855]AR [2856]GDV
+   [2857]Cucumis melo (muskmelon) [2858]ASM31304v1 (GCF_000313045.1) 101
+   2016-06-03 2016-06-07 [2859]FTP    [2860]B [2861]AR [2862]GDV
+   [2863]Gossypium hirsutum (cotton) [2864]ASM98774v1 (GCF_000987745.1)
+   100 2016-05-09 2016-05-18 [2865]FTP    [2866]B [2867]AR [2868]GDV
+   [2869]Prunus mume (Japanese apricot) [2870]P.mume_V1.0
+   (GCF_000346735.1) 101 2016-05-09 2016-05-11 [2871]FTP    [2872]B
+   [2873]AR [2874]GDV
+   [2875]Capsicum annuum (eudicots) [2876]Pepper Zunla 1 Ref_v1.0
+   (GCF_000710875.1) 100 2016-04-28 2016-05-06 [2877]FTP    [2878]B
+   [2879]AR [2880]GDV
+   [2881]Nicotiana tabacum (common tobacco) [2882]Ntab-TN90
+   (GCF_000715135.1) 100 2016-04-26 2016-05-04 [2883]FTP    [2884]B
+   [2885]AR [2886]GDV
+   [2887]Ziziphus jujuba (common jujube) [2888]ZizJuj_1.1
+   (GCF_000826755.1) 100 2016-03-22 2016-03-24 [2889]FTP    [2890]B
+   [2891]AR [2892]GDV
+   [2893]Oryza brachyantha (malo sina) [2894]Oryza_brachyantha.v1.4b
+   (GCF_000231095.1) 101 2016-03-02 2016-03-04 [2895]FTP    [2896]B
+   [2897]AR [2898]GDV
+   [2899]Ricinus communis (castor bean) [2900]JCVI_RCG_1.1
+   (GCF_000151685.1) 100 2016-02-23 2016-02-25 [2901]FTP    [2902]B
+   [2903]AR [2904]GDV
+   [2905]Oryza sativa Japonica Group (Japanese rice) [2906]IRGSP-1.0
+   (GCF_001433935.1) 101 2016-02-17 2016-03-01 [2907]FTP    [2908]B
+   [2909]AR [2910]GDV
+   [2911]Citrus sinensis (sweet orange) [2912]Csi_valencia_1.0
+   (GCF_000317415.1) 101 2016-02-01 2016-02-02 [2913]FTP    [2914]B
+   [2915]AR [2916]GDV
+   [2917]Solanum pennellii (eudicots) [2918]SPENNV200 (GCF_001406875.1)
+   100 2015-12-14 2015-12-23 [2919]FTP    [2920]B [2921]AR [2922]GDV
+   [2923]Solanum tuberosum (potato) [2924]SolTub_3.0 (GCF_000226075.1) 101
+   2015-12-11 2016-01-05 [2925]FTP    [2926]B [2927]AR [2928]GDV
+   [2929]Brachypodium distachyon (stiff brome)
+   [2930]Brachypodium_distachyon_v2.0 (GCF_000005505.2) 102 2015-12-01
+   2015-12-08 [2931]FTP    [2932]B [2933]AR [2934]GDV
+   [2935]Glycine max (soybean) [2936]Glycine_max_v2.0 (GCF_000004515.4)
+   102 2015-11-16 2015-11-25 [2937]FTP    [2938]B [2939]AR [2940]GDV
+   [2941]Brassica oleracea (wild cabbage) [2942]BOL (GCF_000695525.1) 100
+   2015-08-20 2015-08-25 [2943]FTP    [2944]B [2945]AR [2946]GDV
+   [2947]Cicer arietinum (chickpea) [2948]ASM33114v1 (GCF_000331145.1) 101
+   2015-06-04 2015-06-08 [2949]FTP    [2950]B [2951]AR [2952]GDV
+   [2953]Erythranthe guttata (spotted monkey flower) [2954]Mimgu1_0
+   (GCF_000504015.1) 100 2015-06-03 2015-06-24 [2955]FTP    [2956]B
+   [2957]AR [2958]GDV
+   [2959]Gossypium raimondii (eudicots) [2960]Graimondii2_0
+   (GCF_000327365.1) 100 2015-04-29 2015-05-22 [2961]FTP    [2962]B
+   [2963]AR [2964]GDV
+   [2965]Cucumis sativus (cucumber) [2966]ASM407v2 (GCF_000004075.2) 101
+   2015-03-17 2015-03-23 [2967]FTP    [2968]B [2969]AR [2970]GDV
+   [2971]Fragaria vesca (wild strawberry) [2972]FraVesHawaii_1.0
+   (GCF_000184155.1) 101 2015-03-02 2015-03-04 [2973]FTP [2974]MV [2975]B
+   [2976]AR [2977]GDV
+   [2978]Populus euphratica (Euphrates poplar) [2979]PopEup_1.0
+   (GCF_000495115.1) 100 2015-01-05 2015-01-06 [2980]FTP [2981]MV [2982]B
+   [2983]AR [2984]GDV
+   [2985]Nicotiana sylvestris (wood tobacco) [2986]Nsyl (GCF_000393655.1)
+   100 2014-10-16 2014-10-22 [2987]FTP [2988]MV [2989]B [2990]AR [2991]GDV
